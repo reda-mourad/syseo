@@ -32,6 +32,23 @@ table th {
 
 }
 
+table th {
+    @apply bg-gray-200
+}
+
 input {
     accent-color: oklch(70.2% 0.183 293.541);
+}
+
+select {
+    @apply focus:bg-violet-100 p-1 border border-gray-400 rounded w-full min-w-8;
+}
+
+
+textarea {
+    @apply focus:bg-violet-100 px-2 py-1 border border-gray-400 rounded h-40 resize-none;
+}
+
+button {
+    @apply h-4;
 }

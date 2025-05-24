@@ -19,7 +19,7 @@ export function QuestionWithChoices({
   return (
     <div className={cn("flex items-center gap-2", className)}>
       {label && <span>{label}</span>}
-      <div className="flex flex-wrap items-center space-x-4">
+      <div className="flex flex-wrap items-center space-x-2">
         {choices.map((c) => (
           <Choice
             key={c}

@@ -10,7 +10,12 @@ export function Choice({ label, ...props }: ChoiceProps) {
 
   return (
     <div className="flex items-center gap-1">
-      <input id={props.id || id} value={label} name={label} {...props} />
+      <input
+        id={props.id || id}
+        value={label || props.name}
+        name={label}
+        {...props}
+      />
       {label && <label htmlFor={id}>{label}</label>}
     </div>
   );

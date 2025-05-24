@@ -32,7 +32,7 @@ export default function SM01695({
           </div>
           <div className="flex gap-4">
             <QuestionWithChoices
-              label="Provenance de l’usager :"
+              label="Provenance de l'usager :"
               choices={["Domicile", "Unité de soins", "Autre établissement"]}
               type="single"
             />
@@ -40,7 +40,7 @@ export default function SM01695({
           </div>
           <div className="flex gap-10">
             <QuestionWithChoices
-              label="Mode d’arrivée :"
+              label="Mode d'arrivée :"
               choices={["Sur pieds", " Fauteuil roulant", "Civière"]}
               type="single"
             />
@@ -49,17 +49,17 @@ export default function SM01695({
           <QuestionWithChoices
             type="single"
             choices={ouiNon}
-            label="Double identification de l’usager :"
+            label="Double identification de l'usager :"
           />
           <QuestionWithChoices
             type="single"
             choices={ouiNon}
-            label="Bracelet d’identifications mis :"
+            label="Bracelet d'identifications mis :"
           />
           <QuestionWithChoices
             type="single"
             choices={ouiNon}
-            label="Bracelet d’allergie mis :"
+            label="Bracelet d'allergie mis :"
           />
           <QuestionWithChoices
             type="single"
@@ -67,7 +67,7 @@ export default function SM01695({
             label="Liste des médicaments apportés ou FADM au dossier :"
           />
           <span>
-            Pour les usagers sous coumadin, vérifier s’il a été cessé et s’il a
+            Pour les usagers sous coumadin, vérifier s'il a été cessé et s'il a
             été remplacé par une HFPM
           </span>
           <div className="flex gap-10">
@@ -90,7 +90,7 @@ export default function SM01695({
             />
             <QuestionWithInput label="Autre :" name="autre3" />
           </div>
-          <QuestionWithInput label="Accompagnateur sera présent jusqu’à :" />
+          <QuestionWithInput label="Accompagnateur sera présent jusqu'à :" />
           <Heading level={2}>ÉVALUATION CLINIQUE</Heading>
           <Heading level={3}>SIGNES VITAUX ET DOLEUR</Heading>
           <table>
@@ -222,7 +222,7 @@ export default function SM01695({
         <table>
           <thead>
             <tr>
-              <th className="w-1/2">CONDITION DE SANTÉ DE L’USAGER</th>
+              <th className="w-1/2">CONDITION DE SANTÉ DE L'USAGER</th>
               <th className="w-1/2">AU BESOIN, PRÉCISEZ</th>
             </tr>
           </thead>
@@ -230,9 +230,9 @@ export default function SM01695({
             {[
               "Analgésie/anesthésie",
               "Naïf aux opiacés",
-              "Antécédent d’intubation difficile",
+              "Antécédent d'intubation difficile",
               "Cou court ou large",
-              "Présence d’obésité",
+              "Présence d'obésité",
               "Orientation dans les 3 sphères",
               "Problème neurologique",
             ].map((e, i) => (
@@ -248,7 +248,7 @@ export default function SM01695({
                 </td>
                 <td>
                   <QuestionWithInput name={`${e}_details`} />
-                  {e === "Présence d’obésité" && (
+                  {e === "Présence d'obésité" && (
                     <div className="flex gap-2 mt-2">
                       <QuestionWithInput
                         type="number"
@@ -274,7 +274,7 @@ export default function SM01695({
           </tbody>
         </table>
         <QuestionWithInput label="Vérification des résultats de laboratoire, le cas échéant :" />
-        <Heading level={2}>CONCLUSION DE L’ÉVALUATION CLINIQUE</Heading>
+        <Heading level={2}>CONCLUSION DE L'ÉVALUATION CLINIQUE</Heading>
         <div className="flex flex-col gap-1">
           <Choice
             label="ASA 1 : Usager en bonne santé"
@@ -322,13 +322,9 @@ export default function SM01695({
         </div>
         <fieldset className="flex flex-col">
           <label htmlFor="notes">
-            NOTES DE L’INFIRMIÈRE SUR L’ÉVALUATION INITIALE
+            NOTES DE L'INFIRMIÈRE SUR L'ÉVALUATION INITIALE
           </label>
-          <textarea
-            name="notes"
-            id="notes"
-            className="focus:bg-violet-100 px-2 py-1 border border-gray-400 rounded h-40 resize-none"
-          ></textarea>
+          <textarea name="notes" id="notes" className=""></textarea>
         </fieldset>
         <div className="gap-4 grid grid-cols-2">
           <QuestionWithInput label="Continuité des soins :" />
