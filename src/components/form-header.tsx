@@ -1,6 +1,12 @@
 import Barcode from "react-barcode";
+import PatientTicket, { type Patient } from "./patient-ticket";
 
-export function FormHeader({ code }: { code: string }) {
+interface FormHeaderProps {
+  code: string;
+  patient: Patient;
+}
+
+export function FormHeader({ code, patient }: FormHeaderProps) {
   return (
     <div className="items-center grid grid-cols-2 h-40">
       <div className="flex flex-col gap-4">
@@ -15,7 +21,7 @@ export function FormHeader({ code }: { code: string }) {
           className="w-fit h-10"
         />
       </div>
-      <div className="flex justify-center items-center border h-full"></div>
+      <PatientTicket {...patient} />
     </div>
   );
 }

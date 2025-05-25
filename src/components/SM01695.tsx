@@ -22,8 +22,8 @@ export default function SM01695({
 
   return (
     <Form>
-      <Page index={1} total={2} title={title} dossier={patient.NoDossier}>
-        <FormHeader code="SM01695" />
+      <Page index={1} total={2} title={title} dossier={patient.dossier}>
+        <FormHeader code="SM01695" patient={patient} />
         <Heading level={1}>{title}</Heading>
         <div className="flex flex-col gap-2">
           <Heading level={2}>INFORMATIONS GÉNÉRALES </Heading>
@@ -216,7 +216,7 @@ export default function SM01695({
           </div>
         </div>
       </Page>
-      <Page index={2} total={2} title={title} dossier={patient.NoDossier}>
+      <Page index={2} total={2} title={title} dossier={patient.dossier}>
         <Heading level={2}>ÉVALUATION CLINIQUE (SUITE)</Heading>
 
         <table>

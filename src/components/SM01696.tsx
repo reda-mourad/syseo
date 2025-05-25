@@ -28,8 +28,8 @@ export default function SM01696({
 }) {
   return (
     <Form>
-      <Page index={1} total={2} title={title} dossier={patient.NoDossier}>
-        <FormHeader code="SM01696" />
+      <Page index={1} total={2} title={title} dossier={patient.dossier}>
+        <FormHeader code="SM01696" patient={patient} />
         <h1 className="font-semibold text-3xl text-center">{title}</h1>
         <table>
           <thead>
