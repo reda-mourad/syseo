@@ -116,7 +116,7 @@ export default function SM01693({ patient, form }: SM01693Props) {
                   ))}
                 </tr>
                 <tr>
-                  <th rowSpan={8} style={verticalCellStyle} className="w-10">
+                  <th rowSpan={8} style={verticalCellStyle} className="w-10 max-w-10">
                     signes vitaux et état respiratoire
                   </th>
                   <td className="w-80">Pression artérielle :</td>

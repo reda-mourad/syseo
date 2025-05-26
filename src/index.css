@@ -2,6 +2,8 @@
 
 :root {
     --font-sans: 'Bahnschrift';
+    print-color-adjust: exact;
+
 }
 
 
@@ -11,6 +13,7 @@ table th {
 }
 
 @media print {
+
     @page {
         margin: 0;
     }
