@@ -37,7 +37,7 @@ export default function SM01694({
           <QuestionWithChoices
             label="Examen :"
             choices={examType}
-            type="single"
+            type="multiple"
           />
           <QuestionWithInput label="Médecin :" />
           <QuestionWithChoices
@@ -300,7 +300,7 @@ export default function SM01694({
               <QuestionWithInput label="Signature" />
             </div>
           </div>
-          <div className="flex flex-col gap-1 w-60">
+          <div className="flex flex-col gap-1 w-60 text-[.66rem]">
             <table className="w-full text-[.5rem]">
               <thead>
                 <tr>
@@ -357,7 +357,19 @@ export default function SM01694({
                       className="w-18"
                     />
                   </td>
-                  <td>NaCI 0.9% I.V.</td>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      <span className="w-9">NaCI 0.9%</span>
+                      <select name="nacl_dose">
+                        {[10, 20, 500, 1000].map((e) => (
+                          <option key={e} value={e}>
+                            {e}
+                          </option>
+                        ))}
+                      </select>
+                      <span className="w-6">ml I.V.</span>
+                    </div>
+                  </td>
                   <td>
                     <QuestionWithInput name="init_med_3" className="w-10" />
                   </td>
@@ -379,11 +391,26 @@ export default function SM01694({
                 </tr>
               </tbody>
             </table>
-            <QuestionWithChoices
-              choices={["Muko", " Xylo spray", " Xylo gelée 2%"]}
-              type="multiple"
-              name="Muko"
-            />
+            <div className="flex flex-wrap]">
+              <QuestionWithChoices
+                choices={["Muko", "1 dose de xylo gelé 2%", "Xylo spray"]}
+                type="multiple"
+                name="Muko"
+              />
+              <div className="flex items-center gap-2 w-40">
+                Quantité de puff
+                <select name="dose_puff" className="w-20 min-w-40">
+                  {Array(11)
+                    .fill(null)
+                    .map((_, i) => (
+                      <option key={i} value={i}>
+                        {i}
+                      </option>
+                    ))}
+                </select>
+              </div>
+            </div>
+
             <QuestionWithInput label="Scope #" />
             <Heading level={3}>INTERVENTIONS ELECTROCAUTÈRE :</Heading>
             <QuestionWithInput label="Site de la plaque :" />
