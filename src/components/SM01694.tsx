@@ -29,11 +29,11 @@ const colonSite = [
   "anus",
 ];
 
-export default function SM01694({
-  patient,
-}: {
+interface SM01694Props {
   patient: DataResponse["patient"];
-}) {
+}
+
+export default function SM01694({ patient }: SM01694Props) {
   return (
     <Form>
       <Page
@@ -96,7 +96,11 @@ export default function SM01694({
               ))}
             </tr>
             <tr>
-              <th rowSpan={8} style={verticalCellStyle} className="w-10">
+              <th
+                rowSpan={8}
+                style={verticalCellStyle}
+                className="w-10 max-w-10"
+              >
                 signes vitaux et état respiratoire
               </th>
               <td className="w-80">Pression artérielle :</td>
@@ -465,6 +469,8 @@ export default function SM01694({
               <td>
                 <QuestionWithInput label="Cut :" />
               </td>
+            </tr>
+            <tr>
               <td>
                 <QuestionWithInput label="Endocut :" />
               </td>
@@ -606,7 +612,7 @@ export default function SM01694({
                       .map((_, i) => `X${i + 1} élastiques`),
                   ]}
                   type="single"
-                  name="Tube gastrostomie details"
+                  name="Ligature var. oes details"
                 />
               </td>
             </tr>
@@ -627,7 +633,7 @@ export default function SM01694({
                       .map((_, i) => `X${i + 1}`),
                   ]}
                   type="single"
-                  name="Tube gastrostomie details"
+                  name="Pinces (clips) details"
                 />
               </td>
             </tr>
@@ -659,6 +665,7 @@ export default function SM01694({
                   ]}
                   type="single"
                   label="Flacon"
+                  name="prelevement flacon"
                 />
               </td>
               <td>
@@ -673,21 +680,35 @@ export default function SM01694({
                     "Corps étranger",
                   ]}
                   type="single"
-                  label="???"
-                />
-              </td>
-              <td>
-                <QuestionWithChoices
-                  choices={["", "Coloscopie", "Gastroscopie"]}
-                  type="single"
-                  label="???"
+                  label="Type"
+                  name="prelevement type"
                 />
               </td>
               <td>
                 <QuestionWithChoices
                   choices={colonSite}
                   type="single"
-                  label="????"
+                  label="Segment (coloscopie)"
+                />
+              </td>
+              <td>
+                <QuestionWithChoices
+                  choices={[
+                    "",
+                    "Larynx",
+                    "Oesophage",
+                    "Jonction Oeso-gastrique",
+                    "Fundus",
+                    "Rétrovision Fundus",
+                    "Corps",
+                    "Antre",
+                    "Pylore",
+                    "Bulbe",
+                    "Duodénum",
+                    "Papille",
+                  ]}
+                  type="single"
+                  label="Segment (gastroscopie)"
                 />
               </td>
             </tr>
@@ -697,7 +718,7 @@ export default function SM01694({
           <Heading level={3}>NOTES</Heading>
           <textarea
             name="notes"
-            className="w-full max-h-20"
+            className="w-full max-h-16"
             defaultValue={
               "Consultation pré examen réalisée par md, examen bien toléré, sans complication."
             }

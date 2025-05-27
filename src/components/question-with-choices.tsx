@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { cn } from "../lib/utils";
 import { Choice } from "./choice";
 
@@ -7,6 +8,7 @@ export interface QuestionWithChoicesProps {
   choices: string[];
   type: "single" | "multiple";
   className?: string;
+  defaultValue?: "";
 }
 
 export function QuestionWithChoices({
@@ -15,7 +17,11 @@ export function QuestionWithChoices({
   choices,
   type,
   className,
+  defaultValue,
 }: QuestionWithChoicesProps) {
+  const [selected, setSelected] = useState<string>(defaultValue ?? "");
+  if (defaultValue) console.log(defaultValue);
+
   return (
     <div className={cn("flex items-center gap-2", className)}>
       {label && <span className="">{label}</span>}
@@ -32,7 +38,11 @@ export function QuestionWithChoices({
         </div>
       )}
       {type === "single" && (
-        <select name={name || label}>
+        <select
+          name={name || label}
+          value={selected}
+          onChange={(e) => setSelected(e.target.value)}
+        >
           {choices.map((c) => (
             <option key={c} value={c}>
               {c}
