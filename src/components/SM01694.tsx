@@ -78,7 +78,7 @@ export default function SM01694({ patient }: SM01694Props) {
           <QuestionWithInput label="Heure de début" type="time" />
           <QuestionWithInput label="Heure de fin" type="time" />
         </div>
-        <table className="text-[.7rem]">
+        <table className="text-[.66rem]">
           <thead>
             <tr>
               <th colSpan={2 + colArr.length}>PARAMÈTRES ÉVALUÉS</th>
