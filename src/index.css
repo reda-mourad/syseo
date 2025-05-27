@@ -12,6 +12,10 @@ table th {
     @apply p-1 border;
 }
 
+table th {
+    @apply font-bold uppercase;
+}
+
 @media print {
 
     * {
