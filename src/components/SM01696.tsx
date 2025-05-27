@@ -1,3 +1,4 @@
+import { nonOui } from "../choices";
 import type { DataResponse } from "../main";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
@@ -6,7 +7,6 @@ import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
 
 const title = "SOINS INFIRMIERS AVANT UN EXAMEN ENDOSCOPIQUE - PARTIE USAGER";
-const ouiNon = ["Oui", "Non"];
 const antecedents = [
   "Problèmes cardiaques",
   "Problèmes respiratoire",
@@ -28,7 +28,13 @@ export default function SM01696({
 }) {
   return (
     <Form>
-      <Page index={1} total={2} title={title} dossier={patient.dossier}>
+      <Page
+        index={1}
+        total={2}
+        title={title}
+        dossier={patient.dossier}
+        className="gap-3"
+      >
         <FormHeader code="SM01696" patient={patient} />
         <h1 className="font-semibold text-3xl text-center">{title}</h1>
         <table>
@@ -63,7 +69,7 @@ export default function SM01696({
               </td>
             </tr>
             <tr>
-              <td colSpan={2}>
+              <td>
                 <QuestionWithChoices
                   label="Document complété par :"
                   choices={["Usager", "Accompagnateur", "Infirmière"]}
@@ -86,7 +92,7 @@ export default function SM01696({
                 <td>
                   <QuestionWithChoices
                     label={e}
-                    choices={ouiNon}
+                    choices={nonOui}
                     type="single"
                     className="justify-between"
                   />
@@ -114,7 +120,26 @@ export default function SM01696({
                     <QuestionWithInput name={`allergie_${i}`} />
                   </td>
                   <td>
-                    <QuestionWithInput name={`reaction_${i}`} />
+                    <div className="flex">
+                      <QuestionWithChoices
+                        name={`reaction_${i}`}
+                        choices={[
+                          "nausées",
+                          "vomissements",
+                          "délirium",
+                          "urticaire",
+                          "céphalée",
+                          "arythmie",
+                          "choc",
+                          "rougeur faciale",
+                        ]}
+                        type="multiple"
+                      />
+                      <QuestionWithInput
+                        label="Autre :"
+                        name={`reaction_${i}_autre`}
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -134,33 +159,50 @@ export default function SM01696({
               <td>
                 <QuestionWithChoices
                   label="Avez-vous été opéré au ventre ?"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
                   className="justify-between"
                 />
               </td>
               <td>
-                <QuestionWithInput name="Avez-vous été opéré au ventre ?_details" />
+                <QuestionWithChoices
+                  choices={["", "Abdomen supérieur", "Abdomen inférieur"]}
+                  type="single"
+                  name="Avez-vous été opéré au ventre ?_details"
+                />
+                {/* <QuestionWithInput name="Avez-vous été opéré au ventre ?_details" /> */}
               </td>
             </tr>
             <tr>
               <td>
                 <QuestionWithChoices
                   label="Prenez-vous de l'alcool ?"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
                   className="justify-between"
                 />
               </td>
               <td>
-                <QuestionWithInput label="Nombre consommation/ jour :" />
+                <div className="flex items-center gap-2">
+                  <QuestionWithChoices
+                    choices={["", "1", "2", "3", "4", "5"]}
+                    type="single"
+                    name="Prenez-vous de l'alcool ?_verre"
+                  />
+                  <span>verre(s)</span>
+                  <QuestionWithChoices
+                    choices={["", "semapar semaineine", "occasionellement"]}
+                    type="single"
+                    name="Prenez-vous de l'alcool ?_par"
+                  />
+                </div>
               </td>
             </tr>
             <tr>
               <td>
                 <QuestionWithChoices
                   label="Prenez-vous de la drogue ?"
-                  choices={ouiNon}
+                  choices={[...nonOui, "Occasionellenent"]}
                   type="single"
                   className="justify-between"
                 />
@@ -173,20 +215,25 @@ export default function SM01696({
               <td>
                 <QuestionWithChoices
                   label="Fumez-vous ?"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
                   className="justify-between"
                 />
               </td>
               <td>
-                <QuestionWithInput label="Nombre cigarette / jour :" />
+                <QuestionWithChoices
+                  choices={[]}
+                  type="single"
+                  label="Nombre cigarette / jour :"
+                  className="justify-start"
+                />
               </td>
             </tr>
             <tr>
               <td>
                 <QuestionWithChoices
                   label="Avez-vous une prothèse ou la présence de métal ?"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
                   className="justify-between"
                 />
@@ -223,20 +270,23 @@ export default function SM01696({
               <td>
                 <QuestionWithChoices
                   label="Êtes-vous enceinte ?"
-                  choices={[...ouiNon, "Peut-être"]}
+                  choices={[...nonOui, "Peut-être"]}
                   type="single"
                   className="justify-between"
                 />
               </td>
               <td>
-                <QuestionWithInput label="Nombre de semaines :" />
+                <QuestionWithInput
+                  label="Nombre de semaines :"
+                  type="numeric"
+                />
               </td>
             </tr>
             <tr>
               <td>
                 <QuestionWithChoices
                   label="Allaitez-vous ?"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
                   className="justify-between"
                 />
@@ -257,32 +307,37 @@ export default function SM01696({
               <td>
                 <QuestionWithChoices
                   label="Êtes-vous à jeun ?"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
+                  className="justify-between"
                 />
               </td>
               <td>
-                <QuestionWithInput
+                <QuestionWithChoices
+                  choices={["", "5h", "6h", "12h", "24h", "48h", "72h"]}
+                  type="single"
                   label="Depuis quand ?"
-                  type="datetime-local"
                 />
               </td>
             </tr>
             <tr>
-              <td colSpan={2}>
+              <td>
                 <QuestionWithChoices
                   label="Avez- vous respecté une diète liquide hier?"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
+                  className="justify-between"
                 />
               </td>
+              <td></td>
             </tr>
             <tr>
               <td>
                 <QuestionWithChoices
                   label="Avez-vous pris votre préparation intestinale au complet?"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
+                  className="justify-between"
                 />
               </td>
               <td>
@@ -290,11 +345,18 @@ export default function SM01696({
               </td>
             </tr>
             <tr>
-              <td colSpan={2}>
+              <td>
                 <QuestionWithChoices
                   label="Votre préparation intestinale a-t-elle été efficace?"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <QuestionWithChoices
+                  choices={["selle claires", "jaunâtre", "brunes", "foncées"]}
+                  type="multiple"
                 />
               </td>
             </tr>
@@ -312,7 +374,7 @@ export default function SM01696({
               <td>
                 <QuestionWithChoices
                   label="Prenez-vous un médicament pour éclaircir le sang?"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
                   className="justify-between"
                 />
@@ -343,16 +405,24 @@ export default function SM01696({
               <td>
                 <QuestionWithChoices
                   label="L'avez-vous cessé ?"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
                   className="justify-between"
                 />
               </td>
               <td>
-                <QuestionWithInput
-                  label="Date :"
+                <QuestionWithChoices
+                  choices={[
+                    "",
+                    "1 jour",
+                    "2 jours",
+                    "3 jours",
+                    "4 jours",
+                    "5 jours",
+                  ]}
+                  type="single"
+                  label="Depuis :"
                   name="L'avez-vous cessé ?_date"
-                  type="date"
                 />
               </td>
             </tr>
@@ -360,7 +430,7 @@ export default function SM01696({
               <td>
                 <QuestionWithChoices
                   label="Prenez-vous un supplément de fer? "
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
                   className="justify-between"
                 />
@@ -372,16 +442,24 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="L'avez-vous cessé ?"
                   name="L'avez-vous cessé ?_2"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
                   className="justify-between"
                 />
               </td>
               <td>
-                <QuestionWithInput
-                  label="Date :"
+                <QuestionWithChoices
+                  choices={[
+                    "",
+                    "1 jour",
+                    "2 jours",
+                    "3 jours",
+                    "4 jours",
+                    "5 jours",
+                  ]}
+                  type="single"
+                  label="Depuis :"
                   name="L'avez-vous cessé ?_2_date"
-                  type="date"
                 />
               </td>
             </tr>
@@ -389,35 +467,40 @@ export default function SM01696({
               <td>
                 <QuestionWithChoices
                   label="Usager diabétique : avez-vous pris votre médication pour le diabète ?"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
                   className="justify-between"
                 />
               </td>
               <td>
-                <QuestionWithInput label="Si oui, quel(s) médicament(s) avez-vous pris ? " />
+                <QuestionWithChoices
+                  choices={["ADO", "Insuline"]}
+                  type="multiple"
+                  label="Si oui, quel(s) médicament(s) avez-vous pris ? "
+                />
               </td>
             </tr>
             <tr>
-              <td colSpan={2}>
+              <td>
                 <QuestionWithChoices
                   label="Avez-vous apporté votre liste de médicament? "
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
                   className="justify-between"
                 />
-                Si oui, S.V.P. la sortir
               </td>
+              <td>Si oui, S.V.P. la sortir</td>
             </tr>
             <tr>
-              <td colSpan={2}>
+              <td>
                 <QuestionWithChoices
                   label="Avez-vous eu des changements dans votre médication dans le dernier mois?"
-                  choices={ouiNon}
+                  choices={nonOui}
                   type="single"
                   className="justify-between"
                 />
               </td>
+              <td></td>
             </tr>
           </tbody>
         </table>

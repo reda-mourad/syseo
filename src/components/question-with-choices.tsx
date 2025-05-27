@@ -18,17 +18,28 @@ export function QuestionWithChoices({
 }: QuestionWithChoicesProps) {
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      {label && <span>{label}</span>}
-      <div className="flex flex-wrap items-center space-x-2">
-        {choices.map((c) => (
-          <Choice
-            key={c}
-            label={c}
-            type={type === "multiple" ? "checkbox" : "radio"}
-            name={type === "single" ? name || label : `${name || label}_${c}`}
-          />
-        ))}
-      </div>
+      {label && <span className="">{label}</span>}
+      {type === "multiple" && (
+        <div className="flex flex-wrap items-center space-x-2">
+          {choices.map((c) => (
+            <Choice
+              key={c}
+              label={c}
+              type={type === "multiple" ? "checkbox" : "radio"}
+              name={`${name || label}_${c}`}
+            />
+          ))}
+        </div>
+      )}
+      {type === "single" && (
+        <select name={name || label}>
+          {choices.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+      )}
     </div>
   );
 }

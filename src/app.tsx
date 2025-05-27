@@ -34,6 +34,7 @@ export function App({ initData }: { initData?: DataResponse }) {
         const formData = new FormData(formEl);
         const json = Object.fromEntries(formData.entries());
         window.$4d.form_save(initData?.form?.UUID ?? "", json);
+        return json;
       }
     };
   }, [initData]);

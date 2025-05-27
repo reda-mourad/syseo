@@ -2,7 +2,7 @@
 
 :root {
     --font-sans: 'Bahnschrift';
-    print-color-adjust: exact;
+
 
 }
 
@@ -13,6 +13,10 @@ table th {
 }
 
 @media print {
+
+    * {
+        print-color-adjust: exact;
+    }
 
     @page {
         margin: 0;
@@ -44,7 +48,7 @@ input {
 }
 
 select {
-    @apply focus:bg-violet-100 p-1 border border-gray-400 rounded w-full min-w-8;
+    @apply focus:bg-violet-100 p-0.5 border border-gray-400 rounded max-w-fit;
 }
 
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { examType, ouiNon } from "../choices";
+import { examType, examTypeOther, nonOui } from "../choices";
 import type { DataResponse } from "../main";
 import { Choice } from "./choice";
 import { Form } from "./form";
@@ -48,22 +48,22 @@ export default function SM01695({
           </div>
           <QuestionWithChoices
             type="single"
-            choices={ouiNon}
+            choices={nonOui}
             label="Double identification de l'usager :"
           />
           <QuestionWithChoices
             type="single"
-            choices={ouiNon}
+            choices={nonOui}
             label="Bracelet d'identifications mis :"
           />
           <QuestionWithChoices
             type="single"
-            choices={ouiNon}
+            choices={nonOui}
             label="Bracelet d'allergie mis :"
           />
           <QuestionWithChoices
             type="single"
-            choices={ouiNon}
+            choices={nonOui}
             label="Liste des médicaments apportés ou FADM au dossier :"
           />
           <span>
@@ -73,7 +73,7 @@ export default function SM01695({
           <div className="flex gap-10">
             <QuestionWithChoices
               type="single"
-              choices={ouiNon}
+              choices={nonOui}
               label="Coumadin cessé :"
             />
             <QuestionWithChoices
@@ -88,11 +88,23 @@ export default function SM01695({
               choices={examType}
               label="Examen :"
             />
-            <QuestionWithInput label="Autre :" name="autre3" />
+            <QuestionWithChoices
+              label="Autre :"
+              name="autre3"
+              choices={examTypeOther}
+              type="single"
+            />
           </div>
-          <QuestionWithInput label="Accompagnateur sera présent jusqu'à :" />
+          <QuestionWithChoices
+            label="Accompagnateur :"
+            choices={[
+              "présent dans la salle d'attente",
+              "arrive après examen",
+              "absent",
+            ]}
+            type="single"
+          />
           <Heading level={2}>ÉVALUATION CLINIQUE</Heading>
-          <Heading level={3}>SIGNES VITAUX ET DOLEUR</Heading>
           <table>
             <thead>
               <tr>
@@ -180,40 +192,102 @@ export default function SM01695({
                   </div>
                 </td>
               </tr>
+              <tr>
+                <th colSpan={3}>Douleur</th>
+              </tr>
+              <tr>
+                <td>
+                  <QuestionWithChoices
+                    label="Douleur :"
+                    choices={nonOui}
+                    type="single"
+                    className="justify-between"
+                  />
+                </td>
+                <td colSpan={2}>
+                  <QuestionWithChoices
+                    choices={[
+                      "tête",
+                      "abdomen",
+                      "bras",
+                      "jambes",
+                      "cou",
+                      "thorax",
+                    ]}
+                    label="Lieu de la douleur :"
+                    type="multiple"
+                  />
+                </td>
+              </tr>
             </tbody>
           </table>
-          <QuestionWithInput label="Douleur :" />
-          <Heading level={3}>INTERVENTIONS</Heading>
-          <span>En présence de problèmes cardiovasculaires</span>
-          <QuestionWithChoices
-            choices={["Normale", "Anormale"]}
-            type="single"
-            label="Ausc. Card."
-          />
-          <span>
-            En présence de problèmes respiratoires (MPOC, asthme, apnée du
-            sommeil, ronflements nocturnes etc.)
-          </span>
-          <QuestionWithChoices
-            choices={["Normale", "Anormale"]}
-            type="single"
-            label="Ausc. Pulm."
-          />
-          <div className="flex justify-between">
-            <fieldset className="flex items-center gap-1">
-              <input type="checkbox" id="Cathéter I.V" name="Cathéter I.V" />
-              <label htmlFor="Cathéter I.V">Cathéter I.V</label>
-            </fieldset>
-            <div className="flex gap-4">
-              <QuestionWithInput label="#" />
-              <QuestionWithInput label="site" />
-            </div>
-            <QuestionWithChoices
-              choices={ouiNon}
-              type="single"
-              label="Perméable"
-            />
-          </div>
+          <table>
+            <thead>
+              <tr>
+                <th colSpan={2}>INTERVENTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>En présence de problèmes cardiovasculaires</td>
+                <td>
+                  <QuestionWithChoices
+                    choices={["", "Normale", "Anormale"]}
+                    type="single"
+                    label="Ausc. Card."
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  En présence de problèmes respiratoires (MPOC, asthme, apnée du
+                  sommeil, ronflements nocturnes etc.)
+                </td>
+                <td>
+                  <QuestionWithChoices
+                    choices={["", "Normale", "Anormale"]}
+                    type="single"
+                    label="Ausc. Pulm."
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <QuestionWithChoices
+                    choices={nonOui}
+                    type="single"
+                    label="Cathéter I.V"
+                  />
+                </td>
+                <td>
+                  <div className="flex gap-4">
+                    <QuestionWithInput label="#" />
+                    <QuestionWithChoices
+                      choices={["", "BD", "BG", "MD", "MG"]}
+                      type="single"
+                      label="site"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <QuestionWithChoices
+                    choices={nonOui}
+                    type="single"
+                    label="Perméable"
+                  />
+                </td>
+                <td>
+                  <QuestionWithChoices
+                    choices={["", "#18", "#20", "#22", "#24"]}
+                    type="single"
+                    label="Grandeur"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </Page>
       <Page index={2} total={2} title={title} dossier={patient.dossier}>
@@ -227,50 +301,115 @@ export default function SM01695({
             </tr>
           </thead>
           <tbody>
-            {[
-              "Analgésie/anesthésie",
-              "Naïf aux opiacés",
-              "Antécédent d'intubation difficile",
-              "Cou court ou large",
-              "Présence d'obésité",
-              "Orientation dans les 3 sphères",
-              "Problème neurologique",
-            ].map((e, i) => (
-              <tr key={e}>
-                <td>
-                  {i === 0 && "Réactions indésirables sédation –"}
-                  <QuestionWithChoices
-                    choices={ouiNon}
-                    type="single"
-                    label={e}
-                    className="justify-between"
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  choices={nonOui}
+                  type="single"
+                  label="Réactions indésirables sédation - Analgésie/anesthésie"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <QuestionWithChoices
+                  choices={[
+                    "vomissements",
+                    "nausées",
+                    "céphalée",
+                    "delirium",
+                    "somnolence",
+                    "choc",
+                  ]}
+                  type="multiple"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  choices={nonOui}
+                  type="single"
+                  label="Naïf aux opiacés"
+                  className="justify-between"
+                />
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  choices={nonOui}
+                  type="single"
+                  label="Antécédent d'intubation difficile"
+                  className="justify-between"
+                />
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  choices={nonOui}
+                  type="single"
+                  label="Cou court ou large"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <QuestionWithInput label="cm :" type="number" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  choices={nonOui}
+                  type="single"
+                  label="Présence d'obésité"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <div className="flex gap-2 mt-2">
+                  <QuestionWithInput
+                    type="number"
+                    label="Poids (kg)"
+                    onChange={(e) => setPoids(Number(e.target.value))}
+                    value={poids || ""}
                   />
-                </td>
-                <td>
-                  <QuestionWithInput name={`${e}_details`} />
-                  {e === "Présence d'obésité" && (
-                    <div className="flex gap-2 mt-2">
-                      <QuestionWithInput
-                        type="number"
-                        label="Poids (kg)"
-                        onChange={(e) => setPoids(Number(e.target.value))}
-                        value={poids}
-                      />
-                      <QuestionWithInput
-                        type="number"
-                        label="Taille (m)"
-                        onChange={(e) => setTaille(Number(e.target.value))}
-                        value={taille}
-                      />
-                      <div className="w-24">
-                        IMC :{" "}
-                        {taille > 0 && (poids / (taille * taille)).toFixed(2)}
-                      </div>
-                    </div>
-                  )}
-                </td>
-              </tr>
-            ))}
+                  <QuestionWithInput
+                    type="number"
+                    label="Taille (m)"
+                    onChange={(e) => setTaille(Number(e.target.value))}
+                    value={taille}
+                  />
+                  <div className="w-24">
+                    IMC : {taille > 0 && (poids / (taille * taille)).toFixed(2)}
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  choices={nonOui}
+                  type="single"
+                  label="Orientation dans les 3 sphères"
+                  className="justify-between"
+                />
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  choices={nonOui}
+                  type="single"
+                  label="Problème neurologique"
+                  className="justify-between"
+                />
+              </td>
+              <td></td>
+            </tr>
           </tbody>
         </table>
         <QuestionWithInput label="Vérification des résultats de laboratoire, le cas échéant :" />
@@ -308,28 +447,21 @@ export default function SM01695({
           />
         </div>
         <div className="flex flex-col gap-2">
-          <span>Monitoring nécessaire selon la condition de santé :</span>
           <QuestionWithChoices
-            choices={ouiNon}
-            type="single"
-            label="Cardiaque"
+            choices={["Cardiaque", "Capnographie"]}
+            type="multiple"
+            label="Monitoring nécessaire selon la condition de santé :"
           />
-          <QuestionWithChoices
-            choices={ouiNon}
-            type="single"
-            label="Capnographie"
-          />
+          <QuestionWithInput label="Enseignement prodigué en présence de :" />
         </div>
         <fieldset className="flex flex-col">
-          <label htmlFor="notes">
-            NOTES DE L'INFIRMIÈRE SUR L'ÉVALUATION INITIALE
-          </label>
+          <label htmlFor="notes">Notes</label>
           <textarea name="notes" id="notes" className=""></textarea>
         </fieldset>
         <div className="gap-4 grid grid-cols-2">
           <QuestionWithInput label="Continuité des soins :" />
           <QuestionWithChoices
-            choices={ouiNon}
+            choices={nonOui}
             type="single"
             label=" Avisé des constats ci-haut"
           />

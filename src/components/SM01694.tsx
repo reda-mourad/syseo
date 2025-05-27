@@ -1,4 +1,4 @@
-import { examType } from "../choices";
+import { examType, examTypeOther } from "../choices";
 import type { DataResponse } from "../main";
 import { Choice } from "./choice";
 import { Form } from "./form";
@@ -34,24 +34,30 @@ export default function SM01694({
         <Heading level={1}>{title}</Heading>
         <div className="flex flex-wrap space-x-4 space-y-1">
           <QuestionWithInput label="Date :" type="date" />
+          <QuestionWithInput label="Médecin :" />
+          <QuestionWithChoices
+            choices={["Salle 1", "Salle 2", "Salle 3", "Salle 4", "Salle 5"]}
+            type="single"
+            label="Salle d'examen :"
+          />
           <QuestionWithChoices
             label="Examen :"
             choices={examType}
             type="multiple"
           />
-          <QuestionWithInput label="Médecin :" />
           <QuestionWithChoices
-            choices={["Salle 1", "Salle 2", "Salle 3"]}
+            choices={examTypeOther}
             type="single"
-            label="Salle d'examen :"
+            label="Autre"
+            name="examen_autre"
           />
           <div className="flex items-center gap-1">
             <QuestionWithChoices
-              choices={["domicile", "unité de soins", "Autre"]}
+              choices={["", "domicile", "unité de soins"]}
               type="single"
               label="Provenance :"
             />
-            <QuestionWithInput name="provenance_autre" />
+            <QuestionWithInput label="Autre :" name="provenance_autre" />
           </div>
         </div>
         <div className="flex gap-4">
@@ -294,7 +300,13 @@ export default function SM01694({
               </tbody>
             </table>
             <Heading level={3}>NOTES</Heading>
-            <textarea name="notes" className="w-full max-h-10" />
+            <textarea
+              name="notes"
+              className="w-full max-h-10"
+              defaultValue={
+                "Consultation pré examen réalisée par md, examen bien toléré, sans complication."
+              }
+            />
             <div className="flex gap-2">
               <QuestionWithInput label="Initiales" />
               <QuestionWithInput label="Signature" />
@@ -361,7 +373,7 @@ export default function SM01694({
                     <div className="flex items-center gap-2">
                       <span className="w-9">NaCI 0.9%</span>
                       <select name="nacl_dose">
-                        {[10, 20, 500, 1000].map((e) => (
+                        {["", 10, 20, 500, 1000].map((e) => (
                           <option key={e} value={e}>
                             {e}
                           </option>
@@ -399,7 +411,7 @@ export default function SM01694({
               />
               <div className="flex items-center gap-2 w-40">
                 Quantité de puff
-                <select name="dose_puff" className="w-20 min-w-40">
+                <select name="dose_puff">
                   {Array(11)
                     .fill(null)
                     .map((_, i) => (
@@ -413,7 +425,18 @@ export default function SM01694({
 
             <QuestionWithInput label="Scope #" />
             <Heading level={3}>INTERVENTIONS ELECTROCAUTÈRE :</Heading>
-            <QuestionWithInput label="Site de la plaque :" />
+            <QuestionWithChoices
+              choices={[
+                "",
+                "Cuisse D",
+                "cuisse G",
+                "abdomen",
+                "flanc D",
+                "flanc G",
+              ]}
+              type="single"
+              label="Site de la plaque :"
+            />
             <QuestionWithInput label="Degré coag. :" />
             <QuestionWithInput label="Cut :" />
             <QuestionWithInput label="Endocut :" />
@@ -421,9 +444,111 @@ export default function SM01694({
             <Heading level={3} className="uppercase">
               Procédure :
             </Heading>
-            {[
-              "Adrénaline",
-              "NaCI 0.9%",
+            <table>
+              <tbody>
+                <tr>
+                  <td className="w-full">
+                    <Choice label="Adrénaline 1ml/mg" type="checkbox" />
+                  </td>
+                  <td>
+                    <div className="flex items-center gap-1">
+                      <QuestionWithInput
+                        name="adrenaleine details"
+                        type="number"
+                      />
+                      ml
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <Choice label="NaCI 0.9% 100ml" type="checkbox" />
+                  </td>
+                  <td>
+                    <div className="flex items-center gap-1">
+                      <QuestionWithInput type="number" name="nacl details" />
+                      ml
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <Choice label="Encre de chine" type="checkbox" />
+                  </td>
+                  <td>
+                    <QuestionWithChoices
+                      choices={["", "5ml", "6ml", "7ml", "8ml", "9ml", "10ml"]}
+                      type="single"
+                      name="Encre de chine details"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <Choice label="Polypectomie" type="checkbox" />
+                  </td>
+                  <td>
+                    <QuestionWithChoices
+                      choices={[
+                        "",
+                        ...Array(11)
+                          .fill(null)
+                          .map((_, i) => `x${i}`),
+                      ]}
+                      type="single"
+                      name="Polypectomie details"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <Choice label="Dilatation" type="checkbox" />
+                  </td>
+                  <td>
+                    <QuestionWithChoices
+                      choices={[
+                        "",
+                        "6-8",
+                        "8-10",
+                        "10-12",
+                        "12-15",
+                        "15-18",
+                        "18-20",
+                      ]}
+                      type="single"
+                      label="Ballon"
+                      name="Exerèse corps étranger ballon"
+                    />
+                    <QuestionWithChoices
+                      choices={[
+                        "",
+                        "ballon 6-8",
+                        "ballon 8-10",
+                        "ballon 10-12",
+                        "ballon 12-15",
+                        "ballon 15-18",
+                        "ballon 18-20",
+                      ]}
+                      type="single"
+                      label="site"
+                      name="Exerèse corps étranger ballon"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <Choice label="Exerèse corps étranger" type="checkbox" />
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="flex justify-between items-center gap-1"></div>
+            <div className="flex justify-between items-center gap-1"></div>
+            <div className="flex justify-between items-center gap-1"></div>
+            {/* {[
+              "Adrénaline 1ml/mg",
+              "NaCI 0.9% 100mg",
               "Encre de chine",
               "Polypectomie",
               "Dilatation",
@@ -433,12 +558,12 @@ export default function SM01694({
               "Autre",
             ].map((e) => (
               <div key={e} className="flex gap-1">
-                <Choice label="" name={`check_${e}`} type="checkbox" />
-                <div className="flex-1">
-                  <QuestionWithInput label={e} />
+                <div className="w-40">
+                  <Choice label={e} type="checkbox" />
                 </div>
+                <QuestionWithInput name={`${e}_details`} />
               </div>
-            ))}
+            ))} */}
             <Heading level={3} className="uppercase">
               Prélèvements
             </Heading>

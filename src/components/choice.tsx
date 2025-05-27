@@ -9,7 +9,7 @@ export function Choice({ label, ...props }: ChoiceProps) {
   const id = crypto.randomUUID();
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-0.5">
       <input
         id={props.id || id}
         value={label || props.name}
