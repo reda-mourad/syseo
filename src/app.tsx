@@ -33,7 +33,7 @@ export function App({ initData }: { initData?: DataResponse }) {
       if (formEl) {
         const formData = new FormData(formEl);
         const json = Object.fromEntries(formData.entries());
-        window.$4d.form_save(initData?.form?.UUID ?? "", json);
+        // window.$4d.form_save(initData?.form?.UUID ?? "", json);
         return json;
       }
     };
