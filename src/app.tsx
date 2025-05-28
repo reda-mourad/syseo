@@ -55,13 +55,9 @@ export function App({ initData }: { initData?: DataResponse }) {
   //   tel: "0123456789",
   // };
 
-  if (initData?.form?.code === "SM01696")
-    return <SM01696 patient={initData.patient} />;
-  if (initData?.form?.code === "SM01695")
-    return <SM01695 patient={initData.patient} />;
-  if (initData?.form?.code === "SM01694")
-    return <SM01694 patient={initData.patient} />;
-  if (initData?.form?.code === "SM01693")
-    return <SM01693 patient={initData.patient} form={initData.form.data} />;
+  if (initData?.form?.code === "SM01696") return <SM01696 {...initData} />;
+  if (initData?.form?.code === "SM01695") return <SM01695 {...initData} />;
+  if (initData?.form?.code === "SM01694") return <SM01694 {...initData} />;
+  if (initData?.form?.code === "SM01693") return <SM01693 {...initData} />;
   return null;
 }

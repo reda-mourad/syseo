@@ -6,7 +6,7 @@ export interface QuestionWithChoicesProps {
   label?: string;
   name?: string;
   choices: string[];
-  type: "single" | "multiple";
+  type: "single" | "multiple" | "radio";
   className?: string;
   defaultValue?: "";
 }
@@ -33,6 +33,19 @@ export function QuestionWithChoices({
               label={c}
               type={type === "multiple" ? "checkbox" : "radio"}
               name={`${name || label}_${c}`}
+            />
+          ))}
+        </div>
+      )}
+      {type === "radio" && (
+        <div className="flex flex-wrap items-center space-x-2">
+          {choices.map((c) => (
+            <Choice
+              key={c}
+              label={c}
+              value={c}
+              type="radio"
+              name={`${name || label}`}
             />
           ))}
         </div>

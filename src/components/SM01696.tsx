@@ -7,6 +7,38 @@ import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
 
 const title = "SOINS INFIRMIERS AVANT UN EXAMEN ENDOSCOPIQUE - PARTIE USAGER";
+const allergies = [
+  "",
+  "AAS",
+  "AMOXICILLINE",
+  "ANAPHYLAXIE - AUTRE NON SPÉCIFIÉ",
+  "ANAPHYLAXIE - MÉDICAMENT NON SPÉCIFIÉ",
+  "ANESTHESIQUES -type non spécifique",
+  "ANTIBIOTIQUES -type non spécifique",
+  "ANTICONVULSIVANTS -type non spécifique",
+  "ANTI-INFLAMMATOIRES-NON-STEROIDIENS-(AINS)",
+  "ANTINEOPLASIQUES-ET-PRODUITS-APPARENTES -type non spécifique",
+  "ARACHIDES",
+  "BLÉ",
+  "CODÉINE",
+  "IMMUNISATION-ACTIVE -type non spécifique",
+  "IODE-TEINTURE",
+  "LACTOSE",
+  "LAIT-DE-VACHE",
+  "LATEX",
+  "MEPERIDINE",
+  "MOLLUSQUES/CRUSTACES",
+  "MORPHINE",
+  "NOIX",
+  "OEUFS",
+  "PENICILLINES -type non spécifique",
+  "POISSONS",
+  "RELAXANTS-MUSCULAIRES -type non spécifique",
+  "RUBAN-ADHESIF",
+  "SOYA",
+  "SUBSTANCE DE CONTRASTE: IMAGERIE RADIOLOGIE",
+  "SULFAMIDES -type non spécifique",
+];
 const antecedents = [
   "Problèmes cardiaques",
   "Problèmes respiratoire",
@@ -33,7 +65,7 @@ export default function SM01696({
         total={2}
         title={title}
         dossier={patient.dossier}
-        className="gap-3"
+        className="gap-1"
       >
         <FormHeader code="SM01696" patient={patient} />
         <h1 className="font-semibold text-3xl text-center">{title}</h1>
@@ -104,42 +136,44 @@ export default function SM01696({
             ))}
           </tbody>
         </table>
-        <table className="w-full">
+        <table>
           <thead>
             <tr>
               <th>Allergie</th>
-              <th>Type de réaction</th>
+              <th>Type de reaction</th>
             </tr>
           </thead>
           <tbody>
-            {Array(4)
+            {Array(3)
               .fill(null)
               .map((_, i) => (
                 <tr key={i}>
                   <td>
-                    <QuestionWithInput name={`allergie_${i}`} />
+                    <QuestionWithChoices
+                      choices={allergies}
+                      type="single"
+                      name={`allergie_${i}`}
+                    />
                   </td>
                   <td>
-                    <div className="flex">
-                      <QuestionWithChoices
-                        name={`reaction_${i}`}
-                        choices={[
-                          "nausées",
-                          "vomissements",
-                          "délirium",
-                          "urticaire",
-                          "céphalée",
-                          "arythmie",
-                          "choc",
-                          "rougeur faciale",
-                        ]}
-                        type="multiple"
-                      />
-                      <QuestionWithInput
-                        label="Autre :"
-                        name={`reaction_${i}_autre`}
-                      />
-                    </div>
+                    <QuestionWithChoices
+                      name={`reaction_${i}`}
+                      choices={[
+                        "nausées",
+                        "vomissements",
+                        "délirium",
+                        "urticaire",
+                        "céphalée",
+                        "arythmie",
+                        "choc",
+                        "rougeur faciale",
+                      ]}
+                      type="multiple"
+                    />
+                    <QuestionWithInput
+                      label="Autre :"
+                      name={`reaction_${i}_autre`}
+                    />
                   </td>
                 </tr>
               ))}
@@ -191,7 +225,7 @@ export default function SM01696({
                   />
                   <span>verre(s)</span>
                   <QuestionWithChoices
-                    choices={["", "semapar semaineine", "occasionellement"]}
+                    choices={["", "par semaine", "occasionellement"]}
                     type="single"
                     name="Prenez-vous de l'alcool ?_par"
                   />
@@ -222,7 +256,15 @@ export default function SM01696({
               </td>
               <td>
                 <QuestionWithChoices
-                  choices={[]}
+                  choices={[
+                    "",
+                    ...Array(15)
+                      .fill(null)
+                      .map((_, i) => i + 1 + ""),
+                    "20",
+                    "25",
+                    "30",
+                  ]}
                   type="single"
                   label="Nombre cigarette / jour :"
                   className="justify-start"
@@ -355,7 +397,7 @@ export default function SM01696({
               </td>
               <td>
                 <QuestionWithChoices
-                  choices={["selle claires", "jaunâtre", "brunes", "foncées"]}
+                  choices={["selles claires", "jaunâtre", "brunes", "foncées"]}
                   type="multiple"
                 />
               </td>
@@ -385,11 +427,13 @@ export default function SM01696({
                   choices={[
                     "Coumadin",
                     "Triaclid",
-                    "Aspirin",
+                    "Aspirine",
                     "Sintrom",
                     "Eliquis",
                     "Héparine",
-                    "Pradax",
+                    "Pradaxa",
+                    "Innohep",
+                    "Lixiana",
                     "Xarelto",
                     "Plavix",
                   ]}

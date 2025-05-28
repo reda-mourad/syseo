@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import { medications, units } from "../choices";
 import type { DataResponse } from "../main";
 import { Choice } from "./choice";
 import { Form } from "./form";
@@ -14,7 +15,7 @@ const verticalCellStyle: React.CSSProperties = {
   writingMode: "vertical-rl",
   transform: "rotate(180deg)",
 };
-const colArr = Array(6).fill(null);
+const colArr = Array(9).fill(null);
 const verifications = [
   "Critères de congé = 10/10 ou selon condition pré-examen",
   "Orientation dans les trois sphères revenue à son état initial",
@@ -64,18 +65,14 @@ const criteresConge = [
   },
 ];
 
-interface SM01693Props {
-  patient: DataResponse["patient"];
-  form?: Record<string, never> | null;
-}
-
-export default function SM01693({ patient, form }: SM01693Props) {
+export default function SM01693({ patient, form }: DataResponse) {
+  const data = form.data;
   const [answers, setAnswers] = useState<Record<string, number>>({
-    Motricité: Number(form?.Motricité ?? ""),
-    Respiration: Number(form?.Respiration ?? ""),
-    "Δ TA syst": Number(form?.["Δ TA syst"] ?? ""),
-    Conscience: Number(form?.Conscience ?? ""),
-    "Sa O2": Number(form?.["Sa O2"] ?? ""),
+    Motricité: Number(data?.Motricité ?? ""),
+    Respiration: Number(data?.Respiration ?? ""),
+    "Δ TA syst": Number(data?.["Δ TA syst"] ?? ""),
+    Conscience: Number(data?.Conscience ?? ""),
+    "Sa O2": Number(data?.["Sa O2"] ?? ""),
   });
   const total = Object.values(answers).reduce(
     (previous, current) => previous + current,
@@ -88,7 +85,7 @@ export default function SM01693({ patient, form }: SM01693Props) {
         dossier={patient.dossier}
         title={title}
         index={1}
-        total={2}
+        total={3}
         className="gap-2"
       >
         <FormHeader code="SM01693" patient={patient} />
@@ -96,327 +93,336 @@ export default function SM01693({ patient, form }: SM01693Props) {
         <div className="flex flex-wrap space-x-4 space-y-1">
           <QuestionWithInput label="Date :" type="date" />
         </div>
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <table className="text-[.66rem]">
-              <thead>
-                <tr>
-                  <th colSpan={8}>PARAMÈTRES ÉVALUÉS</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th colSpan={2} className="text-right">
-                    Heure :
-                  </th>
-                  {colArr.map((_, i) => (
-                    <th key={i} className="w-16">
-                      <QuestionWithInput name={`time_${i}`} />
-                    </th>
-                  ))}
-                </tr>
-                <tr>
-                  <th
-                    rowSpan={8}
-                    style={verticalCellStyle}
-                    className="w-10 max-w-10"
-                  >
-                    signes vitaux et état respiratoire
-                  </th>
-                  <td className="w-80">Pression artérielle :</td>
-                  {colArr.map((_, i) => (
-                    <td key={i} className="space-y-1">
-                      <QuestionWithInput name={`press_art_max_${i}`} />
-                      <QuestionWithInput name={`press_art_min_${i}`} />
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td>Fréquence cardiaque/min. :</td>
-                  {colArr.map((_, i) => (
-                    <td key={i}>
-                      <QuestionWithInput name={`freq_card_${i}`} />
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td>
-                    Fréquence respiratoire/min.
-                    <br />
-                    Noter si rythme irr. ou pause respiratoire :
-                  </td>
-                  {colArr.map((_, i) => (
-                    <td key={i}>
-                      <QuestionWithInput name={`freq_resp_${i}`} />
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td>
-                    Amplitude respiratoire <br />
-                    <b>P :</b> profonde <b>N :</b> normale <b>S :</b>{" "}
-                    superficielle
-                  </td>
-                  {colArr.map((_, i) => (
-                    <td key={i}>
-                      <select name={`ampl_resp_${i}`}>
-                        {["P", "N", "S"].map((e) => (
-                          <option key={e} value={e}>
-                            {e}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td>
-                    Ronflements <b>O :</b> Oui <b>N :</b> Non
-                  </td>
-                  {colArr.map((_, i) => (
-                    <td key={i}>
-                      <select name={`ronflement_${i}`}>
-                        {["O", "N"].map((e) => (
-                          <option key={e} value={e}>
-                            {e}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td>Saturation O2 (%)</td>
-                  {colArr.map((_, i) => (
-                    <td key={i}>
-                      <QuestionWithInput name={`saturation_${i}`} />
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td>EtCO2</td>
-                  {colArr.map((_, i) => (
-                    <td key={i}>
-                      <QuestionWithInput name={`etco2_${i}`} />
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td>
-                    O2 Lunette nasal (litres/min.) /<br /> Ventimasque (% O2)
-                  </td>
-                  {colArr.map((_, i) => (
-                    <td key={i}>
-                      <QuestionWithInput name={`o2_${i}`} />
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <th style={verticalCellStyle}>
-                    monitoring
-                    <br /> cardiaque
-                  </th>
-                  <td>
-                    <ul>
-                      <li>1. Rythme sinusal</li>
-                      <li>2 : Fibrilation auriculaire</li>
-                      <li>3 : Flutter auriculaire</li>
-                      <li>
-                        <QuestionWithInput label="4 : Bloc AV degré" />
-                      </li>
-                      <li>
-                        <QuestionWithInput label="5 : ESV" />
-                      </li>
-                      <li>
-                        <QuestionWithInput label="6 : Autre" />
-                      </li>
-                    </ul>
-                  </td>
-                  {colArr.map((_, i) => (
-                    <td key={i}>
-                      <select name={`ronflement_${i}`}>
-                        {Array(6)
-                          .fill(null)
-                          .map((_, i) => (
-                            <option key={i} value={i + 1}>
-                              {i + 1}
-                            </option>
-                          ))}
-                      </select>
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <th style={verticalCellStyle}>sédation</th>
-                  <td>
-                    <ul>
-                      <li>S : sommeil normal, s'éveille facilement</li>
-                      <li>0 : alerte</li>
-                      <li>1 : parfois somnolent, s'éveille facilement</li>
-                      <li>2 : fréquemment somnolent, s'éveille à l'appel</li>
-                      <li>
-                        3 : s'éveille difficilement a l'appel et à la
-                        stimulation manuelle
-                      </li>
-                    </ul>
-                  </td>
-                  {colArr.map((_, i) => (
-                    <td key={i}>
-                      <select name={`sedation_${i}`}>
-                        {["S", "0", "1", "2", "3"].map((e) => (
-                          <option key={e} value={e}>
-                            {e}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <th style={verticalCellStyle}>DLR</th>
-                  <td>
-                    Intensité Échelle de 0 à 10
-                    <br />
-                    <QuestionWithInput label="Site :" />
-                  </td>
-                  {colArr.map((_, i) => (
-                    <td key={i}>
-                      <select name={`dlr_${i}`}>
-                        {Array(11)
-                          .fill(null)
-                          .map((_, i) => (
-                            <option key={i} value={i}>
-                              {i}
-                            </option>
-                          ))}
-                      </select>
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <th rowSpan={3} style={verticalCellStyle}>
-                    autre
-                    <br /> PARAMÈTRES
-                  </th>
-                  <td>
-                    S : Sueurs N : Nausée
-                    <br />V : Vomissement Ø : aucun
-                  </td>
-                  {colArr.map((_, i) => (
-                    <td key={i}>
-                      <select name={`sueur_${i}`}>
-                        {["S", "N", "V", "Ø"].map((e) => (
-                          <option key={e} value={e}>
-                            {e}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td>
-                    <QuestionWithInput label="Autre :" />
-                  </td>
-                  {colArr.map((_, i) => (
-                    <td key={i}>
-                      <QuestionWithInput name={`other_${i}`} />
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="text-right">Initiales :</td>
-                  {colArr.map((_, i) => (
-                    <td key={i}>
-                      <QuestionWithInput name={`initiales_${i}`} />
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className="flex flex-col gap-1 w-60">
-            <table className="w-full text-[.66rem]">
-              <thead>
-                <tr>
-                  <th colSpan={3}>MÉDICAMENT(S)</th>
-                </tr>
-                <tr>
-                  <th>Heure</th>
-                  <th>Rx (nom, dose voie d'adm.)</th>
-                  <th>INT</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array(5)
-                  .fill(null)
-                  .map((_, i) => (
-                    <tr key={i}>
-                      <td>
-                        <QuestionWithInput
-                          name={`med_${i}_time`}
-                          className="w-10"
-                        />
-                      </td>
-                      <td>
-                        <QuestionWithInput name={`med_${i}_details`} />
-                      </td>
-                      <td>
-                        <QuestionWithInput
-                          name={`med_${i}_int`}
-                          className="w-10"
-                        />
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-            <table className="text-[.66rem]">
-              <thead>
-                <tr>
-                  <th colSpan={3}>Critères de congé</th>
-                </tr>
-              </thead>
-              <tbody>
-                {criteresConge.map(({ categorie, choices }) => (
-                  <Fragment key={categorie}>
-                    {choices.map((c, i) => (
-                      <tr key={`${categorie}_${c}`}>
-                        {!i && (
-                          <td
-                            rowSpan={choices.length}
-                            className="w-20 text-center"
-                          >
-                            {categorie}
-                          </td>
-                        )}
-                        <td>
-                          <Choice
-                            label={c}
-                            type="radio"
-                            name={categorie}
-                            value={i}
-                            onChange={() =>
-                              setAnswers({ ...answers, [categorie]: i })
-                            }
-                          />
-                        </td>
-                        <td className="w-9 text-center">{i}</td>
-                      </tr>
+        <table className="text-[.61rem]">
+          <thead>
+            <tr>
+              <th colSpan={2 + colArr.length}>PARAMÈTRES ÉVALUÉS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th colSpan={2} className="text-right">
+                Heure :
+              </th>
+              {colArr.map((_, i) => (
+                <th key={i}>
+                  <QuestionWithInput name={`time_${i}`} type="time" />
+                </th>
+              ))}
+            </tr>
+            <tr>
+              <th
+                rowSpan={8}
+                style={verticalCellStyle}
+                className="w-10 max-w-10"
+              >
+                signes vitaux et état respiratoire
+              </th>
+              <td className="w-40">Pression artérielle :</td>
+              {colArr.map((_, i) => (
+                <td key={i} className="space-y-1">
+                  <QuestionWithInput name={`press_art_max_${i}`} />
+                  <QuestionWithInput name={`press_art_min_${i}`} />
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <td>Fréquence cardiaque/min. :</td>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <QuestionWithInput name={`freq_card_${i}`} />
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <td>
+                Fréquence respiratoire/min.
+                <br />
+                Noter si rythme irr. ou pause respiratoire :
+              </td>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <QuestionWithInput name={`freq_resp_${i}`} />
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <td>
+                Amplitude respiratoire <br />
+                <b>P :</b> profonde <b>N :</b> normale <b>S :</b> superficielle
+              </td>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <select name={`ampl_resp_${i}`} className="w-full">
+                    {["P", "N", "S"].map((e) => (
+                      <option key={e} value={e}>
+                        {e}
+                      </option>
                     ))}
-                  </Fragment>
-                ))}
-                <tr>
-                  <td>* ou condition pré-examen</td>
-                  <td className="font-semibold text-right">Total</td>
-                  <td className="text-center">{total} / 10</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+                  </select>
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <td>
+                Ronflements <b>O :</b> Oui <b>N :</b> Non
+              </td>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <select name={`ronflement_${i}`} className="w-full">
+                    {["O", "N"].map((e) => (
+                      <option key={e} value={e}>
+                        {e}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <td>Saturation O2 (%)</td>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <QuestionWithInput name={`saturation_${i}`} />
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <td>EtCO2</td>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <QuestionWithInput name={`etco2_${i}`} />
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <td>
+                O2 Lunette nasal (litres/min.) /<br /> Ventimasque (% O2)
+              </td>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <QuestionWithInput name={`o2_${i}`} />
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <th style={verticalCellStyle}>
+                monitoring
+                <br /> cardiaque
+              </th>
+              <td>
+                <ul>
+                  <li>1. Rythme sinusal</li>
+                  <li>2 : Fibrilation auriculaire</li>
+                  <li>3 : Flutter auriculaire</li>
+                  <li>
+                    <QuestionWithInput label="4 : Bloc AV degré" />
+                  </li>
+                  <li>
+                    <QuestionWithInput label="5 : ESV" />
+                  </li>
+                  <li>
+                    <QuestionWithInput label="6 : Autre" />
+                  </li>
+                </ul>
+              </td>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <select name={`ronflement_${i}`} className="w-full">
+                    {Array(6)
+                      .fill(null)
+                      .map((_, i) => (
+                        <option key={i} value={i + 1}>
+                          {i + 1}
+                        </option>
+                      ))}
+                  </select>
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <th style={verticalCellStyle}>sédation</th>
+              <td>
+                <ul>
+                  <li>S : sommeil normal, s'éveille facilement</li>
+                  <li>0 : alerte</li>
+                  <li>1 : parfois somnolent, s'éveille facilement</li>
+                  <li>2 : fréquemment somnolent, s'éveille à l'appel</li>
+                  <li>
+                    3 : s'éveille difficilement a l'appel et à la stimulation
+                    manuelle
+                  </li>
+                </ul>
+              </td>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <select name={`sedation_${i}`} className="w-full">
+                    {["S", "0", "1", "2", "3"].map((e) => (
+                      <option key={e} value={e}>
+                        {e}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <th style={verticalCellStyle}>DLR</th>
+              <td>
+                Intensité Échelle de 0 à 10
+                <br />
+                <QuestionWithInput label="Site :" />
+              </td>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <select name={`dlr_${i}`} className="w-full">
+                    {Array(11)
+                      .fill(null)
+                      .map((_, i) => (
+                        <option key={i} value={i}>
+                          {i}
+                        </option>
+                      ))}
+                  </select>
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <th rowSpan={3} style={verticalCellStyle}>
+                autre
+                <br /> PARAMÈTRES
+              </th>
+              <td>
+                S : Sueurs N : Nausée
+                <br />V : Vomissement Ø : aucun
+              </td>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <select name={`sueur_${i}`} className="w-full">
+                    {["S", "N", "V", "Ø"].map((e) => (
+                      <option key={e} value={e}>
+                        {e}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithInput label="Autre :" />
+              </td>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <QuestionWithInput name={`other_${i}`} />
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <td className="text-right">Initiales :</td>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <QuestionWithInput name={`initiales_${i}`} />
+                </td>
+              ))}
+            </tr>
+          </tbody>
+        </table>
       </Page>
-      <Page dossier={patient.dossier} index={2} total={2} title={title}>
+      <Page dossier={patient.dossier} index={2} total={3} title={title}>
+        <table>
+          <thead>
+            <tr>
+              <th colSpan={3}>MÉDICAMENT(S)</th>
+            </tr>
+            <tr>
+              <th>Heure</th>
+              <th className="w-full">Rx (nom, dose voie d'adm.)</th>
+              <th>Initiales</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array(8)
+              .fill(null)
+              .map((_, i) => (
+                <tr key={i}>
+                  <td>
+                    <QuestionWithInput
+                      name={`med_${i}_time`}
+                      type="time"
+                      className="min-w-24"
+                    />
+                  </td>
+                  <td>
+                    <div className="flex gap-3">
+                      <QuestionWithChoices
+                        choices={medications}
+                        type="single"
+                        name={`med_${i}_name`}
+                      />
+                      <QuestionWithInput
+                        name={`med_${i}_dose`}
+                        type="number"
+                        className="max-w-16"
+                      />
+                      <QuestionWithChoices
+                        choices={units}
+                        type="single"
+                        name={`med_${4 + i}_unit`}
+                      />
+                    </div>
+                  </td>
+                  <td>
+                    <QuestionWithInput
+                      name={`med_${4 + i}_init`}
+                      className="w-10"
+                    />
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+        <table>
+          <thead>
+            <tr>
+              <th colSpan={3}>Critères de congé</th>
+            </tr>
+          </thead>
+          <tbody>
+            {criteresConge.map(({ categorie, choices }) => (
+              <Fragment key={categorie}>
+                {choices.map((c, i) => (
+                  <tr key={`${categorie}_${c}`}>
+                    {!i && (
+                      <td rowSpan={choices.length} className="w-20 text-center">
+                        {categorie}
+                      </td>
+                    )}
+                    <td>
+                      <Choice
+                        label={c}
+                        type="radio"
+                        name={categorie}
+                        value={i}
+                        onChange={() =>
+                          setAnswers({ ...answers, [categorie]: i })
+                        }
+                      />
+                    </td>
+                    <td className="w-9 text-center">{i}</td>
+                  </tr>
+                ))}
+              </Fragment>
+            ))}
+            <tr>
+              <td className="w-40">* ou condition pré-examen</td>
+              <td className="font-semibold text-right">Total</td>
+              <td className="w-20 text-center">{total} / 10</td>
+            </tr>
+          </tbody>
+        </table>
+      </Page>
+      <Page dossier={patient.dossier} index={3} total={3} title={title}>
         <table className="w-full">
           <thead>
             <tr>
@@ -467,7 +473,9 @@ export default function SM01693({ patient, form }: SM01693Props) {
           <textarea
             className="w-full"
             name="notes"
-            defaultValue={"Consultation pré examen réalisée par md, examen bien toléré, sans complication."}
+            defaultValue={
+              "Consultation pré examen réalisée par md, examen bien toléré, sans complication."
+            }
           />
         </div>
         <table>

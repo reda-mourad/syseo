@@ -6,7 +6,6 @@
 
 }
 
-
 table td,
 table th {
     @apply p-1 border;
@@ -21,6 +20,7 @@ table th {
     * {
         print-color-adjust: exact;
     }
+
 
     @page {
         margin: 0;
@@ -52,7 +52,7 @@ input {
 }
 
 select {
-    @apply focus:bg-violet-100 p-0.5 border border-gray-400 rounded max-w-fit;
+    @apply focus:bg-violet-100 px-1 border border-gray-400 rounded appearance-none;
 }
 
 
@@ -62,4 +62,15 @@ textarea {
 
 button {
     @apply h-4;
+}
+
+/* Hide the time picker icon in input[type="time"] */
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+/* For Firefox */
+input[type="time"] {
+    -moz-appearance: textfield;
 }

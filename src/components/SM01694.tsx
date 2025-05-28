@@ -1,4 +1,4 @@
-import { examType, examTypeOther } from "../choices";
+import { examType, examTypeOther, medications, units } from "../choices";
 import type { DataResponse } from "../main";
 import { Choice } from "./choice";
 import { Form } from "./form";
@@ -14,7 +14,7 @@ const verticalCellStyle: React.CSSProperties = {
   writingMode: "vertical-rl",
   transform: "rotate(180deg)",
 };
-const colArr = Array(8).fill(null);
+const colArr = Array(9).fill(null);
 
 const colonSite = [
   "",
@@ -40,7 +40,7 @@ export default function SM01694({ patient }: SM01694Props) {
         dossier={patient.dossier}
         title={title}
         index={1}
-        total={1}
+        total={3}
         className="gap-2"
       >
         <FormHeader code="SM01694" patient={patient} />
@@ -78,7 +78,7 @@ export default function SM01694({ patient }: SM01694Props) {
           <QuestionWithInput label="Heure de début" type="time" />
           <QuestionWithInput label="Heure de fin" type="time" />
         </div>
-        <table className="text-[.66rem]">
+        <table className="text-[.57rem]">
           <thead>
             <tr>
               <th colSpan={2 + colArr.length}>PARAMÈTRES ÉVALUÉS</th>
@@ -90,8 +90,8 @@ export default function SM01694({ patient }: SM01694Props) {
                 Heure :
               </th>
               {colArr.map((_, i) => (
-                <th key={i} className="w-16">
-                  <QuestionWithInput name={`time_${i}`} />
+                <th key={i}>
+                  <QuestionWithInput name={`time_${i}`} type="time" />
                 </th>
               ))}
             </tr>
@@ -138,7 +138,7 @@ export default function SM01694({ patient }: SM01694Props) {
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <select name={`ampl_resp_${i}`}>
+                  <select name={`ampl_resp_${i}`} className="w-full">
                     {["P", "N", "S"].map((e) => (
                       <option key={e} value={e}>
                         {e}
@@ -154,7 +154,7 @@ export default function SM01694({ patient }: SM01694Props) {
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <select name={`ronflement_${i}`}>
+                  <select name={`ronflement_${i}`} className="w-full">
                     {["O", "N"].map((e) => (
                       <option key={e} value={e}>
                         {e}
@@ -213,7 +213,7 @@ export default function SM01694({ patient }: SM01694Props) {
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <select name={`ronflement_${i}`}>
+                  <select name={`ronflement_${i}`} className="w-full">
                     {Array(6)
                       .fill(null)
                       .map((_, i) => (
@@ -241,7 +241,7 @@ export default function SM01694({ patient }: SM01694Props) {
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <select name={`sedation_${i}`}>
+                  <select name={`sedation_${i}`} className="w-full">
                     {["S", "0", "1", "2", "3"].map((e) => (
                       <option key={e} value={e}>
                         {e}
@@ -260,7 +260,7 @@ export default function SM01694({ patient }: SM01694Props) {
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <select name={`dlr_${i}`}>
+                  <select name={`dlr_${i}`} className="w-full">
                     {Array(11)
                       .fill(null)
                       .map((_, i) => (
@@ -283,7 +283,7 @@ export default function SM01694({ patient }: SM01694Props) {
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <select name={`sueur_${i}`}>
+                  <select name={`sueur_${i}`} className="w-full">
                     {["S", "N", "V", "Ø"].map((e) => (
                       <option key={e} value={e}>
                         {e}
@@ -317,9 +317,9 @@ export default function SM01694({ patient }: SM01694Props) {
       <Page
         dossier={patient.dossier}
         index={2}
-        total={2}
+        total={3}
         title={title}
-        className="gap-3"
+        className="gap-2"
       >
         <div className="flex gap-2">
           <table className="w-full">
@@ -328,9 +328,9 @@ export default function SM01694({ patient }: SM01694Props) {
                 <th colSpan={3}>MÉDICAMENT(S)</th>
               </tr>
               <tr>
-                <th>Heure</th>
-                <th>Rx (nom, dose voie d'adm.)</th>
-                <th>INT</th>
+                <th className="min-w-24">Heure</th>
+                <th className="w-full">Rx (nom, dose voie d'adm.)</th>
+                <th className="min-w-20">Initiales</th>
               </tr>
             </thead>
             <tbody>
@@ -375,12 +375,12 @@ export default function SM01694({ patient }: SM01694Props) {
                   <QuestionWithInput
                     name="med_3_time"
                     type="time"
-                    className="w-18"
+                    className="min-w-24"
                   />
                 </td>
                 <td>
                   <div className="flex items-center gap-2">
-                    <span className="w-9">NaCI 0.9%</span>
+                    <span>NaCI 0.9%</span>
                     <select name="nacl_dose">
                       {["", 10, 20, 500, 1000].map((e) => (
                         <option key={e} value={e}>
@@ -388,7 +388,7 @@ export default function SM01694({ patient }: SM01694Props) {
                         </option>
                       ))}
                     </select>
-                    <span className="w-6">ml I.V.</span>
+                    <span>ml I.V.</span>
                   </div>
                 </td>
                 <td>
@@ -407,7 +407,24 @@ export default function SM01694({ patient }: SM01694Props) {
                       />
                     </td>
                     <td>
-                      <QuestionWithInput name={`med_${4 + i}_details`} />
+                      <div className="flex gap-3">
+                        <QuestionWithChoices
+                          choices={medications}
+                          type="single"
+                          name={`med_${4 + i}_name`}
+                        />
+                        <QuestionWithInput
+                          name={`med_${4 + i}_dose`}
+                          type="number"
+                          className="max-w-16"
+                        />
+                        <QuestionWithChoices
+                          choices={units}
+                          type="single"
+                          name={`med_${4 + i}_unit`}
+                        />
+                      </div>
+                      {/* <QuestionWithInput name={`med_${4 + i}_details`} /> */}
                     </td>
                     <td>
                       <QuestionWithInput
@@ -440,7 +457,6 @@ export default function SM01694({ patient }: SM01694Props) {
           </div>
         </div>
         <QuestionWithInput label="Scope #" />
-
         <table>
           <thead>
             <tr>
@@ -609,7 +625,7 @@ export default function SM01694({ patient }: SM01694Props) {
                     "",
                     ...Array(5)
                       .fill(null)
-                      .map((_, i) => `X${i + 1} élastiques`),
+                      .map((_, i) => `X${i + 1} élastique${i > 0 ? "s" : ""}`),
                   ]}
                   type="single"
                   name="Ligature var. oes details"
@@ -652,68 +668,77 @@ export default function SM01694({ patient }: SM01694Props) {
             <tr>
               <th colSpan={4}>Prélèvements</th>
             </tr>
+            <tr>
+              <th>Flacon</th>
+              <th>Type</th>
+              <th>Segment (coloscopie)</th>
+              <th>Segment (gastroscopie)</th>
+            </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <QuestionWithChoices
-                  choices={[
-                    "",
-                    ...Array(5)
-                      .fill(null)
-                      .map((_, i) => `${i + 1}`),
-                  ]}
-                  type="single"
-                  label="Flacon"
-                  name="prelevement flacon"
-                />
-              </td>
-              <td>
-                <QuestionWithChoices
-                  choices={[
-                    "",
-                    "Biopsie",
-                    "Polypectomie",
-                    "Recherche parasites",
-                    "Recherche C.Difficile",
-                    "Brossage",
-                    "Corps étranger",
-                  ]}
-                  type="single"
-                  label="Type"
-                  name="prelevement type"
-                />
-              </td>
-              <td>
-                <QuestionWithChoices
-                  choices={colonSite}
-                  type="single"
-                  label="Segment (coloscopie)"
-                />
-              </td>
-              <td>
-                <QuestionWithChoices
-                  choices={[
-                    "",
-                    "Larynx",
-                    "Oesophage",
-                    "Jonction Oeso-gastrique",
-                    "Fundus",
-                    "Rétrovision Fundus",
-                    "Corps",
-                    "Antre",
-                    "Pylore",
-                    "Bulbe",
-                    "Duodénum",
-                    "Papille",
-                  ]}
-                  type="single"
-                  label="Segment (gastroscopie)"
-                />
-              </td>
-            </tr>
+            {Array(8)
+              .fill(null)
+              .map((_, i, arr) => (
+                <tr key={i}>
+                  <td>
+                    <QuestionWithChoices
+                      choices={["", ...arr.map((_, i) => `Flacon ${i + 1}`)]}
+                      type="single"
+                      name={`prelevement flacon ${i}`}
+                      className="justify-center"
+                    />
+                  </td>
+                  <td>
+                    <QuestionWithChoices
+                      choices={[
+                        "",
+                        "Biopsie",
+                        "Polypectomie",
+                        "Recherche parasites",
+                        "Recherche C.Difficile",
+                        "Brossage",
+                        "Corps étranger",
+                      ]}
+                      type="single"
+                      name={`prelevement type ${i}`}
+                      className="justify-center"
+                    />
+                  </td>
+                  <td>
+                    <QuestionWithChoices
+                      choices={colonSite}
+                      type="single"
+                      name={`segment colo ${i}`}
+                      className="justify-center"
+                    />
+                  </td>
+                  <td>
+                    <QuestionWithChoices
+                      choices={[
+                        "",
+                        "Larynx",
+                        "Oesophage",
+                        "Jonction Oeso-gastrique",
+                        "Fundus",
+                        "Rétrovision Fundus",
+                        "Corps",
+                        "Antre",
+                        "Pylore",
+                        "Bulbe",
+                        "Duodénum",
+                        "Papille",
+                      ]}
+                      type="single"
+                      name={`segement gastro ${i}`}
+                      className="justify-center"
+                    />
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
+      </Page>
+      <Page dossier={patient.dossier} index={3} total={3} title={title}>
         <div className="space-y-1">
           <Heading level={3}>NOTES</Heading>
           <textarea

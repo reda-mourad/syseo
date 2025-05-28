@@ -12,13 +12,9 @@ import { QuestionWithInput } from "./question-with-input";
 const title =
   "SOINS INFIRMIERS AVANT UN EXAMEN ENDOSCOPIQUE (PARTIE INFIRMIÈRE) ";
 
-export default function SM01695({
-  patient,
-}: {
-  patient: DataResponse["patient"];
-}) {
-  const [poids, setPoids] = useState(0);
-  const [taille, setTaille] = useState(0);
+export default function SM01695({ patient, form }: DataResponse) {
+  const [poids, setPoids] = useState(form.data?.["Poids (kg)"] ?? 0);
+  const [taille, setTaille] = useState(form.data?.["Taille (cm)"] ?? 0);
 
   return (
     <Form>
@@ -34,7 +30,7 @@ export default function SM01695({
             <QuestionWithChoices
               label="Provenance de l'usager :"
               choices={["Domicile", "Unité de soins", "Autre établissement"]}
-              type="single"
+              type="radio"
             />
             <QuestionWithInput label="Autre :" name="autre1" />
           </div>
@@ -42,7 +38,7 @@ export default function SM01695({
             <QuestionWithChoices
               label="Mode d'arrivée :"
               choices={["Sur pieds", " Fauteuil roulant", "Civière"]}
-              type="single"
+              type="radio"
             />
             <QuestionWithInput label="Autre :" name="autre2" />
           </div>
@@ -77,10 +73,21 @@ export default function SM01695({
               label="Coumadin cessé :"
             />
             <QuestionWithChoices
+              type="radio"
+              choices={[
+                "X1 jour",
+                "X2 jours",
+                "X3 jours",
+                "X4 jours",
+                "X5 jours",
+              ]}
+              label="Depuis :"
+            />
+            {/* <QuestionWithChoices
               type="single"
               choices={["Aucun", "Lovenox", "Innohep", "Fragmin"]}
               label="Remplacé par :"
-            />
+            /> */}
           </div>
           <div className="flex gap-4">
             <QuestionWithChoices
@@ -134,15 +141,10 @@ export default function SM01695({
                     <span>Fréq. Card :</span>
                     <QuestionWithInput
                       type="number"
-                      name="freq_card_min"
-                      className="w-14"
+                      name="freq_card"
+                      className="w-28"
                     />
                     / min
-                    <QuestionWithInput
-                      type="number"
-                      name="freq_card_max"
-                      className="w-14"
-                    />
                   </div>
                 </td>
                 <td className="w-1/3">
@@ -150,39 +152,28 @@ export default function SM01695({
                     <span>Fréq. Resp :</span>
                     <QuestionWithInput
                       type="number"
-                      name="freq_resp_min"
-                      className="w-14"
+                      name="freq_resp"
+                      className="w-28"
                     />
-                    / min
-                    <QuestionWithInput
-                      type="number"
-                      name="freq_resp_max"
-                      className="w-14"
-                    />
+                    <span>/ min</span>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
                   <div className="flex justify-between items-center gap-2">
-                    <span>Sat :</span>
+                    <span>Sat (O2):</span>
                     <QuestionWithInput
                       type="number"
-                      name="sat_min"
-                      className="w-20"
+                      name="sat"
+                      className="w-32"
                     />
                     %
-                    <QuestionWithInput
-                      type="number"
-                      name="sat_max"
-                      className="w-20"
-                    />
                   </div>
                 </td>
                 <td>
                   <div className="flex justify-between items-center gap-2">
-                    <QuestionWithInput label="O2 :" />
-                    <QuestionWithInput label="°C" />
+                    <QuestionWithInput label="T (°C)" />
                   </div>
                 </td>
                 <td>
@@ -229,7 +220,10 @@ export default function SM01695({
             </thead>
             <tbody>
               <tr>
-                <td>En présence de problèmes cardiovasculaires</td>
+                <td>
+                  Auscultation cardiaque en présence de problèmes
+                  cardiovasculaires
+                </td>
                 <td>
                   <QuestionWithChoices
                     choices={["", "Normale", "Anormale"]}
@@ -240,8 +234,7 @@ export default function SM01695({
               </tr>
               <tr>
                 <td>
-                  En présence de problèmes respiratoires (MPOC, asthme, apnée du
-                  sommeil, ronflements nocturnes etc.)
+                  Auscultation pulmonaire en présence de problemes respiratoires
                 </td>
                 <td>
                   <QuestionWithChoices
@@ -356,7 +349,11 @@ export default function SM01695({
                 />
               </td>
               <td>
-                <QuestionWithInput label="cm :" type="number" />
+                <QuestionWithInput
+                  label="cm :"
+                  type="number"
+                  className="max-w-20"
+                />
               </td>
             </tr>
             <tr>
@@ -378,12 +375,14 @@ export default function SM01695({
                   />
                   <QuestionWithInput
                     type="number"
-                    label="Taille (m)"
+                    label="Taille (cm)"
                     onChange={(e) => setTaille(Number(e.target.value))}
-                    value={taille}
+                    value={taille || ""}
                   />
-                  <div className="w-24">
-                    IMC : {taille > 0 && (poids / (taille * taille)).toFixed(2)}
+                  <div className="w-28">
+                    IMC :{" "}
+                    {taille > 0 &&
+                      (poids / ((taille / 100) * (taille / 100))).toFixed(2)}
                   </div>
                 </div>
               </td>
@@ -455,7 +454,9 @@ export default function SM01695({
           <QuestionWithInput label="Enseignement prodigué en présence de :" />
         </div>
         <fieldset className="flex flex-col">
-          <label htmlFor="notes">Notes</label>
+          <label htmlFor="notes">
+            Notes de l'infirmière sur l'évaluation initiale
+          </label>
           <textarea name="notes" id="notes" className=""></textarea>
         </fieldset>
         <div className="gap-4 grid grid-cols-2">
