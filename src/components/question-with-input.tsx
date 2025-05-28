@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import { cn } from "../lib/utils";
+import { v4 } from "uuid";
 
 export interface QuestionWithInputProps extends ComponentProps<"input"> {
   label?: string;
@@ -10,7 +11,7 @@ export function QuestionWithInput({
   className,
   ...props
 }: QuestionWithInputProps) {
-  const id = crypto.randomUUID();
+  const id = v4();
 
   return (
     <fieldset className="flex items-center gap-1">
