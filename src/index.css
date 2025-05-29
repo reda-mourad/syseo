@@ -1,7 +1,13 @@
 @import 'tailwindcss';
 
+
+@font-face {
+    font-family: 'Main-Font';
+    src: url('/bahnschrift.ttf') format('truetype');
+}
+
 :root {
-    --font-sans: 'Bahnschrift';
+    --font-sans: 'Main-Font';
 
 
 }
