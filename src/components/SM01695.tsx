@@ -43,22 +43,22 @@ export default function SM01695({ patient, form }: DataResponse) {
             <QuestionWithInput label="Autre :" name="autre2" />
           </div>
           <QuestionWithChoices
-            type="single"
+            type="radio"
             choices={nonOui}
             label="Double identification de l'usager :"
           />
           <QuestionWithChoices
-            type="single"
+            type="radio"
             choices={nonOui}
             label="Bracelet d'identifications mis :"
           />
           <QuestionWithChoices
-            type="single"
+            type="radio"
             choices={nonOui}
             label="Bracelet d'allergie mis :"
           />
           <QuestionWithChoices
-            type="single"
+            type="radio"
             choices={nonOui}
             label="Liste des médicaments apportés ou FADM au dossier :"
           />
@@ -68,7 +68,7 @@ export default function SM01695({ patient, form }: DataResponse) {
           </span>
           <div className="flex gap-10">
             <QuestionWithChoices
-              type="single"
+              type="radio"
               choices={nonOui}
               label="Coumadin cessé :"
             />
@@ -190,8 +190,8 @@ export default function SM01695({ patient, form }: DataResponse) {
                 <td>
                   <QuestionWithChoices
                     label="Douleur :"
+                    type="radio"
                     choices={nonOui}
-                    type="single"
                     className="justify-between"
                   />
                 </td>
@@ -248,8 +248,9 @@ export default function SM01695({ patient, form }: DataResponse) {
                 <td>
                   <QuestionWithChoices
                     choices={nonOui}
-                    type="single"
+                    type="radio"
                     label="Cathéter I.V"
+                    className="justify-between"
                   />
                 </td>
                 <td>
@@ -267,8 +268,9 @@ export default function SM01695({ patient, form }: DataResponse) {
                 <td>
                   <QuestionWithChoices
                     choices={nonOui}
-                    type="single"
+                    type="radio"
                     label="Perméable"
+                    className="justify-between"
                   />
                 </td>
                 <td>
@@ -289,8 +291,8 @@ export default function SM01695({ patient, form }: DataResponse) {
         <table>
           <thead>
             <tr>
-              <th className="w-1/2">CONDITION DE SANTÉ DE L'USAGER</th>
-              <th className="w-1/2">AU BESOIN, PRÉCISEZ</th>
+              <th className="w-[55%]">CONDITION DE SANTÉ DE L'USAGER</th>
+              <th className="">AU BESOIN, PRÉCISEZ</th>
             </tr>
           </thead>
           <tbody>
@@ -298,7 +300,7 @@ export default function SM01695({ patient, form }: DataResponse) {
               <td>
                 <QuestionWithChoices
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   label="Réactions indésirables sédation - Analgésie/anesthésie"
                   className="justify-between"
                 />
@@ -321,7 +323,7 @@ export default function SM01695({ patient, form }: DataResponse) {
               <td>
                 <QuestionWithChoices
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   label="Naïf aux opiacés"
                   className="justify-between"
                 />
@@ -332,7 +334,7 @@ export default function SM01695({ patient, form }: DataResponse) {
               <td>
                 <QuestionWithChoices
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   label="Antécédent d'intubation difficile"
                   className="justify-between"
                 />
@@ -343,7 +345,7 @@ export default function SM01695({ patient, form }: DataResponse) {
               <td>
                 <QuestionWithChoices
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   label="Cou court ou large"
                   className="justify-between"
                 />
@@ -360,7 +362,7 @@ export default function SM01695({ patient, form }: DataResponse) {
               <td>
                 <QuestionWithChoices
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   label="Présence d'obésité"
                   className="justify-between"
                 />
@@ -391,7 +393,7 @@ export default function SM01695({ patient, form }: DataResponse) {
               <td>
                 <QuestionWithChoices
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   label="Orientation dans les 3 sphères"
                   className="justify-between"
                 />
@@ -402,7 +404,7 @@ export default function SM01695({ patient, form }: DataResponse) {
               <td>
                 <QuestionWithChoices
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   label="Problème neurologique"
                   className="justify-between"
                 />
@@ -463,8 +465,8 @@ export default function SM01695({ patient, form }: DataResponse) {
           <QuestionWithInput label="Continuité des soins :" />
           <QuestionWithChoices
             choices={nonOui}
-            type="single"
-            label=" Avisé des constats ci-haut"
+            type="radio"
+            label="Avisé des constats ci-haut"
           />
           <QuestionWithInput label="Signature :" />
           <QuestionWithInput label="Date :" type="date" />

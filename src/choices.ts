@@ -8,7 +8,7 @@ export const examType = [
 
 export const examTypeOther = [
   "",
-  "Ligature de hemeroid",
+  "Ligature hémorroïde(s)",
   "Installation PEG",
   "Anuscopie",
 ];

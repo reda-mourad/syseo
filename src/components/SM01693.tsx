@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { medications, units } from "../choices";
 import type { DataResponse } from "../main";
 import { Choice } from "./choice";
@@ -65,7 +65,7 @@ const criteresConge = [
   },
 ];
 
-export default function SM01693({ patient, form }: DataResponse) {
+export default function SM01693({ patient, form, user }: DataResponse) {
   const data = form.data;
   const [answers, setAnswers] = useState<Record<string, number>>({
     Motricité: Number(data?.Motricité ?? ""),
@@ -78,6 +78,42 @@ export default function SM01693({ patient, form }: DataResponse) {
     (previous, current) => previous + current,
     0
   );
+
+  useEffect(() => {
+    verifications.forEach((v) => {
+      const check = document.querySelector<HTMLInputElement>(
+        `input[name="${v}"]`
+      );
+
+      const init = document.querySelector<HTMLInputElement>(
+        `input[name="${v}_init"]`
+      );
+
+      if (check && init) {
+        check.onchange = (e) => {
+          init.value = (e.target as HTMLInputElement).checked
+            ? user.initiales
+            : "";
+        };
+      }
+    });
+
+    for (let i = 0; i < 8; i++) {
+      const time = document.querySelector<HTMLInputElement>(
+        `input[name="med_${i}_time"]`
+      );
+      const init = document.querySelector<HTMLInputElement>(
+        `input[name="med_${i}_init"]`
+      );
+      if (time && init) {
+        time.onchange = (e) => {
+          init.value = (e.target as HTMLInputElement).value
+            ? user.initiales
+            : "";
+        };
+      }
+    }
+  }, [user]);
 
   return (
     <Form>
@@ -106,7 +142,37 @@ export default function SM01693({ patient, form }: DataResponse) {
               </th>
               {colArr.map((_, i) => (
                 <th key={i}>
-                  <QuestionWithInput name={`time_${i}`} type="time" />
+                  <div className="flex justify-between gap-0.5">
+                    <select
+                      name={`time_${i}_hour`}
+                      className="p-0 max-w-6 text-center appearance-none"
+                    >
+                      {Array(24)
+                        .fill(null)
+                        .map((_, i) => (
+                          <option key={i} value={i}>
+                            {new Intl.NumberFormat(navigator.language, {
+                              minimumIntegerDigits: 2,
+                            }).format(i)}
+                          </option>
+                        ))}
+                    </select>
+                    :
+                    <select
+                      name={`time_${i}_min`}
+                      className="p-0 max-w-6 text-center appearance-none"
+                    >
+                      {Array(60)
+                        .fill(null)
+                        .map((_, i) => (
+                          <option key={i} value={i}>
+                            {new Intl.NumberFormat(navigator.language, {
+                              minimumIntegerDigits: 2,
+                            }).format(i)}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
                 </th>
               ))}
             </tr>
@@ -121,8 +187,14 @@ export default function SM01693({ patient, form }: DataResponse) {
               <td className="w-40">Pression artérielle :</td>
               {colArr.map((_, i) => (
                 <td key={i} className="space-y-1">
-                  <QuestionWithInput name={`press_art_max_${i}`} />
-                  <QuestionWithInput name={`press_art_min_${i}`} />
+                  <QuestionWithInput
+                    name={`press_art_max_${i}`}
+                    type="number"
+                  />
+                  <QuestionWithInput
+                    name={`press_art_min_${i}`}
+                    type="number"
+                  />
                 </td>
               ))}
             </tr>
@@ -130,7 +202,7 @@ export default function SM01693({ patient, form }: DataResponse) {
               <td>Fréquence cardiaque/min. :</td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <QuestionWithInput name={`freq_card_${i}`} />
+                  <QuestionWithInput name={`freq_card_${i}`} type="number" />
                 </td>
               ))}
             </tr>
@@ -142,7 +214,7 @@ export default function SM01693({ patient, form }: DataResponse) {
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <QuestionWithInput name={`freq_resp_${i}`} />
+                  <QuestionWithInput name={`freq_resp_${i}`} type="number" />
                 </td>
               ))}
             </tr>
@@ -183,7 +255,7 @@ export default function SM01693({ patient, form }: DataResponse) {
               <td>Saturation O2 (%)</td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <QuestionWithInput name={`saturation_${i}`} />
+                  <QuestionWithInput name={`saturation_${i}`} type="number" />
                 </td>
               ))}
             </tr>
@@ -191,7 +263,7 @@ export default function SM01693({ patient, form }: DataResponse) {
               <td>EtCO2</td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <QuestionWithInput name={`etco2_${i}`} />
+                  <QuestionWithInput name={`etco2_${i}`} type="number" />
                 </td>
               ))}
             </tr>
@@ -201,7 +273,7 @@ export default function SM01693({ patient, form }: DataResponse) {
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <QuestionWithInput name={`o2_${i}`} />
+                  <QuestionWithInput name={`o2_${i}`} type="number" />
                 </td>
               ))}
             </tr>
@@ -368,13 +440,13 @@ export default function SM01693({ patient, form }: DataResponse) {
                       <QuestionWithChoices
                         choices={units}
                         type="single"
-                        name={`med_${4 + i}_unit`}
+                        name={`med_${i}_unit`}
                       />
                     </div>
                   </td>
                   <td>
                     <QuestionWithInput
-                      name={`med_${4 + i}_init`}
+                      name={`med_${i}_init`}
                       className="w-10"
                     />
                   </td>
@@ -438,9 +510,11 @@ export default function SM01693({ patient, form }: DataResponse) {
           <tbody>
             {verifications.map((v) => (
               <tr key={v}>
-                <td>{v}</td>
                 <td>
-                  <QuestionWithInput name={v} className="w-10" />
+                  <Choice label={v} type="checkbox" />
+                </td>
+                <td>
+                  <QuestionWithInput name={`${v}_init`} className="w-10" />
                 </td>
               </tr>
             ))}

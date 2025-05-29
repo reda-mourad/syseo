@@ -18,15 +18,17 @@ const colArr = Array(9).fill(null);
 
 const colonSite = [
   "",
-  "caecum",
-  "colon asc",
-  "angle hépatique",
-  "colon transverse",
-  "angle splénique",
-  "colon desc",
-  "colon sigmoïde",
-  "rectum",
-  "anus",
+  "Iléon",
+  "Caecum",
+  "Valvule I-C",
+  "Colon ascendant",
+  "Anglé hépatique",
+  "Colon transverse",
+  "Angle splénique",
+  "Colon descendant",
+  "Colon sigmoïde",
+  "Rectum",
+  "Anus",
 ];
 
 interface SM01694Props {
@@ -91,6 +93,37 @@ export default function SM01694({ patient }: SM01694Props) {
               </th>
               {colArr.map((_, i) => (
                 <th key={i}>
+                  {/* <div className="flex justify-between gap-0.5">
+                    <select
+                      name={`time_${i}_hour`}
+                      className="p-0 max-w-6 text-center appearance-none"
+                    >
+                      {Array(24)
+                        .fill(null)
+                        .map((_, i) => (
+                          <option key={i} value={i}>
+                            {new Intl.NumberFormat(navigator.language, {
+                              minimumIntegerDigits: 2,
+                            }).format(i)}
+                          </option>
+                        ))}
+                    </select>
+                    :
+                    <select
+                      name={`time_${i}_min`}
+                      className="p-0 max-w-6 text-center appearance-none"
+                    >
+                      {Array(60)
+                        .fill(null)
+                        .map((_, i) => (
+                          <option key={i} value={i}>
+                            {new Intl.NumberFormat(navigator.language, {
+                              minimumIntegerDigits: 2,
+                            }).format(i)}
+                          </option>
+                        ))}
+                    </select>
+                  </div> */}
                   <QuestionWithInput name={`time_${i}`} type="time" />
                 </th>
               ))}

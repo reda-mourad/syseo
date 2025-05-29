@@ -7,6 +7,7 @@ import "./index.css";
 export interface DataResponse {
   form: { UUID: string; data: Record<string, never> | null; code: string };
   patient: Patient;
+  user: { initiales: string };
 }
 
 declare global {

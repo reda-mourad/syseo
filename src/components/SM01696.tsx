@@ -114,18 +114,19 @@ export default function SM01696({
         <table className="w-full">
           <thead>
             <tr>
-              <th>Antécédents médicaux</th>
-              <th>Précisez</th>
+              <th className="w-1/2">Antécédents médicaux</th>
+              <th className="w-1/2">Précisez</th>
             </tr>
           </thead>
           <tbody>
             {antecedents.map((e) => (
               <tr key={e}>
                 <td>
+                  {/* <Choice label={e} type="checkbox" /> */}
                   <QuestionWithChoices
                     label={e}
                     choices={nonOui}
-                    type="single"
+                    type="radio"
                     className="justify-between"
                   />
                 </td>
