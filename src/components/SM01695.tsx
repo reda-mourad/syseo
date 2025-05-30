@@ -91,7 +91,7 @@ export default function SM01695({ patient, form }: DataResponse) {
           </div>
           <div className="flex gap-4">
             <QuestionWithChoices
-              type="single"
+              type="multiple"
               choices={examType}
               label="Examen :"
             />

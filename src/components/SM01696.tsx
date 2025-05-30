@@ -196,7 +196,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Avez-vous été opéré au ventre ?"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -214,7 +214,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Prenez-vous de l'alcool ?"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -239,7 +239,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Prenez-vous de la drogue ?"
                   choices={[...nonOui, "Occasionellenent"]}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -252,7 +252,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Fumez-vous ?"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -278,7 +278,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Avez-vous une prothèse ou la présence de métal ?"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -315,7 +315,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Êtes-vous enceinte ?"
                   choices={[...nonOui, "Peut-être"]}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -331,7 +331,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Allaitez-vous ?"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -352,7 +352,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Êtes-vous à jeun ?"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -369,7 +369,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Avez- vous respecté une diète liquide hier?"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -380,7 +380,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Avez-vous pris votre préparation intestinale au complet?"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -393,7 +393,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Votre préparation intestinale a-t-elle été efficace?"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -419,7 +419,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Prenez-vous un médicament pour éclaircir le sang?"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -452,7 +452,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="L'avez-vous cessé ?"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -477,7 +477,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Prenez-vous un supplément de fer? "
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -489,7 +489,7 @@ export default function SM01696({
                   label="L'avez-vous cessé ?"
                   name="L'avez-vous cessé ?_2"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -514,7 +514,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Usager diabétique : avez-vous pris votre médication pour le diabète ?"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -531,7 +531,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Avez-vous apporté votre liste de médicament? "
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
@@ -542,7 +542,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   label="Avez-vous eu des changements dans votre médication dans le dernier mois?"
                   choices={nonOui}
-                  type="single"
+                  type="radio"
                   className="justify-between"
                 />
               </td>
