@@ -20,7 +20,7 @@ export function Page({
   return (
     <div
       className={cn(
-        "bg-white p-10 w-[8.5in] h-[11in] printable flex flex-col gap-6 relative",
+        "bg-white p-10 max-w-[8.5in] min-w-[8.5in] w-[8.5in] h-[11in] max-h-[11in] printable flex flex-col gap-6 relative",
         className
       )}
       {...props}

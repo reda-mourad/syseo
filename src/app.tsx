@@ -3,6 +3,7 @@ import SM01693 from "./components/SM01693";
 import SM01694 from "./components/SM01694";
 import SM01695 from "./components/SM01695";
 import SM01696 from "./components/SM01696";
+import SM01741 from "./components/SM01741";
 import type { DataResponse } from "./main";
 
 export function App({ initData }: { initData?: DataResponse }) {
@@ -59,5 +60,6 @@ export function App({ initData }: { initData?: DataResponse }) {
   if (initData?.form?.code === "SM01695") return <SM01695 {...initData} />;
   if (initData?.form?.code === "SM01694") return <SM01694 {...initData} />;
   if (initData?.form?.code === "SM01693") return <SM01693 {...initData} />;
+  if (initData?.form?.code === "SM01741") return <SM01741 {...initData} />;
   return null;
 }

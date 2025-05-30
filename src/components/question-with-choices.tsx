@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { cn } from "../lib/utils";
 import { Choice } from "./choice";
+import { QuestionWithInput } from "./question-with-input";
 
 export interface QuestionWithChoicesProps {
   label?: string;
@@ -9,6 +10,8 @@ export interface QuestionWithChoicesProps {
   type: "single" | "multiple" | "radio";
   className?: string;
   defaultValue?: "";
+  other?: boolean;
+  otherLabel?: string;
 }
 
 export function QuestionWithChoices({
@@ -18,6 +21,8 @@ export function QuestionWithChoices({
   type,
   className,
   defaultValue,
+  other,
+  otherLabel,
 }: QuestionWithChoicesProps) {
   const [selected, setSelected] = useState<string>(defaultValue ?? "");
   if (defaultValue) console.log(defaultValue);
@@ -35,6 +40,12 @@ export function QuestionWithChoices({
               name={`${name || label}_${c}`}
             />
           ))}
+          {other && (
+            <QuestionWithInput
+              label={otherLabel || "Autre"}
+              name={`${label || name} other`}
+            />
+          )}
         </div>
       )}
       {type === "radio" && (
@@ -48,6 +59,18 @@ export function QuestionWithChoices({
               name={`${name || label}`}
             />
           ))}
+
+          {other && (
+            <>
+              <Choice
+                label={otherLabel || "Autre"}
+                value={otherLabel || "Autre"}
+                type="radio"
+                name={`${name || label}`}
+              />
+              <QuestionWithInput name={`${label || name} other`} />
+            </>
+          )}
         </div>
       )}
       {type === "single" && (

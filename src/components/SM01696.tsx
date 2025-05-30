@@ -2,6 +2,7 @@ import { nonOui } from "../choices";
 import type { DataResponse } from "../main";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
+import Heading from "./heading";
 import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
@@ -68,7 +69,7 @@ export default function SM01696({
         className="gap-1"
       >
         <FormHeader code="SM01696" patient={patient} />
-        <h1 className="font-semibold text-3xl text-center">{title}</h1>
+        <Heading level={1}>{title}</Heading>
         <table>
           <thead>
             <tr>
