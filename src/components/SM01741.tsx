@@ -20,7 +20,7 @@ export default function SM01741({ patient }: DataResponse) {
         dossier={patient.dossier}
         className="gap-4"
       >
-        <FormHeader code="SM01696" patient={patient} />
+        <FormHeader code="SM01741" patient={patient} />
         <Heading level={1}>{title}</Heading>
 
         {/* Consentement table */}
