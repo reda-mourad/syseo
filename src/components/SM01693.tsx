@@ -140,7 +140,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
     }
   }
 
-  const medNumCols = colArr.length;
+ /* const medNumCols = colArr.length;
   const medTableRows = [
     "time",
     "versed",
@@ -188,7 +188,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
       }
       focusMedCell(nextCol, nextRow);
     }
-  }
+  }*/
 
   useEffect(() => {
     verifications.forEach((v) => {
