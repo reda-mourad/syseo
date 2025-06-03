@@ -134,16 +134,12 @@ export default function SM01695({ patient, form }: DataResponse) {
                     <span>TA :</span>
                     <QuestionWithInput
                       type="number"
-                      
-                      
                       name="ta_min"
                       className="w-20"
                     />
                     /
                     <QuestionWithInput
                       type="number"
-                      
-                      
                       name="ta_max"
                       className="w-20"
                     />
@@ -154,8 +150,6 @@ export default function SM01695({ patient, form }: DataResponse) {
                     <span>Fréq. Card :</span>
                     <QuestionWithInput
                       type="number"
-                      
-                      
                       name="freq_card"
                       className="w-28"
                     />
@@ -167,8 +161,6 @@ export default function SM01695({ patient, form }: DataResponse) {
                     <span>Fréq. Resp :</span>
                     <QuestionWithInput
                       type="number"
-                      
-                      
                       name="freq_resp"
                       className="w-28"
                     />
@@ -182,8 +174,6 @@ export default function SM01695({ patient, form }: DataResponse) {
                     <span>Sat (O2):</span>
                     <QuestionWithInput
                       type="number"
-                      
-                      
                       name="sat"
                       className="w-32"
                     />
@@ -197,12 +187,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                 </td>
                 <td>
                   <div className="flex justify-between items-center gap-2">
-                    <QuestionWithInput
-                      type="number"
-                      
-                      
-                      label="Glycémie cap :"
-                    />
+                    <QuestionWithInput type="number" label="Glycémie cap :" />
                     mmol/l
                   </div>
                 </td>
@@ -389,8 +374,6 @@ export default function SM01695({ patient, form }: DataResponse) {
                 <QuestionWithInput
                   label="cm :"
                   type="number"
-                  
-                  
                   className="max-w-20"
                 />
               </td>
@@ -408,16 +391,12 @@ export default function SM01695({ patient, form }: DataResponse) {
                 <div className="flex gap-2 mt-2">
                   <QuestionWithInput
                     type="number"
-                    
-                    
                     label="Poids (kg)"
                     onChange={(e) => setPoids(Number(e.target.value))}
                     value={poids || ""}
                   />
                   <QuestionWithInput
                     type="number"
-                    
-                    
                     label="Taille (cm)"
                     onChange={(e) => setTaille(Number(e.target.value))}
                     value={taille || ""}
@@ -505,6 +484,9 @@ export default function SM01695({ patient, form }: DataResponse) {
             id="notes"
             maxLength={500}
             className="overflow-hidden"
+            defaultValue={`Enseignement fait à l'usager
+              Questions répondues
+              Usager prêt pour l'examen`}
           />
         </fieldset>
         <div className="gap-4 grid grid-cols-2">

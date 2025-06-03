@@ -612,7 +612,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
         </table>
       </Page>
       <Page dossier={patient.dossier} index={2} total={3} title={title}>
-        <table className="text-[.5rem]">
+        {/* <table className="text-[.5rem]">
           <thead>
             <tr>
               <th colSpan={11}>MÉDICAMENT(S)</th>
@@ -698,6 +698,67 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                 </td>
               ))}
             </tr>
+          </tbody>
+        </table> */}
+        <table>
+          <thead>
+            <tr>
+              <th colSpan={3}>MÉDICAMENT(S)</th>
+            </tr>
+            <tr>
+              <th>Heure</th>
+              <th className="w-full">Rx (nom, dose voie d'adm.)</th>
+              <th>Initiales</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array(8)
+              .fill(null)
+              .map((_, i) => (
+                <tr key={i}>
+                  <td>
+                    <QuestionWithInput
+                      name={`med_${i}_time`}
+                      type="time"
+                      className="min-w-24"
+                      onChange={(e) => {
+                        const initEl = document.querySelector<HTMLInputElement>(
+                          `input[name="med_${i}_init"]`
+                        );
+                        const time = e.currentTarget.value;
+                        if (initEl) {
+                          initEl.value = time ? user.initiales : "";
+                        }
+                      }}
+                    />
+                  </td>
+                  <td>
+                    <div className="flex gap-3">
+                      <QuestionWithChoices
+                        choices={medications}
+                        type="single"
+                        name={`med_${i}_name`}
+                      />
+                      <QuestionWithInput
+                        name={`med_${i}_dose`}
+                        type="number"
+                        className="max-w-16"
+                      />
+                      <QuestionWithChoices
+                        choices={units}
+                        type="single"
+                        name={`med_${i}_unit`}
+                      />
+                    </div>
+                  </td>
+                  <td>
+                    <QuestionWithInput
+                      name={`med_${i}_init`}
+                      className="w-10"
+                    />
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
         <table>
