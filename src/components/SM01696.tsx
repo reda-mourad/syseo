@@ -202,8 +202,7 @@ export default function SM01696({
             <tr>
               <td>
                 <QuestionWithChoices
-                  label="Blessure récente à la tê
-                  te"
+                  label="Blessure récente à la tête"
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
