@@ -1,82 +1,87 @@
-@import 'tailwindcss';
-
+@import "tailwindcss";
 
 @font-face {
-    font-family: 'Main-Font';
-    src: url('/bahnschrift.ttf') format('truetype');
+  font-family: "Main-Font";
+  src: url("/bahnschrift.ttf") format("truetype");
 }
 
 :root {
-    --font-sans: 'Main-Font';
-
-
+  --font-sans: "Main-Font";
 }
 
 table td,
 table th {
-    @apply p-1 border;
+  @apply p-1 border;
 }
 
 table th {
-    @apply font-bold uppercase;
+  @apply font-bold uppercase;
 }
 
 @media print {
+  * {
+    print-color-adjust: exact;
+  }
 
-    * {
-        print-color-adjust: exact;
-    }
+  @page {
+    margin: 0;
+  }
 
+  body * {
+    visibility: hidden;
+  }
 
-    @page {
-        margin: 0;
-    }
+  .printable,
+  .printable * {
+    visibility: visible;
+  }
 
-    body * {
-        visibility: hidden;
-    }
-
-    .printable,
-    .printable * {
-        visibility: visible;
-    }
-
-    .printable {
-        /* position: absolute; */
-        /* top: 0; */
-        /* left: 0; */
-    }
-
+  .printable {
+    /* position: absolute; */
+    /* top: 0; */
+    /* left: 0; */
+  }
 }
 
 table th {
-    @apply bg-gray-200
+  @apply bg-gray-200;
 }
 
 input {
-    accent-color: oklch(70.2% 0.183 293.541);
+  accent-color: oklch(70.2% 0.183 293.541);
 }
 
 select {
-    @apply focus:bg-violet-100 px-1 border border-gray-400 rounded;
+  @apply focus:bg-violet-100 px-0.5 border border-gray-400 rounded;
 }
 
-
 textarea {
-    @apply focus:bg-violet-100 px-2 py-1 border border-gray-400 rounded h-40 resize-none;
+  @apply focus:bg-violet-100 px-2 py-1 border border-gray-400 rounded h-40 resize-none;
 }
 
 button {
-    @apply h-4;
+  @apply h-4;
 }
 
 /* Hide the time picker icon in input[type="time"] */
-input[type="time"]::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
+.hide-time-btn::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
 }
 
 /* For Firefox */
-input[type="time"] {
-    -moz-appearance: textfield;
+.hide-time-btn {
+  -moz-appearance: textfield;
+}
+
+/* For Chrome, Edge, and Safari */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

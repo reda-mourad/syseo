@@ -1,5 +1,6 @@
 import { nonOui } from "../choices";
 import type { DataResponse } from "../main";
+import { Choice } from "./choice";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
 import Heading from "./heading";
@@ -40,19 +41,6 @@ const allergies = [
   "SUBSTANCE DE CONTRASTE: IMAGERIE RADIOLOGIE",
   "SULFAMIDES -type non spécifique",
 ];
-const antecedents = [
-  "Problèmes cardiaques",
-  "Problèmes respiratoire",
-  "Problèmes digestifs",
-  "Homme : problème de prostate",
-  "Pression artérielle élevée ",
-  "Maladie du foie ",
-  "Problème rénal",
-  "Blessure récente à la tête",
-  "Glaucome",
-  "Diabète",
-  "Autre",
-];
 
 export default function SM01696({
   patient,
@@ -66,7 +54,7 @@ export default function SM01696({
         total={2}
         title={title}
         dossier={patient.dossier}
-        className="gap-1"
+        className="gap-2"
       >
         <FormHeader code="SM01696" patient={patient} />
         <Heading level={1}>{title}</Heading>
@@ -87,7 +75,7 @@ export default function SM01696({
             </tr>
             <tr>
               <td>
-                <QuestionWithInput label="Accompagnateur :" />
+                <QuestionWithInput label="Nom et prénom de l'accompagnateur :" />
               </td>
               <td>
                 <QuestionWithInput label="Lien avec l'usager :" />
@@ -115,27 +103,183 @@ export default function SM01696({
         <table className="w-full">
           <thead>
             <tr>
-              <th className="w-1/2">Antécédents médicaux</th>
-              <th className="w-1/2">Précisez</th>
+              <th className="w-[40%]">Antécédents médicaux</th>
+              <th className="w-[60%]">Précisez</th>
             </tr>
           </thead>
           <tbody>
-            {antecedents.map((e) => (
-              <tr key={e}>
-                <td>
-                  {/* <Choice label={e} type="checkbox" /> */}
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  label="Problèmes cardiaques"
+                  choices={nonOui}
+                  type="radio"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <QuestionWithInput name="Problèmes cardiaques_details" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  label="Problèmes respiratoires"
+                  choices={nonOui}
+                  type="radio"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <QuestionWithInput name="Problèmes respiratoires_details" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  label="Problèmes digestifs"
+                  choices={nonOui}
+                  type="radio"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <QuestionWithInput name="Problèmes digestifs_details" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  label="Homme : problème de prostate"
+                  choices={nonOui}
+                  type="radio"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <QuestionWithInput name="Homme : problème de prostate_details" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  label="Pression artérielle élevée "
+                  choices={nonOui}
+                  type="radio"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <QuestionWithInput name="Pression artérielle élevée _details" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  label="Maladie du foie "
+                  choices={nonOui}
+                  type="radio"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <QuestionWithInput name="Maladie du foie _details" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  label="Problème rénal"
+                  choices={nonOui}
+                  type="radio"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <QuestionWithInput name="Problème rénal_details" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  label="Blessure récente à la tê
+                  te"
+                  choices={nonOui}
+                  type="radio"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <div className="flex gap-2">
+                  <QuestionWithInput
+                    name="Blessure récente à la tête date"
+                    label="Date approximative :"
+                    type="date"
+                  />
+                  <QuestionWithInput
+                    name="Blessure récente à la tête details"
+                    label="Details"
+                    maxLength={25}
+                  />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  label="Glaucome"
+                  choices={nonOui}
+                  type="radio"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <QuestionWithInput name="Glaucome_details" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div className="flex justify-between items-center gap-2">
+                  <div className="flex items-center gap-2">
+                    <label>Diabète</label>
+                    <QuestionWithChoices
+                      choices={["", "Type 1", "Type 2"]}
+                      type="single"
+                      name="Diabète type"
+                    />
+                  </div>
                   <QuestionWithChoices
-                    label={e}
+                    name="Diabète"
                     choices={nonOui}
                     type="radio"
                     className="justify-between"
                   />
-                </td>
-                <td>
-                  <QuestionWithInput name={`${e}_details`} />
-                </td>
-              </tr>
-            ))}
+                </div>
+              </td>
+              <td>
+                <div className="flex items-center gap-1">
+                  <QuestionWithInput
+                    name="Diabète_details"
+                    label="Résultat de votre glycémie ce matin :"
+                    type="number"
+                  />
+                  <span>mmol/L</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <QuestionWithChoices
+                  label="Autre"
+                  choices={nonOui}
+                  type="radio"
+                  className="justify-between"
+                />
+              </td>
+              <td>
+                <QuestionWithInput name="Autre_details" />
+              </td>
+            </tr>
           </tbody>
         </table>
         <table>
@@ -158,9 +302,8 @@ export default function SM01696({
                     />
                   </td>
                   <td>
-                    <QuestionWithChoices
-                      name={`reaction_${i}`}
-                      choices={[
+                    <div className="grid grid-cols-3">
+                      {[
                         "nausées",
                         "vomissements",
                         "délirium",
@@ -169,12 +312,19 @@ export default function SM01696({
                         "arythmie",
                         "choc",
                         "rougeur faciale",
-                      ]}
-                      type="multiple"
-                    />
+                      ].map((e) => (
+                        <Choice
+                          key={e}
+                          label={e}
+                          type="checkbox"
+                          name={`${e} ${i}`}
+                        />
+                      ))}
+                    </div>
                     <QuestionWithInput
                       label="Autre :"
                       name={`reaction_${i}_autre`}
+                      maxLength={40}
                     />
                   </td>
                 </tr>
@@ -282,7 +432,7 @@ export default function SM01696({
                   className="justify-between"
                 />
               </td>
-              <td>
+              <td className="space-y-2">
                 <QuestionWithChoices
                   name="Avez-vous une prothèse ou la présence de métal ?_details"
                   choices={[
@@ -298,6 +448,7 @@ export default function SM01696({
                     "Prothèse genou",
                   ]}
                   type="multiple"
+                  columns={3}
                 />
                 <QuestionWithInput
                   label="Autre :"
@@ -367,7 +518,7 @@ export default function SM01696({
             <tr>
               <td>
                 <QuestionWithChoices
-                  label="Avez- vous respecté une diète liquide hier?"
+                  label="Avez-vous respecté une diète liquide hier?"
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
@@ -424,12 +575,12 @@ export default function SM01696({
                 />
               </td>
               <td>
+                <Choice label="Aspirine" type="checkbox" />
                 <QuestionWithChoices
                   name="Prenez-vous un médicament pour éclaircir le sang?_details"
                   choices={[
                     "Coumadin",
-                    "Triaclid",
-                    "Aspirine",
+                    "Ticlid",
                     "Sintrom",
                     "Eliquis",
                     "Héparine",
@@ -439,7 +590,8 @@ export default function SM01696({
                     "Xarelto",
                     "Plavix",
                   ]}
-                  type="multiple"
+                  type="radio"
+                  columns={5}
                 />
                 <QuestionWithInput
                   name="Prenez-vous un médicament pour éclaircir le sang?_other"
@@ -522,7 +674,7 @@ export default function SM01696({
                 <QuestionWithChoices
                   choices={["ADO", "Insuline"]}
                   type="multiple"
-                  label="Si oui, quel(s) médicament(s) avez-vous pris ? "
+                  label="Si oui, lequel(s) ?"
                 />
               </td>
             </tr>

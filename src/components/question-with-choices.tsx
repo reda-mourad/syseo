@@ -12,6 +12,8 @@ export interface QuestionWithChoicesProps {
   defaultValue?: "";
   other?: boolean;
   otherLabel?: string;
+  columns?: number;
+  onSelect?: (value: string) => void;
 }
 
 export function QuestionWithChoices({
@@ -23,15 +25,22 @@ export function QuestionWithChoices({
   defaultValue,
   other,
   otherLabel,
+  columns,
+  onSelect,
 }: QuestionWithChoicesProps) {
   const [selected, setSelected] = useState<string>(defaultValue ?? "");
-  if (defaultValue) console.log(defaultValue);
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
       {label && <span className="">{label}</span>}
       {type === "multiple" && (
-        <div className="flex flex-wrap items-center space-x-2">
+        <div
+          className={cn(
+            columns
+              ? `grid grid-cols-${columns} gap-1 w-full`
+              : "flex flex-wrap items-center space-x-2"
+          )}
+        >
           {choices.map((c) => (
             <Choice
               key={c}
@@ -77,7 +86,12 @@ export function QuestionWithChoices({
         <select
           name={name || label}
           value={selected}
-          onChange={(e) => setSelected(e.target.value)}
+          onChange={(e) => {
+            if (onSelect) {
+              onSelect(e.currentTarget.value);
+            }
+            setSelected(e.target.value);
+          }}
         >
           {choices.map((c) => (
             <option key={c} value={c}>

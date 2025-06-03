@@ -1,3 +1,4 @@
+import React, { useEffect, useRef } from "react";
 import { examType, examTypeOther, medications, units } from "../choices";
 import type { DataResponse } from "../main";
 import { Choice } from "./choice";
@@ -14,7 +15,7 @@ const verticalCellStyle: React.CSSProperties = {
   writingMode: "vertical-rl",
   transform: "rotate(180deg)",
 };
-const colArr = Array(9).fill(null);
+const colArr = Array.from({ length: 8 });
 
 const colonSite = [
   "",
@@ -31,11 +32,128 @@ const colonSite = [
   "Anus",
 ];
 
-interface SM01694Props {
-  patient: DataResponse["patient"];
-}
+export default function SM01694({ patient, user }: DataResponse) {
+  useEffect(() => {
+    document
+      .querySelectorAll('select[name^="prelevement flacon"]')
+      .forEach((el) => {
+        (el as HTMLSelectElement).onchange = () => {
+          // console.log("flacon `");
+        };
+      });
+  }, []);
 
-export default function SM01694({ patient }: SM01694Props) {
+  const numCols = colArr.length;
+  const tableRows = [
+    "time",
+    "press_art",
+    "freq_card",
+    "freq_resp",
+    "ampl_resp",
+    "ronflement",
+    "saturation",
+    "etco2",
+    "o2",
+    "monitoring",
+    "sedation",
+    "dlr",
+    "sueur",
+    "autre",
+    "initiales",
+  ];
+
+  const tableRefs = useRef(
+    Array.from({ length: numCols }, () =>
+      Array.from({ length: 15 }, () =>
+        React.createRef<HTMLInputElement | HTMLSelectElement>()
+      )
+    )
+  );
+
+  function focusCell(col: number, row: number) {
+    const ref = tableRefs.current[col]?.[row];
+    if (ref && ref.current) {
+      ref.current.focus();
+    }
+  }
+
+  function handleTableKeyDown(
+    e: React.KeyboardEvent,
+    col: number,
+    row: number
+  ) {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      let nextCol = col;
+      let nextRow = row + (e.shiftKey ? -1 : 1);
+      if (nextRow >= tableRows.length) {
+        nextRow = 0;
+        nextCol = col + 1;
+      }
+      if (nextRow < 0) {
+        nextCol = col - 1;
+        nextRow = tableRows.length - 1;
+      }
+      if (nextCol >= numCols) {
+        return;
+      }
+      if (nextCol < 0) {
+        return;
+      }
+      focusCell(nextCol, nextRow);
+    }
+  }
+
+  const medNumCols = colArr.length;
+  const medTableRows = [
+    "time",
+    "versed",
+    "fentanyl",
+    "naci",
+    "xylo",
+    "other1",
+    "other2",
+    "init",
+  ];
+  const medTableRefs = useRef(
+    Array.from({ length: medNumCols }, () =>
+      Array.from({ length: medTableRows.length }, () =>
+        React.createRef<HTMLInputElement | HTMLSelectElement>()
+      )
+    )
+  );
+
+  function focusMedCell(col: number, row: number) {
+    const ref = medTableRefs.current[col]?.[row];
+    if (ref && ref.current) {
+      ref.current.focus();
+    }
+  }
+
+  function handleMedTableKeyDown(
+    e: React.KeyboardEvent,
+    col: number,
+    row: number
+  ) {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      let nextCol = col;
+      let nextRow = row + (e.shiftKey ? -1 : 1);
+      if (nextRow >= medTableRows.length) {
+        nextRow = 0;
+        nextCol = col + 1;
+      }
+      if (nextRow < 0) {
+        nextCol = col - 1;
+        nextRow = medTableRows.length - 1;
+      }
+      if (nextCol >= medNumCols || nextCol < 0) {
+        return;
+      }
+      focusMedCell(nextCol, nextRow);
+    }
+  }
+
   return (
     <Form>
       <Page
@@ -68,7 +186,12 @@ export default function SM01694({ patient }: SM01694Props) {
           />
           <div className="flex items-center gap-1">
             <QuestionWithChoices
-              choices={["", "domicile", "unité de soins"]}
+              choices={[
+                "",
+                "domicile",
+                "unité de soins",
+                "autre établissement",
+              ]}
               type="single"
               label="Provenance :"
             />
@@ -76,11 +199,15 @@ export default function SM01694({ patient }: SM01694Props) {
           </div>
         </div>
         <div className="flex gap-4">
-          <QuestionWithInput label="Heure d'entrée" type="time" />
+          <QuestionWithInput
+            label="Heure d'entrée"
+            type="time"
+            className="appearance-auto"
+          />
           <QuestionWithInput label="Heure de début" type="time" />
           <QuestionWithInput label="Heure de fin" type="time" />
         </div>
-        <table className="text-[.57rem]">
+        <table className="text-[.55rem]">
           <thead>
             <tr>
               <th colSpan={2 + colArr.length}>PARAMÈTRES ÉVALUÉS</th>
@@ -88,59 +215,51 @@ export default function SM01694({ patient }: SM01694Props) {
           </thead>
           <tbody>
             <tr>
-              <th colSpan={2} className="text-right">
+              <th colSpan={2} className="min-w-48 max-w-48 text-right">
                 Heure :
               </th>
               {colArr.map((_, i) => (
                 <th key={i}>
-                  {/* <div className="flex justify-between gap-0.5">
-                    <select
-                      name={`time_${i}_hour`}
-                      className="p-0 max-w-6 text-center appearance-none"
-                    >
-                      {Array(24)
-                        .fill(null)
-                        .map((_, i) => (
-                          <option key={i} value={i}>
-                            {new Intl.NumberFormat(navigator.language, {
-                              minimumIntegerDigits: 2,
-                            }).format(i)}
-                          </option>
-                        ))}
-                    </select>
-                    :
-                    <select
-                      name={`time_${i}_min`}
-                      className="p-0 max-w-6 text-center appearance-none"
-                    >
-                      {Array(60)
-                        .fill(null)
-                        .map((_, i) => (
-                          <option key={i} value={i}>
-                            {new Intl.NumberFormat(navigator.language, {
-                              minimumIntegerDigits: 2,
-                            }).format(i)}
-                          </option>
-                        ))}
-                    </select>
-                  </div> */}
-                  <QuestionWithInput name={`time_${i}`} type="time" />
+                  <QuestionWithInput
+                    name={`time_${i}`}
+                    type="time"
+                    // className="hide-time-btn"
+                    ref={tableRefs.current[i][0] as React.Ref<HTMLInputElement>}
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 0)}
+                    onChange={() => {
+                      const initEl = document.querySelector<HTMLInputElement>(
+                        `input[name="initiales_${i}"]`
+                      );
+                      if (initEl) {
+                        initEl.value = user.initiales;
+                      }
+                    }}
+                  />
                 </th>
               ))}
             </tr>
             <tr>
-              <th
-                rowSpan={8}
-                style={verticalCellStyle}
-                className="w-10 max-w-10"
-              >
+              <th rowSpan={8} style={verticalCellStyle}>
                 signes vitaux et état respiratoire
               </th>
-              <td className="w-80">Pression artérielle :</td>
+              <td>Pression artérielle :</td>
               {colArr.map((_, i) => (
                 <td key={i} className="space-y-1">
-                  <QuestionWithInput name={`press_art_max_${i}`} />
-                  <QuestionWithInput name={`press_art_min_${i}`} />
+                  <QuestionWithInput
+                    name={`press_art_max_${i}`}
+                    type="number"
+                    ref={tableRefs.current[i][1] as React.Ref<HTMLInputElement>}
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 1)}
+                  />
+                  <QuestionWithInput
+                    name={`press_art_min_${i}`}
+                    type="number"
+                    ref={tableRefs.current[i][2] as React.Ref<HTMLInputElement>}
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 2)}
+                  />
                 </td>
               ))}
             </tr>
@@ -148,7 +267,13 @@ export default function SM01694({ patient }: SM01694Props) {
               <td>Fréquence cardiaque/min. :</td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <QuestionWithInput name={`freq_card_${i}`} />
+                  <QuestionWithInput
+                    name={`freq_card_${i}`}
+                    type="number"
+                    ref={tableRefs.current[i][3] as React.Ref<HTMLInputElement>}
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 3)}
+                  />
                 </td>
               ))}
             </tr>
@@ -160,19 +285,41 @@ export default function SM01694({ patient }: SM01694Props) {
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <QuestionWithInput name={`freq_resp_${i}`} />
+                  <select
+                    name={`freq_resp_${i}`}
+                    ref={
+                      tableRefs.current[i][4] as React.Ref<HTMLSelectElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 4)}
+                  >
+                    {["", "IRR", "PR"].map((e) => (
+                      <option key={e} value={e}>
+                        {e}
+                      </option>
+                    ))}
+                  </select>
                 </td>
               ))}
             </tr>
             <tr>
               <td>
                 Amplitude respiratoire <br />
-                <b>P :</b> profonde <b>N :</b> normale <b>S :</b> superficielle
+                <b>N :</b> normale <b>P :</b> profonde <b>S :</b> superficielle
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <select name={`ampl_resp_${i}`} className="w-full">
-                    {["P", "N", "S"].map((e) => (
+                  <select
+                    name={`ampl_resp_${i}`}
+                    className="w-full"
+                    ref={
+                      tableRefs.current[i][5] as React.Ref<HTMLSelectElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 5)}
+                    defaultValue={i < 4 ? "N" : ""}
+                  >
+                    {["", "N", "P", "S"].map((e) => (
                       <option key={e} value={e}>
                         {e}
                       </option>
@@ -187,8 +334,17 @@ export default function SM01694({ patient }: SM01694Props) {
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <select name={`ronflement_${i}`} className="w-full">
-                    {["O", "N"].map((e) => (
+                  <select
+                    name={`ronflement_${i}`}
+                    className="w-full"
+                    ref={
+                      tableRefs.current[i][6] as React.Ref<HTMLSelectElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 6)}
+                    defaultValue={i < 4 ? "N" : ""}
+                  >
+                    {["", "O", "N"].map((e) => (
                       <option key={e} value={e}>
                         {e}
                       </option>
@@ -201,7 +357,13 @@ export default function SM01694({ patient }: SM01694Props) {
               <td>Saturation O2 (%)</td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <QuestionWithInput name={`saturation_${i}`} />
+                  <QuestionWithInput
+                    name={`saturation_${i}`}
+                    type="number"
+                    ref={tableRefs.current[i][7] as React.Ref<HTMLInputElement>}
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 7)}
+                  />
                 </td>
               ))}
             </tr>
@@ -209,17 +371,34 @@ export default function SM01694({ patient }: SM01694Props) {
               <td>EtCO2</td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <QuestionWithInput name={`etco2_${i}`} />
+                  <QuestionWithInput
+                    name={`etco2_${i}`}
+                    type="number"
+                    ref={tableRefs.current[i][8] as React.Ref<HTMLInputElement>}
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 8)}
+                  />
                 </td>
               ))}
             </tr>
             <tr>
-              <td>
-                O2 Lunette nasal (litres/min.) /<br /> Ventimasque (% O2)
+              <td className="space-y-0.5">
+                <Choice
+                  label="O2 Lunette nasal (litres/min.) /"
+                  type="checkbox"
+                />
+                <Choice label="Ventimasque (% O2)" type="checkbox" />
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <QuestionWithInput name={`o2_${i}`} />
+                  <QuestionWithInput
+                    name={`o2_${i}`}
+                    type="number"
+                    ref={tableRefs.current[i][9] as React.Ref<HTMLInputElement>}
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 9)}
+                    initValue={i < 4 ? "2" : ""}
+                  />
                 </td>
               ))}
             </tr>
@@ -228,32 +407,45 @@ export default function SM01694({ patient }: SM01694Props) {
                 monitoring
                 <br /> cardiaque
               </th>
-              <td>
-                <ul>
-                  <li>1. Rythme sinusal</li>
-                  <li>2 : Fibrilation auriculaire</li>
-                  <li>3 : Flutter auriculaire</li>
-                  <li>
-                    <QuestionWithInput label="4 : Bloc AV degré" />
-                  </li>
-                  <li>
-                    <QuestionWithInput label="5 : ESV" />
-                  </li>
-                  <li>
-                    <QuestionWithInput label="6 : Autre" />
-                  </li>
-                </ul>
+              <td className="space-y-1">
+                <div className="col-span-3">1. Rythme sinusal</div>
+                <div className="col-span-3">2 : Fibrilation auriculaire</div>
+                <div className="col-span-3">3 : Flutter auriculaire</div>
+                <div className="flex items-center">
+                  <span className="w-28">4 : Bloc AV degré</span>
+                  <QuestionWithInput name="4 : Bloc AV degré" />
+                </div>
+                <div className="flex items-center">
+                  <span className="w-28">5 : ESV</span>
+                  <QuestionWithInput name="5 : ESV" />
+                </div>
+                <div className="flex items-center">
+                  <span className="w-28">6 : Autre</span>
+                  <QuestionWithInput name="6 : Autre" />
+                </div>
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <select name={`ronflement_${i}`} className="w-full">
-                    {Array(6)
-                      .fill(null)
-                      .map((_, i) => (
-                        <option key={i} value={i + 1}>
-                          {i + 1}
-                        </option>
-                      ))}
+                  <select
+                    name={`monitoring_${i}`}
+                    className="w-full"
+                    ref={
+                      tableRefs.current[i][10] as React.Ref<HTMLSelectElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 10)}
+                    defaultValue={i < 4 ? "1" : ""}
+                  >
+                    <option value=""></option>
+                    {[
+                      Array(6)
+                        .fill(null)
+                        .map((_, i) => (
+                          <option key={i} value={i + 1}>
+                            {i + 1}
+                          </option>
+                        )),
+                    ]}
                   </select>
                 </td>
               ))}
@@ -274,8 +466,17 @@ export default function SM01694({ patient }: SM01694Props) {
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <select name={`sedation_${i}`} className="w-full">
-                    {["S", "0", "1", "2", "3"].map((e) => (
+                  <select
+                    name={`sedation_${i}`}
+                    className="w-full"
+                    ref={
+                      tableRefs.current[i][11] as React.Ref<HTMLSelectElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 11)}
+                    defaultValue={i === 0 ? "0" : i < 4 ? "S" : ""}
+                  >
+                    {["", "S", "0", "1", "2", "3"].map((e) => (
                       <option key={e} value={e}>
                         {e}
                       </option>
@@ -293,7 +494,17 @@ export default function SM01694({ patient }: SM01694Props) {
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <select name={`dlr_${i}`} className="w-full">
+                  <select
+                    name={`dlr_${i}`}
+                    className="w-full"
+                    ref={
+                      tableRefs.current[i][12] as React.Ref<HTMLSelectElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 12)}
+                    defaultValue={i < 4 ? "0" : ""}
+                  >
+                    <option value=""></option>
                     {Array(11)
                       .fill(null)
                       .map((_, i) => (
@@ -311,13 +522,26 @@ export default function SM01694({ patient }: SM01694Props) {
                 <br /> PARAMÈTRES
               </th>
               <td>
-                S : Sueurs N : Nausée
-                <br />V : Vomissement Ø : aucun
+                <div className="grid grid-cols-2">
+                  <span>S : Sueurs</span>
+                  <span>N : Nausée</span>
+                  <span>V : Vomissement</span>
+                  <span>Ø : aucun</span>
+                </div>
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <select name={`sueur_${i}`} className="w-full">
-                    {["S", "N", "V", "Ø"].map((e) => (
+                  <select
+                    name={`sueur_${i}`}
+                    className="w-full"
+                    ref={
+                      tableRefs.current[i][13] as React.Ref<HTMLSelectElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 13)}
+                    defaultValue={i < 4 ? "Ø" : ""}
+                  >
+                    {["", "S", "N", "V", "Ø"].map((e) => (
                       <option key={e} value={e}>
                         {e}
                       </option>
@@ -328,11 +552,18 @@ export default function SM01694({ patient }: SM01694Props) {
             </tr>
             <tr>
               <td>
-                <QuestionWithInput label="Autre :" />
+                <QuestionWithInput label="Autres Paramètres :" />
               </td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <QuestionWithInput name={`other_${i}`} />
+                  <QuestionWithInput
+                    name={`other_${i}`}
+                    ref={
+                      tableRefs.current[i][14] as React.Ref<HTMLInputElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleTableKeyDown(e, i, 14)}
+                  />
                 </td>
               ))}
             </tr>
@@ -354,141 +585,173 @@ export default function SM01694({ patient }: SM01694Props) {
         title={title}
         className="gap-2"
       >
-        <div className="flex gap-2">
-          <table className="w-full">
-            <thead>
-              <tr>
-                <th colSpan={3}>MÉDICAMENT(S)</th>
-              </tr>
-              <tr>
-                <th className="min-w-24">Heure</th>
-                <th className="w-full">Rx (nom, dose voie d'adm.)</th>
-                <th className="min-w-20">Initiales</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
+        <table className="text-[.5rem]">
+          <thead>
+            <tr>
+              <th colSpan={11}>MÉDICAMENT(S)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th colSpan={2}>Heure</th>
+              {colArr.map((_, i) => (
+                <th key={i}>
                   <QuestionWithInput
-                    name="med_1_time"
+                    name={`med time ${i}`}
                     type="time"
-                    className="w-18"
+                    ref={
+                      medTableRefs.current[i][0] as React.Ref<HTMLInputElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleMedTableKeyDown(e, i, 0)}
+                    onChange={() => {
+                      const initEl = document.querySelector<HTMLInputElement>(
+                        `input[name="med init ${i}"]`
+                      );
+                      if (initEl) {
+                        initEl.value = user.initiales;
+                      }
+                    }}
+                  />
+                </th>
+              ))}
+            </tr>
+            <tr>
+              <th rowSpan={6} style={verticalCellStyle}>
+                Rx (nom, dose voie d'adm.)
+              </th>
+              <th>VERSED (Mg I.V.)</th>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <QuestionWithInput
+                    name={`VERSED ${i}`}
+                    type="number"
+                    min={1}
+                    ref={
+                      medTableRefs.current[i][1] as React.Ref<HTMLInputElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleMedTableKeyDown(e, i, 1)}
                   />
                 </td>
-                <td>
-                  <div className="flex gap-1">
-                    <QuestionWithInput label="VERSED" className="w-10" />
-                    Mg I.V.
-                  </div>
-                </td>
-                <td>
-                  <QuestionWithInput name="med_1_init" className="w-10" />
-                </td>
-              </tr>
-              <tr>
-                <td>
+              ))}
+            </tr>
+            <tr>
+              <th>FENTANYL (mcg I.V.)</th>
+              {colArr.map((_, i) => (
+                <td key={i}>
                   <QuestionWithInput
-                    name="med_2_time"
-                    type="time"
-                    className="w-18"
+                    name={`FENTANYL ${i}`}
+                    type="number"
+                    min={1}
+                    ref={
+                      medTableRefs.current[i][2] as React.Ref<HTMLInputElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleMedTableKeyDown(e, i, 2)}
                   />
                 </td>
-                <td>
-                  <div className="flex gap-1">
-                    <QuestionWithInput label="FENTANYL" className="w-10" />
-                    mcg I.V.
-                  </div>
-                </td>
-                <td>
-                  <QuestionWithInput name="med_2_init" className="w-10" />
-                </td>
-              </tr>
-              <tr>
-                <td>
+              ))}
+            </tr>
+            <tr>
+              <th>NaCI 0.9% (ml I.V.)</th>
+              {colArr.map((_, i) => (
+                <td key={i}>
                   <QuestionWithInput
-                    name="med_3_time"
-                    type="time"
-                    className="min-w-24"
+                    name={`NaCI ${i}`}
+                    type="number"
+                    min={1}
+                    ref={
+                      medTableRefs.current[i][3] as React.Ref<HTMLInputElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleMedTableKeyDown(e, i, 3)}
                   />
                 </td>
-                <td>
-                  <div className="flex items-center gap-2">
-                    <span>NaCI 0.9%</span>
-                    <select name="nacl_dose">
-                      {["", 10, 20, 500, 1000].map((e) => (
-                        <option key={e} value={e}>
-                          {e}
+              ))}
+            </tr>
+            <tr>
+              <th>XYLO SPRAY (Nb de puff)</th>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <select
+                    name={`XYLO SPRAY ${i}`}
+                    className="w-full"
+                    ref={
+                      medTableRefs.current[i][4] as React.Ref<HTMLSelectElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleMedTableKeyDown(e, i, 4)}
+                  >
+                    <option value=""></option>
+                    {Array(11)
+                      .fill(null)
+                      .map((_, i) => (
+                        <option key={i} value={i}>
+                          {i}
                         </option>
                       ))}
-                    </select>
-                    <span>ml I.V.</span>
+                  </select>
+                </td>
+              ))}
+            </tr>
+            {Array.from({ length: 2 }, (_, j) => (
+              <tr key={j}>
+                <th>
+                  <div className="flex gap-3">
+                    <QuestionWithChoices
+                      choices={medications}
+                      type="single"
+                      name={`other med name ${j}`}
+                    />
+                    <QuestionWithChoices
+                      choices={units}
+                      type="single"
+                      name={`other med unit ${j}`}
+                    />
                   </div>
-                </td>
-                <td>
-                  <QuestionWithInput name="med_3_init" className="w-10" />
-                </td>
+                </th>
+                {colArr.map((_, i) => (
+                  <td key={i}>
+                    <QuestionWithInput
+                      name={`other med ${j} value ${i}`}
+                      type="number"
+                      ref={
+                        medTableRefs.current[i][
+                          5 + j
+                        ] as React.Ref<HTMLInputElement>
+                      }
+                      tabIndex={0}
+                      onKeyDown={(e) => handleMedTableKeyDown(e, i, 5 + j)}
+                    />
+                  </td>
+                ))}
               </tr>
-              {Array(4)
-                .fill(null)
-                .map((_, i) => (
-                  <tr key={i}>
-                    <td>
-                      <QuestionWithInput
-                        name={`med_${4 + i}_time`}
-                        type="time"
-                        className="w-18"
-                      />
-                    </td>
-                    <td>
-                      <div className="flex gap-3">
-                        <QuestionWithChoices
-                          choices={medications}
-                          type="single"
-                          name={`med_${4 + i}_name`}
-                        />
-                        <QuestionWithInput
-                          name={`med_${4 + i}_dose`}
-                          type="number"
-                          className="max-w-16"
-                        />
-                        <QuestionWithChoices
-                          choices={units}
-                          type="single"
-                          name={`med_${4 + i}_unit`}
-                        />
-                      </div>
-                      {/* <QuestionWithInput name={`med_${4 + i}_details`} /> */}
-                    </td>
-                    <td>
-                      <QuestionWithInput
-                        name={`med_${4 + i}_init`}
-                        className="w-10"
-                      />
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="flex gap-4">
-          <QuestionWithChoices
-            choices={["Muko", "1 dose de xylo gelé 2%", "Xylo spray"]}
-            type="multiple"
-            name="Muko"
-          />
-          <div className="flex items-center gap-2 w-40">
-            Quantité de puff
-            <select name="dose_puff">
-              {Array(11)
-                .fill(null)
-                .map((_, i) => (
-                  <option key={i} value={i}>
-                    {i}
-                  </option>
-                ))}
-            </select>
-          </div>
-        </div>
+            ))}
+            <tr>
+              <th colSpan={2} className="text-right">
+                Initiales
+              </th>
+              {colArr.map((_, i) => (
+                <td key={i}>
+                  <QuestionWithInput
+                    name={`med init ${i}`}
+                    ref={
+                      medTableRefs.current[i][7] as React.Ref<HTMLInputElement>
+                    }
+                    tabIndex={0}
+                    onKeyDown={(e) => handleMedTableKeyDown(e, i, 7)}
+                  />
+                </td>
+              ))}
+            </tr>
+          </tbody>
+        </table>
+        <QuestionWithChoices
+          choices={["Muko", "1 dose de xylo gelé 2%"]}
+          type="multiple"
+          label="Utilisation de :"
+        />
         <QuestionWithInput label="Scope #" />
         <table>
           <thead>
@@ -502,7 +765,7 @@ export default function SM01694({ patient }: SM01694Props) {
                 <QuestionWithChoices
                   choices={[
                     "",
-                    "Cuisse D",
+                    "cuisse D",
                     "cuisse G",
                     "abdomen",
                     "flanc D",
@@ -523,8 +786,15 @@ export default function SM01694({ patient }: SM01694Props) {
               <td>
                 <QuestionWithInput label="Endocut :" />
               </td>
-              <td>
-                <QuestionWithInput label="Argon :" />
+              <td colSpan={2}>
+                <div className="flex gap-4">
+                  <QuestionWithChoices
+                    choices={["Utilisé", "Non-utilisé"]}
+                    type="radio"
+                    label="Argon :"
+                  />
+                  <QuestionWithInput name="Argon details" />
+                </div>
               </td>
             </tr>
           </tbody>
@@ -537,10 +807,10 @@ export default function SM01694({ patient }: SM01694Props) {
           </thead>
           <tbody>
             <tr>
-              <td className="w-1/3">
+              <td>
                 <Choice label="Adrénaline 1ml/mg" type="checkbox" />
               </td>
-              <td className="">
+              <td>
                 <div className="flex items-center gap-1">
                   <QuestionWithInput name="adrenaleine details" type="number" />
                   ml
@@ -650,7 +920,7 @@ export default function SM01694({ patient }: SM01694Props) {
             </tr>
             <tr>
               <td>
-                <Choice label="Ligature var. oes" type="checkbox" />
+                <Choice label="Ligature varice œsophagienne" type="checkbox" />
               </td>
               <td>
                 <QuestionWithChoices
@@ -667,23 +937,58 @@ export default function SM01694({ patient }: SM01694Props) {
             </tr>
             <tr>
               <td>
-                <QuestionWithChoices
-                  choices={["", "#12", "#16", "#22"]}
-                  type="single"
-                  label="Pinces (clips)"
-                />
+                <div className="flex gap-4">
+                  <span>Pinces (clips)</span>
+                  <QuestionWithChoices
+                    choices={["", "#12", "#16", "#22"]}
+                    type="single"
+                    name="Pinces (clips) 1"
+                  />
+                  <QuestionWithChoices
+                    choices={["", "#12", "#16", "#22"]}
+                    type="single"
+                    name="Pinces (clips) 2"
+                  />
+                  <QuestionWithChoices
+                    choices={["", "#12", "#16", "#22"]}
+                    type="single"
+                    name="Pinces (clips) 3"
+                  />
+                </div>
               </td>
               <td>
-                <QuestionWithChoices
-                  choices={[
-                    "",
-                    ...Array(3)
-                      .fill(null)
-                      .map((_, i) => `X${i + 1}`),
-                  ]}
-                  type="single"
-                  name="Pinces (clips) details"
-                />
+                <div className="flex gap-4">
+                  <QuestionWithChoices
+                    choices={[
+                      "",
+                      ...Array(3)
+                        .fill(null)
+                        .map((_, i) => `X${i + 1}`),
+                    ]}
+                    type="single"
+                    name="Pinces (clips) details 1"
+                  />
+                  <QuestionWithChoices
+                    choices={[
+                      "",
+                      ...Array(3)
+                        .fill(null)
+                        .map((_, i) => `X${i + 1}`),
+                    ]}
+                    type="single"
+                    name="Pinces (clips) details 2"
+                  />
+                  <QuestionWithChoices
+                    choices={[
+                      "",
+                      ...Array(3)
+                        .fill(null)
+                        .map((_, i) => `X${i + 1}`),
+                    ]}
+                    type="single"
+                    name="Pinces (clips) details 3"
+                  />
+                </div>
               </td>
             </tr>
             <tr>
@@ -699,11 +1004,12 @@ export default function SM01694({ patient }: SM01694Props) {
         <table>
           <thead>
             <tr>
-              <th colSpan={4}>Prélèvements</th>
+              <th colSpan={5}>Prélèvements</th>
             </tr>
             <tr>
               <th>Flacon</th>
               <th>Type</th>
+              <th>Nombre</th>
               <th>Segment (coloscopie)</th>
               <th>Segment (gastroscopie)</th>
             </tr>
@@ -713,13 +1019,17 @@ export default function SM01694({ patient }: SM01694Props) {
               .fill(null)
               .map((_, i, arr) => (
                 <tr key={i}>
-                  <td>
-                    <QuestionWithChoices
-                      choices={["", ...arr.map((_, i) => `Flacon ${i + 1}`)]}
-                      type="single"
-                      name={`prelevement flacon ${i}`}
-                      className="justify-center"
-                    />
+                  <td className="text-center">
+                    <select name={`prelevement flacon ${i}`}>
+                      <option value=""></option>
+                      {arr
+                        .map((_, i) => `Flacon ${i + 1}`)
+                        .map((c) => (
+                          <option key={c} value={c}>
+                            {c}
+                          </option>
+                        ))}
+                    </select>
                   </td>
                   <td>
                     <QuestionWithChoices
@@ -735,6 +1045,12 @@ export default function SM01694({ patient }: SM01694Props) {
                       type="single"
                       name={`prelevement type ${i}`}
                       className="justify-center"
+                    />
+                  </td>
+                  <td>
+                    <QuestionWithInput
+                      name={`prelevement nombre ${i}`}
+                      type="number"
                     />
                   </td>
                   <td>

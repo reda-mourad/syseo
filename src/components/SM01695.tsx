@@ -42,6 +42,8 @@ export default function SM01695({ patient, form }: DataResponse) {
             />
             <QuestionWithInput label="Autre :" name="autre2" />
           </div>
+          <div />
+          <div />
           <QuestionWithChoices
             type="radio"
             choices={nonOui}
@@ -57,38 +59,45 @@ export default function SM01695({ patient, form }: DataResponse) {
             choices={nonOui}
             label="Bracelet d'allergie mis :"
           />
+          <div />
+          <div />
           <QuestionWithChoices
             type="radio"
             choices={nonOui}
             label="Liste des médicaments apportés ou FADM au dossier :"
           />
+          <div />
           <span>
             Pour les usagers sous coumadin, vérifier s'il a été cessé et s'il a
             été remplacé par une HFPM
           </span>
-          <div className="flex gap-10">
+          <div className="space-y-1">
+            <div className="flex gap-10">
+              <QuestionWithChoices
+                type="radio"
+                choices={nonOui}
+                label="Coumadin cessé :"
+              />
+              <QuestionWithChoices
+                type="radio"
+                choices={[
+                  "X1 jour",
+                  "X2 jours",
+                  "X3 jours",
+                  "X4 jours",
+                  "X5 jours",
+                ]}
+                label="Depuis :"
+              />
+            </div>
             <QuestionWithChoices
-              type="radio"
-              choices={nonOui}
-              label="Coumadin cessé :"
-            />
-            <QuestionWithChoices
-              type="radio"
-              choices={[
-                "X1 jour",
-                "X2 jours",
-                "X3 jours",
-                "X4 jours",
-                "X5 jours",
-              ]}
-              label="Depuis :"
-            />
-            {/* <QuestionWithChoices
-              type="single"
               choices={["Aucun", "Lovenox", "Innohep", "Fragmin"]}
+              type="radio"
               label="Remplacé par :"
-            /> */}
+            />
           </div>
+          <div />
+          <div />
           <div className="flex gap-4">
             <QuestionWithChoices
               type="multiple"
@@ -103,7 +112,7 @@ export default function SM01695({ patient, form }: DataResponse) {
             />
           </div>
           <QuestionWithChoices
-            label="Accompagnateur :"
+            label="Nom et prénom de l'accompagnateur :"
             choices={[
               "présent dans la salle d'attente",
               "arrive après examen",
@@ -125,12 +134,16 @@ export default function SM01695({ patient, form }: DataResponse) {
                     <span>TA :</span>
                     <QuestionWithInput
                       type="number"
+                      
+                      
                       name="ta_min"
                       className="w-20"
                     />
                     /
                     <QuestionWithInput
                       type="number"
+                      
+                      
                       name="ta_max"
                       className="w-20"
                     />
@@ -141,6 +154,8 @@ export default function SM01695({ patient, form }: DataResponse) {
                     <span>Fréq. Card :</span>
                     <QuestionWithInput
                       type="number"
+                      
+                      
                       name="freq_card"
                       className="w-28"
                     />
@@ -152,6 +167,8 @@ export default function SM01695({ patient, form }: DataResponse) {
                     <span>Fréq. Resp :</span>
                     <QuestionWithInput
                       type="number"
+                      
+                      
                       name="freq_resp"
                       className="w-28"
                     />
@@ -165,6 +182,8 @@ export default function SM01695({ patient, form }: DataResponse) {
                     <span>Sat (O2):</span>
                     <QuestionWithInput
                       type="number"
+                      
+                      
                       name="sat"
                       className="w-32"
                     />
@@ -178,7 +197,12 @@ export default function SM01695({ patient, form }: DataResponse) {
                 </td>
                 <td>
                   <div className="flex justify-between items-center gap-2">
-                    <QuestionWithInput type="number" label="Glycémie cap :" />
+                    <QuestionWithInput
+                      type="number"
+                      
+                      
+                      label="Glycémie cap :"
+                    />
                     mmol/l
                   </div>
                 </td>
@@ -189,7 +213,7 @@ export default function SM01695({ patient, form }: DataResponse) {
               <tr>
                 <td>
                   <QuestionWithChoices
-                    label="Douleur :"
+                    label="Douleur positionnelle :"
                     type="radio"
                     choices={nonOui}
                     className="justify-between"
@@ -221,8 +245,12 @@ export default function SM01695({ patient, form }: DataResponse) {
             <tbody>
               <tr>
                 <td>
-                  Auscultation cardiaque en présence de problèmes
-                  cardiovasculaires
+                  <QuestionWithChoices
+                    choices={nonOui}
+                    type="radio"
+                    className="justify-between"
+                    label="Présence de problèmes cardiovasculaires"
+                  />
                 </td>
                 <td>
                   <QuestionWithChoices
@@ -234,7 +262,12 @@ export default function SM01695({ patient, form }: DataResponse) {
               </tr>
               <tr>
                 <td>
-                  Auscultation pulmonaire en présence de problemes respiratoires
+                  <QuestionWithChoices
+                    choices={nonOui}
+                    type="radio"
+                    className="justify-between"
+                    label="Présence de problèmes respiratoires"
+                  />
                 </td>
                 <td>
                   <QuestionWithChoices
@@ -254,25 +287,27 @@ export default function SM01695({ patient, form }: DataResponse) {
                   />
                 </td>
                 <td>
-                  <div className="flex gap-4">
-                    <QuestionWithInput label="#" />
+                  <div className="flex flex-wrap gap-4">
+                    <QuestionWithChoices
+                      label="Calibre # :"
+                      choices={["", "18G", "20G", "22G", "24G"]}
+                      type="single"
+                    />
                     <QuestionWithChoices
                       choices={["", "BD", "BG", "MD", "MG"]}
                       type="single"
                       label="site"
                     />
+                    <QuestionWithChoices
+                      choices={nonOui}
+                      type="radio"
+                      label="Perméable"
+                    />
                   </div>
                 </td>
               </tr>
-              <tr>
-                <td>
-                  <QuestionWithChoices
-                    choices={nonOui}
-                    type="radio"
-                    label="Perméable"
-                    className="justify-between"
-                  />
-                </td>
+              {/* <tr>
+                <td></td>
                 <td>
                   <QuestionWithChoices
                     choices={["", "#18", "#20", "#22", "#24"]}
@@ -280,14 +315,13 @@ export default function SM01695({ patient, form }: DataResponse) {
                     label="Grandeur"
                   />
                 </td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </div>
       </Page>
       <Page index={2} total={2} title={title} dossier={patient.dossier}>
         <Heading level={2}>ÉVALUATION CLINIQUE (SUITE)</Heading>
-
         <table>
           <thead>
             <tr>
@@ -316,6 +350,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                     "choc",
                   ]}
                   type="multiple"
+                  columns={3}
                 />
               </td>
             </tr>
@@ -354,6 +389,8 @@ export default function SM01695({ patient, form }: DataResponse) {
                 <QuestionWithInput
                   label="cm :"
                   type="number"
+                  
+                  
                   className="max-w-20"
                 />
               </td>
@@ -371,12 +408,16 @@ export default function SM01695({ patient, form }: DataResponse) {
                 <div className="flex gap-2 mt-2">
                   <QuestionWithInput
                     type="number"
+                    
+                    
                     label="Poids (kg)"
                     onChange={(e) => setPoids(Number(e.target.value))}
                     value={poids || ""}
                   />
                   <QuestionWithInput
                     type="number"
+                    
+                    
                     label="Taille (cm)"
                     onChange={(e) => setTaille(Number(e.target.value))}
                     value={taille || ""}
@@ -459,7 +500,12 @@ export default function SM01695({ patient, form }: DataResponse) {
           <label htmlFor="notes">
             Notes de l'infirmière sur l'évaluation initiale
           </label>
-          <textarea name="notes" id="notes" className=""></textarea>
+          <textarea
+            name="notes"
+            id="notes"
+            maxLength={500}
+            className="overflow-hidden"
+          />
         </fieldset>
         <div className="gap-4 grid grid-cols-2">
           <QuestionWithInput label="Continuité des soins :" />
