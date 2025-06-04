@@ -904,7 +904,7 @@ Consignes post-endoscopie données verbalement et par écrit : repos, reprise al
           <tbody>
             <tr>
               <td>
-                <QuestionWithInput name="Initiales1" />
+                <QuestionWithInput name="Initiales1" value={user.initiales} />
               </td>
               <td>
                 <QuestionWithInput name="Signatures1" />

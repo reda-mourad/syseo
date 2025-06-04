@@ -18,7 +18,7 @@ export function App({ initData }: { initData?: DataResponse }) {
           const value = data[e.name] ?? "";
           if (e.type === "radio" || e.type === "checkbox")
             e.checked = e.value === value;
-          else e.value = value || "";
+          else e.value = value ?? "";
         });
         document.querySelectorAll("textarea").forEach((e) => {
           const value = data[e.name] ?? "";

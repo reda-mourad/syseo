@@ -161,7 +161,7 @@ export default function SM01694({ patient, user }: DataResponse) {
         title={title}
         index={1}
         total={3}
-        className="gap-2"
+        className="gap-1"
       >
         <FormHeader code="SM01694" patient={patient} />
         <Heading level={1}>{title}</Heading>
@@ -1158,7 +1158,7 @@ export default function SM01694({ patient, user }: DataResponse) {
         </div>
 
         <div className="flex gap-2">
-          <QuestionWithInput label="Initiales" />
+          <QuestionWithInput label="Initiales" value={user.initiales} />
           <QuestionWithInput label="Signature" />
         </div>
       </Page>

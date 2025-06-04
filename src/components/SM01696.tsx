@@ -42,11 +42,7 @@ const allergies = [
   "SULFAMIDES -type non spécifique",
 ];
 
-export default function SM01696({
-  patient,
-}: {
-  patient: DataResponse["patient"];
-}) {
+export default function SM01696({ patient, user }: DataResponse) {
   return (
     <Form>
       <Page
@@ -694,7 +690,7 @@ export default function SM01696({
               </td>
               <td>
                 <QuestionWithChoices
-                  choices={["ADO", "Insuline"]}
+                  choices={["Antidiabétique oral", "Insuline"]}
                   type="multiple"
                   label="Si oui, lequel(s) ?"
                 />
@@ -724,7 +720,10 @@ export default function SM01696({
             </tr>
           </tbody>
         </table>
-        <QuestionWithInput label="Document vérifié par :" />
+        <QuestionWithInput
+          label="Document vérifié par :"
+          value={user.initiales}
+        />
       </Page>
     </Form>
   );
