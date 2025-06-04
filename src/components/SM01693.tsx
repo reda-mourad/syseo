@@ -886,10 +886,9 @@ export default function SM01693({ patient, form, user }: DataResponse) {
           <textarea
             className="w-full"
             name="notes"
-            defaultValue={`
-            Revenu en salle de réveil post-procédure, état stable. Aucun incident à signaler. Site du cathéter IV propre et sec au congé.
-
-            Consignes post-endoscopie données verbalement et par écrit : repos, reprise alimentaire progressive, surveillance des signes d’alerte (ex. : saignement, douleur abdominale sévère, fièvre).
+            defaultValue={`Revenu en salle de réveil post-procédure, état stable. Aucun incident à signaler. Site du cathéter IV propre et sec au congé.
+              
+Consignes post-endoscopie données verbalement et par écrit : repos, reprise alimentaire progressive, surveillance des signes d’alerte (ex. : saignement, douleur abdominale sévère, fièvre).
             `}
           />
         </div>
