@@ -115,6 +115,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -128,6 +129,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -141,6 +143,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -154,6 +157,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -167,6 +171,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -180,6 +185,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -193,6 +199,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -206,6 +213,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -230,6 +238,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -252,6 +261,7 @@ export default function SM01696({
                     choices={nonOui}
                     type="radio"
                     className="justify-between"
+                    defaultValue="Non"
                   />
                 </div>
               </td>
@@ -273,6 +283,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -331,7 +342,7 @@ export default function SM01696({
           </tbody>
         </table>
       </Page>
-      <Page dossier="123456789" index={2} total={2} title={title}>
+      <Page dossier={patient.dossier} index={2} total={2} title={title}>
         <table className="w-full">
           <thead>
             <tr>
@@ -347,6 +358,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -365,6 +377,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -390,6 +403,7 @@ export default function SM01696({
                   choices={[...nonOui, "Occasionellenent"]}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -403,6 +417,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -429,6 +444,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td className="space-y-2">
@@ -467,6 +483,7 @@ export default function SM01696({
                   choices={[...nonOui, "Peut-être"]}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -483,6 +500,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td></td>
@@ -504,6 +522,7 @@ export default function SM01696({
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Oui"
                 />
               </td>
               <td>
@@ -517,10 +536,11 @@ export default function SM01696({
             <tr>
               <td>
                 <QuestionWithChoices
-                  label="Avez-vous respecté une diète liquide hier?"
+                  label="Avez-vous respecté une diète liquide hier ?"
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td></td>
@@ -528,10 +548,11 @@ export default function SM01696({
             <tr>
               <td>
                 <QuestionWithChoices
-                  label="Avez-vous pris votre préparation intestinale au complet?"
+                  label="Avez-vous pris votre préparation intestinale au complet ?"
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -541,10 +562,11 @@ export default function SM01696({
             <tr>
               <td>
                 <QuestionWithChoices
-                  label="Votre préparation intestinale a-t-elle été efficace?"
+                  label="Votre préparation intestinale a-t-elle été efficace ?"
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Oui"
                 />
               </td>
               <td>
@@ -567,16 +589,17 @@ export default function SM01696({
             <tr>
               <td>
                 <QuestionWithChoices
-                  label="Prenez-vous un médicament pour éclaircir le sang?"
+                  label="Prenez-vous un médicament pour éclaircir le sang ?"
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
                 <Choice label="Aspirine" type="checkbox" />
                 <QuestionWithChoices
-                  name="Prenez-vous un médicament pour éclaircir le sang?_details"
+                  name="Prenez-vous un médicament pour éclaircir le sang ?_details"
                   choices={[
                     "Coumadin",
                     "Ticlid",
@@ -593,7 +616,7 @@ export default function SM01696({
                   columns={5}
                 />
                 <QuestionWithInput
-                  name="Prenez-vous un médicament pour éclaircir le sang?_other"
+                  name="Prenez-vous un médicament pour éclaircir le sang ?_other"
                   label="Autre :"
                 />
               </td>
@@ -626,7 +649,7 @@ export default function SM01696({
             <tr>
               <td>
                 <QuestionWithChoices
-                  label="Prenez-vous un supplément de fer? "
+                  label="Prenez-vous un supplément de fer ?"
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
@@ -680,7 +703,7 @@ export default function SM01696({
             <tr>
               <td>
                 <QuestionWithChoices
-                  label="Avez-vous apporté votre liste de médicament? "
+                  label="Avez-vous apporté votre liste de médicament ? "
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
@@ -691,7 +714,7 @@ export default function SM01696({
             <tr>
               <td>
                 <QuestionWithChoices
-                  label="Avez-vous eu des changements dans votre médication dans le dernier mois?"
+                  label="Avez-vous eu des changements dans votre médication dans le dernier mois ?"
                   choices={nonOui}
                   type="radio"
                   className="justify-between"

@@ -284,8 +284,13 @@ export default function SM01694({ patient, user }: DataResponse) {
                 Noter si rythme irr. ou pause respiratoire :
               </td>
               {colArr.map((_, i) => (
-                <td key={i}>
+                <td key={i} className="space-y-1">
+                  <QuestionWithInput
+                    name={`freq_resp numbder ${i}`}
+                    type="number"
+                  />
                   <select
+                    className="w-full"
                     name={`freq_resp_${i}`}
                     ref={
                       tableRefs.current[i][4] as React.Ref<HTMLSelectElement>
@@ -356,7 +361,7 @@ export default function SM01694({ patient, user }: DataResponse) {
             <tr>
               <td>Saturation O2 (%)</td>
               {colArr.map((_, i) => (
-                <td key={i}>
+                <td key={i} className="space-y-1">
                   <QuestionWithInput
                     name={`saturation_${i}`}
                     type="number"
@@ -364,6 +369,16 @@ export default function SM01694({ patient, user }: DataResponse) {
                     tabIndex={0}
                     onKeyDown={(e) => handleTableKeyDown(e, i, 7)}
                   />
+                  <select name={`saturation option ${i}`} className="w-full">
+                    <option value=""></option>
+                    <option value="AA">AA</option>
+                    <option value="LN">LN</option>
+                    <option value="VMK">VMK</option>
+                  </select>
+                  <div className="flex items-center-safe gap-0.5">
+                    <QuestionWithInput type="number" name="sat l/min" />
+                    L/min
+                  </div>
                 </td>
               ))}
             </tr>
@@ -859,7 +874,7 @@ export default function SM01694({ patient, user }: DataResponse) {
             </tr>
             <tr>
               <td>
-                <Choice label="Dilatation" type="checkbox" />
+                <Choice label="Dilatation : ballon" type="checkbox" />
               </td>
               <td>
                 <div className="flex justify-between">
@@ -874,8 +889,33 @@ export default function SM01694({ patient, user }: DataResponse) {
                       "18-20",
                     ]}
                     type="single"
-                    label="Ballon"
-                    name="Exerèse corps étranger ballon"
+                    name="Dilatation : ballon1"
+                  />
+                  <QuestionWithChoices
+                    choices={[
+                      "",
+                      "6-8",
+                      "8-10",
+                      "10-12",
+                      "12-15",
+                      "15-18",
+                      "18-20",
+                    ]}
+                    type="single"
+                    name="Dilatation : ballon2"
+                  />
+                  <QuestionWithChoices
+                    choices={[
+                      "",
+                      "6-8",
+                      "8-10",
+                      "10-12",
+                      "12-15",
+                      "15-18",
+                      "18-20",
+                    ]}
+                    type="single"
+                    name="Dilatation : ballon3"
                   />
                   <QuestionWithChoices
                     choices={colonSite}
@@ -920,25 +960,47 @@ export default function SM01694({ patient, user }: DataResponse) {
             </tr>
             <tr>
               <td>
-                <Choice label="Ligature varice œsophagienne" type="checkbox" />
-              </td>
-              <td>
                 <QuestionWithChoices
                   choices={[
                     "",
-                    ...Array(5)
-                      .fill(null)
-                      .map((_, i) => `X${i + 1} élastique${i > 0 ? "s" : ""}`),
+                    "Varices oesophagienne",
+                    "Varices gastiques",
+                    "Hemorroïdes",
                   ]}
                   type="single"
-                  name="Ligature var. oes details"
+                  name="Ligature varice œsophagienne"
                 />
+              </td>
+              <td>
+                <div className="flex gap-2">
+                  <QuestionWithChoices
+                    choices={[
+                      "",
+                      ...Array(5)
+                        .fill(null)
+                        .map(
+                          (_, i) => `X${i + 1} élastique${i > 0 ? "s" : ""}`
+                        ),
+                    ]}
+                    type="single"
+                    name="Ligature var. oes details"
+                  />
+                  <QuestionWithChoices
+                    choices={["", "Injection de colle (sclérothérapie)"]}
+                    type="single"
+                    name="Ligature var. oes details 2"
+                  />
+                </div>
               </td>
             </tr>
             <tr>
               <td>
                 <div className="flex gap-4">
                   <span>Pinces (clips)</span>
+                </div>
+              </td>
+              <td>
+                <div className="gap-0.5 grid grid-cols-3">
                   <QuestionWithChoices
                     choices={["", "#12", "#16", "#22"]}
                     type="single"
@@ -954,10 +1016,6 @@ export default function SM01694({ patient, user }: DataResponse) {
                     type="single"
                     name="Pinces (clips) 3"
                   />
-                </div>
-              </td>
-              <td>
-                <div className="flex gap-4">
                   <QuestionWithChoices
                     choices={[
                       "",

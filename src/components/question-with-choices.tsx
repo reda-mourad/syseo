@@ -9,7 +9,7 @@ export interface QuestionWithChoicesProps {
   choices: string[];
   type: "single" | "multiple" | "radio";
   className?: string;
-  defaultValue?: "";
+  defaultValue?: string;
   other?: boolean;
   otherLabel?: string;
   columns?: number;
@@ -66,6 +66,7 @@ export function QuestionWithChoices({
               value={c}
               type="radio"
               name={`${name || label}`}
+              defaultChecked={defaultValue === c}
             />
           ))}
 

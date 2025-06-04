@@ -115,13 +115,13 @@ export default function SM01741({ patient }: DataResponse) {
               <th className="text-left">Si oui, précisez:</th>
             </tr>
             {[
-              "Des problèmes cardiaques?",
-              "Des problèmes respiratoires?",
-              "Une pression artérielle élevée?",
-              "Un problème au niveau de vos reins?",
-              "Une ou des allergie(s)?",
-              "Du diabète?",
-              "D’autres problèmes de santé?",
+              "Des problèmes cardiaques ?",
+              "Des problèmes respiratoires ?",
+              "Une pression artérielle élevée ?",
+              "Un problème au niveau de vos reins ?",
+              "Une ou des allergie(s) ?",
+              "Du diabète ?",
+              "D’autres problèmes de santé ?",
             ].map((label) => (
               <tr key={label}>
                 <td className="w-1/2">
@@ -142,7 +142,7 @@ export default function SM01741({ patient }: DataResponse) {
                 <QuestionWithChoices
                   choices={nonOui}
                   type="radio"
-                  label="Une présence ou une prothèse de métal?"
+                  label="Une présence ou une prothèse de métal ?"
                   className="justify-between justify"
                 />
               </td>
@@ -164,7 +164,7 @@ export default function SM01741({ patient }: DataResponse) {
                 <QuestionWithChoices
                   choices={[...nonOui, "N/A"]}
                   type="radio"
-                  label="Êtes-vous enceinte?"
+                  label="Êtes-vous enceinte ?"
                   className="justify-between justify"
                 />
               </td>
@@ -172,7 +172,7 @@ export default function SM01741({ patient }: DataResponse) {
                 <QuestionWithChoices
                   choices={nonOui}
                   type="radio"
-                  label="Allaitez-vous?"
+                  label="Allaitez-vous ?"
                   className="justify-between justify"
                 />
               </td>
@@ -193,7 +193,7 @@ export default function SM01741({ patient }: DataResponse) {
                 <QuestionWithChoices
                   choices={nonOui}
                   type="radio"
-                  label="Prenez-vous des médicaments pour éclaicir le sang?"
+                  label="Prenez-vous des médicaments pour éclaicir le sang ?"
                   className="justify-between justify"
                 />
               </td>

@@ -37,7 +37,7 @@ export function QuestionWithInput({
             if (value >= min && value <= max) setValue(value.toString());
             if (el.value === "") setValue("");
           } else setValue(el.value);
-          onChange && onChange(ev);
+          if (onChange) onChange(ev);
         }}
         maxLength={50}
         min={0}

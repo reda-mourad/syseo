@@ -68,11 +68,11 @@ const criteresConge = [
 export default function SM01693({ patient, form, user }: DataResponse) {
   const data = form.data;
   const [answers, setAnswers] = useState<Record<string, number>>({
-    Motricité: Number(data?.Motricité ?? ""),
-    Respiration: Number(data?.Respiration ?? ""),
-    "Δ TA syst": Number(data?.["Δ TA syst"] ?? ""),
-    Conscience: Number(data?.Conscience ?? ""),
-    "Sa O2": Number(data?.["Sa O2"] ?? ""),
+    Motricité: Number(data?.Motricité ?? "2"),
+    Respiration: Number(data?.Respiration ?? "2"),
+    "Δ TA syst": Number(data?.["Δ TA syst"] ?? "2"),
+    Conscience: Number(data?.Conscience ?? "2"),
+    "Sa O2": Number(data?.["Sa O2"] ?? "2"),
   });
   const total = Object.values(answers).reduce(
     (previous, current) => previous + current,
@@ -140,7 +140,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
     }
   }
 
- /* const medNumCols = colArr.length;
+  /* const medNumCols = colArr.length;
   const medTableRows = [
     "time",
     "versed",
@@ -317,8 +317,13 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                 Noter si rythme irr. ou pause respiratoire :
               </td>
               {colArr.map((_, i) => (
-                <td key={i}>
+                <td key={i} className="space-y-1">
+                  <QuestionWithInput
+                    name={`freq_resp numbder ${i}`}
+                    type="number"
+                  />
                   <select
+                    className="w-full"
                     name={`freq_resp_${i}`}
                     ref={
                       tableRefs.current[i][4] as React.Ref<HTMLSelectElement>
@@ -389,7 +394,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
             <tr>
               <td>Saturation O2 (%)</td>
               {colArr.map((_, i) => (
-                <td key={i}>
+                <td key={i} className="space-y-1">
                   <QuestionWithInput
                     name={`saturation_${i}`}
                     type="number"
@@ -397,6 +402,16 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                     tabIndex={0}
                     onKeyDown={(e) => handleTableKeyDown(e, i, 7)}
                   />
+                  <select name={`saturation option ${i}`} className="w-full">
+                    <option value=""></option>
+                    <option value="AA">AA</option>
+                    <option value="LN">LN</option>
+                    <option value="VMK">VMK</option>
+                  </select>
+                  <div className="flex items-center-safe gap-0.5">
+                    <QuestionWithInput type="number" name="sat l/min" />
+                    L/min
+                  </div>
                 </td>
               ))}
             </tr>
@@ -786,6 +801,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                         onChange={() =>
                           setAnswers({ ...answers, [categorie]: i })
                         }
+                        defaultChecked={i === choices.length - 1}
                       />
                     </td>
                     <td className="w-9 text-center">{i}</td>
@@ -818,10 +834,26 @@ export default function SM01693({ patient, form, user }: DataResponse) {
             {verifications.map((v) => (
               <tr key={v}>
                 <td>
-                  <Choice label={v} type="checkbox" />
+                  <Choice
+                    label={v}
+                    type="checkbox"
+                    defaultChecked={
+                      v ===
+                      "2 h post dose d'antagoniste reçue, après visite médicale"
+                    }
+                  />
                 </td>
                 <td>
-                  <QuestionWithInput name={`${v}_init`} className="w-10" />
+                  <QuestionWithInput
+                    name={`${v}_init`}
+                    className="w-10"
+                    value={
+                      v ===
+                      "2 h post dose d'antagoniste reçue, après visite médicale"
+                        ? user.initiales
+                        : ""
+                    }
+                  />
                 </td>
               </tr>
             ))}
@@ -854,9 +886,11 @@ export default function SM01693({ patient, form, user }: DataResponse) {
           <textarea
             className="w-full"
             name="notes"
-            defaultValue={
-              "Consultation pré examen réalisée par md, examen bien toléré, sans complication."
-            }
+            defaultValue={`
+            Revenu en salle de réveil post-procédure, état stable. Aucun incident à signaler. Site du cathéter IV propre et sec au congé.
+
+            Consignes post-endoscopie données verbalement et par écrit : repos, reprise alimentaire progressive, surveillance des signes d’alerte (ex. : saignement, douleur abdominale sévère, fièvre).
+            `}
           />
         </div>
         <table>

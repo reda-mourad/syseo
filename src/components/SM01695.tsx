@@ -31,6 +31,7 @@ export default function SM01695({ patient, form }: DataResponse) {
               label="Provenance de l'usager :"
               choices={["Domicile", "Unité de soins", "Autre établissement"]}
               type="radio"
+              defaultValue="Domicile"
             />
             <QuestionWithInput label="Autre :" name="autre1" />
           </div>
@@ -39,6 +40,7 @@ export default function SM01695({ patient, form }: DataResponse) {
               label="Mode d'arrivée :"
               choices={["Sur pieds", " Fauteuil roulant", "Civière"]}
               type="radio"
+              defaultValue="Sur pieds"
             />
             <QuestionWithInput label="Autre :" name="autre2" />
           </div>
@@ -48,16 +50,19 @@ export default function SM01695({ patient, form }: DataResponse) {
             type="radio"
             choices={nonOui}
             label="Double identification de l'usager :"
+            defaultValue="Oui"
           />
           <QuestionWithChoices
             type="radio"
             choices={nonOui}
             label="Bracelet d'identifications mis :"
+            defaultValue="Oui"
           />
           <QuestionWithChoices
             type="radio"
             choices={nonOui}
             label="Bracelet d'allergie mis :"
+            defaultValue="Non"
           />
           <div />
           <div />
@@ -65,6 +70,7 @@ export default function SM01695({ patient, form }: DataResponse) {
             type="radio"
             choices={nonOui}
             label="Liste des médicaments apportés ou FADM au dossier :"
+            defaultValue="Oui"
           />
           <div />
           <span>
@@ -170,14 +176,22 @@ export default function SM01695({ patient, form }: DataResponse) {
               </tr>
               <tr>
                 <td>
-                  <div className="flex justify-between items-center gap-2">
-                    <span>Sat (O2):</span>
-                    <QuestionWithInput
-                      type="number"
-                      name="sat"
-                      className="w-32"
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-1">
+                      <span>Sat (O2):</span>
+                      <QuestionWithInput
+                        type="number"
+                        name="sat"
+                        className="w-20"
+                      />
+                      %
+                    </div>
+
+                    <QuestionWithChoices
+                      name="sat option"
+                      choices={["AA", "LN"]}
+                      type="multiple"
                     />
-                    %
                   </div>
                 </td>
                 <td>
@@ -235,6 +249,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                     type="radio"
                     className="justify-between"
                     label="Présence de problèmes cardiovasculaires"
+                    defaultValue="Non"
                   />
                 </td>
                 <td>
@@ -252,6 +267,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                     type="radio"
                     className="justify-between"
                     label="Présence de problèmes respiratoires"
+                    defaultValue="Non"
                   />
                 </td>
                 <td>
@@ -269,6 +285,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                     type="radio"
                     label="Cathéter I.V"
                     className="justify-between"
+                    defaultValue="Oui"
                   />
                 </td>
                 <td>
@@ -287,20 +304,11 @@ export default function SM01695({ patient, form }: DataResponse) {
                       choices={nonOui}
                       type="radio"
                       label="Perméable"
+                      defaultValue="Oui"
                     />
                   </div>
                 </td>
               </tr>
-              {/* <tr>
-                <td></td>
-                <td>
-                  <QuestionWithChoices
-                    choices={["", "#18", "#20", "#22", "#24"]}
-                    type="single"
-                    label="Grandeur"
-                  />
-                </td>
-              </tr> */}
             </tbody>
           </table>
         </div>
@@ -322,6 +330,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                   type="radio"
                   label="Réactions indésirables sédation - Analgésie/anesthésie"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -346,6 +355,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                   type="radio"
                   label="Naïf aux opiacés"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td></td>
@@ -357,6 +367,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                   type="radio"
                   label="Antécédent d'intubation difficile"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td></td>
@@ -368,6 +379,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                   type="radio"
                   label="Cou court ou large"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -375,6 +387,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                   label="cm :"
                   type="number"
                   className="max-w-20"
+                  defaultValue="Non"
                 />
               </td>
             </tr>
@@ -385,6 +398,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                   type="radio"
                   label="Présence d'obésité"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -416,6 +430,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                   type="radio"
                   label="Orientation dans les 3 sphères"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td></td>
@@ -427,6 +442,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                   type="radio"
                   label="Problème neurologique"
                   className="justify-between"
+                  defaultValue="Non"
                 />
               </td>
               <td></td>
@@ -484,9 +500,9 @@ export default function SM01695({ patient, form }: DataResponse) {
             id="notes"
             maxLength={500}
             className="overflow-hidden"
-            defaultValue={`Enseignement fait à l'usager
-              Questions répondues
-              Usager prêt pour l'examen`}
+            defaultValue={
+              "Évaluation infirmière complétée. Aucun enjeu clinique identifié à ce stade. Informé du déroulement de l’examen et des consignes post-examen. Consentement signé. Prêt pour l’intervention. L’équipe soignant avisé que l’usager est prêt à être transférée en salle."
+            }
           />
         </fieldset>
         <div className="gap-4 grid grid-cols-2">
