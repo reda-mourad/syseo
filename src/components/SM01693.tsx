@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { medications, units } from "../choices";
+import { currentDate, medications, units } from "../choices";
 import type { DataResponse } from "../main";
 import { Choice } from "./choice";
 import { Form } from "./form";
@@ -121,7 +121,11 @@ export default function SM01693({ patient, form, user }: DataResponse) {
         <FormHeader code="SM01693" patient={patient} />
         <Heading level={1}>{title}</Heading>
         <div className="flex flex-wrap space-x-4 space-y-1">
-          <QuestionWithInput label="Date :" type="date" />
+          <QuestionWithInput
+            label="Date :"
+            type="date"
+            initValue={currentDate()}
+          />
         </div>
         <table className="text-[.55rem]">
           <thead>

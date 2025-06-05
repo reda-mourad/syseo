@@ -38,3 +38,24 @@ export const medications = [
 ];
 
 export const units = ["", "cc", "gramme", "mcg", "mg", "ml"];
+
+export function currentDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+
+  return [
+    year,
+    month.toLocaleString(undefined, { minimumIntegerDigits: 2 }),
+    day.toLocaleString(undefined, { minimumIntegerDigits: 2 }),
+  ].join("-");
+}
+
+export function currentTime() {
+  return new Date().toLocaleTimeString(undefined, {
+    hour12: false,
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}

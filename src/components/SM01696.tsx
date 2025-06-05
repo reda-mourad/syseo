@@ -1,4 +1,4 @@
-import { nonOui } from "../choices";
+import { currentDate, currentTime, nonOui } from "../choices";
 import type { DataResponse } from "../main";
 import { Choice } from "./choice";
 import { Form } from "./form";
@@ -45,12 +45,7 @@ const allergies = [
 export default function SM01696({ patient, user }: DataResponse) {
   return (
     <Form>
-      <Page
-        index={1}
-        total={2}
-        title={title}
-        patient={patient}
-      >
+      <Page index={1} total={2} title={title} patient={patient}>
         <FormHeader code="SM01696" patient={patient} />
         <Heading level={1}>{title}</Heading>
         <table>
@@ -65,14 +60,14 @@ export default function SM01696({ patient, user }: DataResponse) {
                 <QuestionWithInput
                   label="Date :"
                   type="date"
-                  initValue={new Date().toISOString().substring(0, 10)}
+                  initValue={currentDate()}
                 />
               </td>
               <td className="w-1/2">
                 <QuestionWithInput
                   label="Heure:"
                   type="time"
-                  initValue={new Date().toISOString().substring(11, 16)}
+                  initValue={currentTime()}
                 />
               </td>
             </tr>

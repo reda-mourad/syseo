@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { examType, examTypeOther, nonOui } from "../choices";
+import { currentDate, examType, examTypeOther, nonOui } from "../choices";
 import type { DataResponse } from "../main";
 import { Choice } from "./choice";
 import { Form } from "./form";
@@ -513,7 +513,11 @@ export default function SM01695({ patient, form }: DataResponse) {
             label="Avisé des constats ci-haut"
           />
           <QuestionWithInput label="Signature :" />
-          <QuestionWithInput label="Date :" type="date" />
+          <QuestionWithInput
+            label="Date :"
+            type="date"
+            initValue={currentDate()}
+          />
         </div>
       </Page>
     </Form>

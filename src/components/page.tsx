@@ -12,7 +12,7 @@ export interface PageProps extends ComponentProps<"div"> {
 export function Page({
   patient,
   index,
-  title,
+  // title,
   total,
   className,
   children,
