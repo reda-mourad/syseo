@@ -18,7 +18,7 @@ export default function SM01695({ patient, form }: DataResponse) {
 
   return (
     <Form>
-      <Page index={1} total={2} title={title} dossier={patient.dossier}>
+      <Page index={1} total={2} title={title} patient={patient}>
         <FormHeader code="SM01695" patient={patient} />
         <Heading level={1}>{title}</Heading>
         <div className="flex flex-col gap-2">
@@ -175,23 +175,24 @@ export default function SM01695({ patient, form }: DataResponse) {
                 </td>
               </tr>
               <tr>
-                <td>
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-1">
-                      <span>Sat (O2):</span>
-                      <QuestionWithInput
-                        type="number"
-                        name="sat"
-                        className="w-20"
-                      />
-                      %
-                    </div>
-
+                <td className="space-y-1">
+                  <div className="flex items-center gap-1">
+                    <span>Sat (O2):</span>
+                    <QuestionWithInput
+                      type="number"
+                      name="sat"
+                      className="w-20"
+                    />
+                    %
+                  </div>
+                  <div className="flex items-center gap-2">
                     <QuestionWithChoices
                       name="sat option"
                       choices={["AA", "LN"]}
-                      type="multiple"
+                      type="radio"
                     />
+                    <QuestionWithInput name="sat ln value" type="number" />
+                    L/min
                   </div>
                 </td>
                 <td>
@@ -313,7 +314,7 @@ export default function SM01695({ patient, form }: DataResponse) {
           </table>
         </div>
       </Page>
-      <Page index={2} total={2} title={title} dossier={patient.dossier}>
+      <Page index={2} total={2} title={title} patient={patient}>
         <Heading level={2}>ÉVALUATION CLINIQUE (SUITE)</Heading>
         <table>
           <thead>
@@ -387,7 +388,6 @@ export default function SM01695({ patient, form }: DataResponse) {
                   label="cm :"
                   type="number"
                   className="max-w-20"
-                  defaultValue="Non"
                 />
               </td>
             </tr>
@@ -498,10 +498,10 @@ export default function SM01695({ patient, form }: DataResponse) {
           <textarea
             name="notes"
             id="notes"
-            maxLength={500}
+            maxLength={1000}
             className="overflow-hidden"
             defaultValue={
-              "Évaluation infirmière complétée. Aucun enjeu clinique identifié à ce stade. Informé du déroulement de l’examen et des consignes post-examen. Consentement signé. Prêt pour l’intervention. L’équipe soignant avisé que l’usager est prêt à être transférée en salle."
+              "Évaluation infirmière complétée. Aucun enjeu clinique identifié à ce stade. Informé du déroulement de l’examen et des consignes post-examen. Consentement signé. Prêt pour l’intervention. L’équipe soignant avisé que l’usager est prêt à être transféré en salle."
             }
           />
         </fieldset>

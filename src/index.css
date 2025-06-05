@@ -47,12 +47,16 @@ table th {
   @apply bg-gray-200;
 }
 
+table tr:nth-child(odd) {
+  @apply bg-violet-50;
+}
+
 input {
   accent-color: oklch(70.2% 0.183 293.541);
 }
 
 select {
-  @apply focus:bg-violet-100 px-0.5 border border-gray-400 rounded;
+  @apply focus:bg-violet-100 px-0.5 border border-gray-400 rounded text-center;
 }
 
 textarea {
@@ -84,4 +88,9 @@ input[type="number"]::-webkit-outer-spin-button {
 /* For Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+input,
+textarea {
+  @apply font-mono;
 }

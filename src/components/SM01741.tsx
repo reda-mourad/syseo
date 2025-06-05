@@ -17,7 +17,7 @@ export default function SM01741({ patient }: DataResponse) {
         index={1}
         total={2}
         title={title}
-        dossier={patient.dossier}
+        patient={patient}
         className="gap-4"
       >
         <FormHeader code="SM01741" patient={patient} />
@@ -231,7 +231,7 @@ export default function SM01741({ patient }: DataResponse) {
         </table>
       </Page>
       <Page
-        dossier={patient.dossier}
+        patient={patient}
         index={2}
         total={2}
         title={title}

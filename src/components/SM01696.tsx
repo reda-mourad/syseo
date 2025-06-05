@@ -49,7 +49,7 @@ export default function SM01696({ patient, user }: DataResponse) {
         index={1}
         total={2}
         title={title}
-        dossier={patient.dossier}
+        patient={patient}
         className="gap-2"
       >
         <FormHeader code="SM01696" patient={patient} />
@@ -63,10 +63,18 @@ export default function SM01696({ patient, user }: DataResponse) {
           <tbody>
             <tr>
               <td className="w-1/2">
-                <QuestionWithInput label="Date :" type="date" />
+                <QuestionWithInput
+                  label="Date :"
+                  type="date"
+                  initValue={new Date().toISOString().substring(0, 10)}
+                />
               </td>
               <td className="w-1/2">
-                <QuestionWithInput label="Heure:" type="time" />
+                <QuestionWithInput
+                  label="Heure:"
+                  type="time"
+                  initValue={new Date().toISOString().substring(11, 16)}
+                />
               </td>
             </tr>
             <tr>
@@ -338,7 +346,7 @@ export default function SM01696({ patient, user }: DataResponse) {
           </tbody>
         </table>
       </Page>
-      <Page dossier={patient.dossier} index={2} total={2} title={title}>
+      <Page patient={patient} index={2} total={2} title={title}>
         <table className="w-full">
           <thead>
             <tr>
@@ -536,7 +544,7 @@ export default function SM01696({ patient, user }: DataResponse) {
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
-                  defaultValue="Non"
+                  defaultValue="Oui"
                 />
               </td>
               <td></td>
@@ -548,7 +556,7 @@ export default function SM01696({ patient, user }: DataResponse) {
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
-                  defaultValue="Non"
+                  defaultValue="Oui"
                 />
               </td>
               <td>
@@ -722,7 +730,7 @@ export default function SM01696({ patient, user }: DataResponse) {
         </table>
         <QuestionWithInput
           label="Document vérifié par :"
-          value={user.initiales}
+          initValue={user.initiales}
         />
       </Page>
     </Form>

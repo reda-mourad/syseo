@@ -10,9 +10,9 @@ export default function Heading({
     <div
       className={cn(
         "font-bold",
-        level === 1 && "text-center text-2xl",
-        level > 1 && "border-b text-xl",
-        level > 2 && "border-b text-md border-none",
+        level === 1 && "text-center text-lg",
+        level > 1 && "border-b text-md",
+        level > 2 && "border-b text-sm",
         className
       )}
       {...props}

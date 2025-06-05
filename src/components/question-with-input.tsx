@@ -25,6 +25,7 @@ export function QuestionWithInput({
         name={label}
         className={cn(
           "focus:bg-violet-100  rounded border border-gray-400 flex-1 w-full px-1",
+          props.type === "number" && "text-center",
           className
         )}
         value={value}

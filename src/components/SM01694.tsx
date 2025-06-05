@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { examType, examTypeOther, medications, units } from "../choices";
 import type { DataResponse } from "../main";
 import { Choice } from "./choice";
@@ -43,121 +43,10 @@ export default function SM01694({ patient, user }: DataResponse) {
       });
   }, []);
 
-  const numCols = colArr.length;
-  const tableRows = [
-    "time",
-    "press_art",
-    "freq_card",
-    "freq_resp",
-    "ampl_resp",
-    "ronflement",
-    "saturation",
-    "etco2",
-    "o2",
-    "monitoring",
-    "sedation",
-    "dlr",
-    "sueur",
-    "autre",
-    "initiales",
-  ];
-
-  const tableRefs = useRef(
-    Array.from({ length: numCols }, () =>
-      Array.from({ length: 15 }, () =>
-        React.createRef<HTMLInputElement | HTMLSelectElement>()
-      )
-    )
-  );
-
-  function focusCell(col: number, row: number) {
-    const ref = tableRefs.current[col]?.[row];
-    if (ref && ref.current) {
-      ref.current.focus();
-    }
-  }
-
-  function handleTableKeyDown(
-    e: React.KeyboardEvent,
-    col: number,
-    row: number
-  ) {
-    if (e.key === "Tab") {
-      e.preventDefault();
-      let nextCol = col;
-      let nextRow = row + (e.shiftKey ? -1 : 1);
-      if (nextRow >= tableRows.length) {
-        nextRow = 0;
-        nextCol = col + 1;
-      }
-      if (nextRow < 0) {
-        nextCol = col - 1;
-        nextRow = tableRows.length - 1;
-      }
-      if (nextCol >= numCols) {
-        return;
-      }
-      if (nextCol < 0) {
-        return;
-      }
-      focusCell(nextCol, nextRow);
-    }
-  }
-
-  const medNumCols = colArr.length;
-  const medTableRows = [
-    "time",
-    "versed",
-    "fentanyl",
-    "naci",
-    "xylo",
-    "other1",
-    "other2",
-    "init",
-  ];
-  const medTableRefs = useRef(
-    Array.from({ length: medNumCols }, () =>
-      Array.from({ length: medTableRows.length }, () =>
-        React.createRef<HTMLInputElement | HTMLSelectElement>()
-      )
-    )
-  );
-
-  function focusMedCell(col: number, row: number) {
-    const ref = medTableRefs.current[col]?.[row];
-    if (ref && ref.current) {
-      ref.current.focus();
-    }
-  }
-
-  function handleMedTableKeyDown(
-    e: React.KeyboardEvent,
-    col: number,
-    row: number
-  ) {
-    if (e.key === "Tab") {
-      e.preventDefault();
-      let nextCol = col;
-      let nextRow = row + (e.shiftKey ? -1 : 1);
-      if (nextRow >= medTableRows.length) {
-        nextRow = 0;
-        nextCol = col + 1;
-      }
-      if (nextRow < 0) {
-        nextCol = col - 1;
-        nextRow = medTableRows.length - 1;
-      }
-      if (nextCol >= medNumCols || nextCol < 0) {
-        return;
-      }
-      focusMedCell(nextCol, nextRow);
-    }
-  }
-
   return (
     <Form>
       <Page
-        dossier={patient.dossier}
+        patient={patient}
         title={title}
         index={1}
         total={3}
@@ -166,7 +55,11 @@ export default function SM01694({ patient, user }: DataResponse) {
         <FormHeader code="SM01694" patient={patient} />
         <Heading level={1}>{title}</Heading>
         <div className="flex flex-wrap space-x-4 space-y-1">
-          <QuestionWithInput label="Date :" type="date" />
+          <QuestionWithInput
+            label="Date :"
+            type="date"
+            initValue={new Date().toISOString().substring(0, 10)}
+          />
           <QuestionWithInput label="Médecin :" />
           <QuestionWithChoices
             choices={["Salle 1", "Salle 2", "Salle 3", "Salle 4", "Salle 5"]}
@@ -215,7 +108,7 @@ export default function SM01694({ patient, user }: DataResponse) {
           </thead>
           <tbody>
             <tr>
-              <th colSpan={2} className="min-w-48 max-w-48 text-right">
+              <th colSpan={2} className="text-right">
                 Heure :
               </th>
               {colArr.map((_, i) => (
@@ -223,10 +116,8 @@ export default function SM01694({ patient, user }: DataResponse) {
                   <QuestionWithInput
                     name={`time_${i}`}
                     type="time"
+                    tabIndex={19 * i + 1}
                     // className="hide-time-btn"
-                    ref={tableRefs.current[i][0] as React.Ref<HTMLInputElement>}
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 0)}
                     onChange={() => {
                       const initEl = document.querySelector<HTMLInputElement>(
                         `input[name="initiales_${i}"]`
@@ -236,29 +127,32 @@ export default function SM01694({ patient, user }: DataResponse) {
                       }
                     }}
                   />
+                  {/* <button
+                    type="button"
+                    onDoubleClick={() => alert("double click")}
+                    className="flex justify-center items-center p-1 border border-gray-400 rounded w-full font-mono"
+                  >
+                    -- : --
+                  </button> */}
                 </th>
               ))}
             </tr>
             <tr>
-              <th rowSpan={8} style={verticalCellStyle}>
+              <th rowSpan={7} style={verticalCellStyle} className="max-w-9">
                 signes vitaux et état respiratoire
               </th>
-              <td>Pression artérielle :</td>
+              <td className="min-w-36">Pression artérielle :</td>
               {colArr.map((_, i) => (
                 <td key={i} className="space-y-1">
                   <QuestionWithInput
                     name={`press_art_max_${i}`}
                     type="number"
-                    ref={tableRefs.current[i][1] as React.Ref<HTMLInputElement>}
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 1)}
+                    tabIndex={19 * i + 2}
                   />
                   <QuestionWithInput
                     name={`press_art_min_${i}`}
                     type="number"
-                    ref={tableRefs.current[i][2] as React.Ref<HTMLInputElement>}
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 2)}
+                    tabIndex={19 * i + 3}
                   />
                 </td>
               ))}
@@ -270,9 +164,7 @@ export default function SM01694({ patient, user }: DataResponse) {
                   <QuestionWithInput
                     name={`freq_card_${i}`}
                     type="number"
-                    ref={tableRefs.current[i][3] as React.Ref<HTMLInputElement>}
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 3)}
+                    tabIndex={19 * i + 4}
                   />
                 </td>
               ))}
@@ -288,15 +180,12 @@ export default function SM01694({ patient, user }: DataResponse) {
                   <QuestionWithInput
                     name={`freq_resp numbder ${i}`}
                     type="number"
+                    tabIndex={19 * i + 5}
                   />
                   <select
                     className="w-full"
                     name={`freq_resp_${i}`}
-                    ref={
-                      tableRefs.current[i][4] as React.Ref<HTMLSelectElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 4)}
+                    tabIndex={19 * i + 6}
                   >
                     {["", "IRR", "PR"].map((e) => (
                       <option key={e} value={e}>
@@ -317,12 +206,8 @@ export default function SM01694({ patient, user }: DataResponse) {
                   <select
                     name={`ampl_resp_${i}`}
                     className="w-full"
-                    ref={
-                      tableRefs.current[i][5] as React.Ref<HTMLSelectElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 5)}
                     defaultValue={i < 4 ? "N" : ""}
+                    tabIndex={19 * i + 7}
                   >
                     {["", "N", "P", "S"].map((e) => (
                       <option key={e} value={e}>
@@ -342,12 +227,8 @@ export default function SM01694({ patient, user }: DataResponse) {
                   <select
                     name={`ronflement_${i}`}
                     className="w-full"
-                    ref={
-                      tableRefs.current[i][6] as React.Ref<HTMLSelectElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 6)}
                     defaultValue={i < 4 ? "N" : ""}
+                    tabIndex={19 * i + 8}
                   >
                     {["", "O", "N"].map((e) => (
                       <option key={e} value={e}>
@@ -359,24 +240,32 @@ export default function SM01694({ patient, user }: DataResponse) {
               ))}
             </tr>
             <tr>
-              <td>Saturation O2 (%)</td>
+              <td>Saturation O2 (%) et Oxygène</td>
               {colArr.map((_, i) => (
                 <td key={i} className="space-y-1">
                   <QuestionWithInput
                     name={`saturation_${i}`}
                     type="number"
-                    ref={tableRefs.current[i][7] as React.Ref<HTMLInputElement>}
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 7)}
+                    tabIndex={19 * i + 9}
                   />
-                  <select name={`saturation option ${i}`} className="w-full">
+                  <select
+                    name={`saturation option ${i}`}
+                    className="w-full"
+                    tabIndex={19 * i + 10}
+                    defaultValue={i === 0 ? "AA" : i < 4 ? "LN" : ""}
+                  >
                     <option value=""></option>
                     <option value="AA">AA</option>
                     <option value="LN">LN</option>
                     <option value="VMK">VMK</option>
                   </select>
                   <div className="flex items-center-safe gap-0.5">
-                    <QuestionWithInput type="number" name="sat l/min" />
+                    <QuestionWithInput
+                      type="number"
+                      name="sat l/min"
+                      tabIndex={19 * i + 11}
+                      initValue={i < 4 ? "2" : ""}
+                    />
                     L/min
                   </div>
                 </td>
@@ -389,14 +278,12 @@ export default function SM01694({ patient, user }: DataResponse) {
                   <QuestionWithInput
                     name={`etco2_${i}`}
                     type="number"
-                    ref={tableRefs.current[i][8] as React.Ref<HTMLInputElement>}
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 8)}
+                    tabIndex={19 * i + 12}
                   />
                 </td>
               ))}
             </tr>
-            <tr>
+            {/* <tr>
               <td className="space-y-0.5">
                 <Choice
                   label="O2 Lunette nasal (litres/min.) /"
@@ -409,14 +296,12 @@ export default function SM01694({ patient, user }: DataResponse) {
                   <QuestionWithInput
                     name={`o2_${i}`}
                     type="number"
-                    ref={tableRefs.current[i][9] as React.Ref<HTMLInputElement>}
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 9)}
                     initValue={i < 4 ? "2" : ""}
+                    tabIndex={19 * i + 13}
                   />
                 </td>
               ))}
-            </tr>
+            </tr> */}
             <tr>
               <th style={verticalCellStyle}>
                 monitoring
@@ -444,12 +329,8 @@ export default function SM01694({ patient, user }: DataResponse) {
                   <select
                     name={`monitoring_${i}`}
                     className="w-full"
-                    ref={
-                      tableRefs.current[i][10] as React.Ref<HTMLSelectElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 10)}
-                    defaultValue={i < 4 ? "1" : ""}
+                    // defaultValue={i < 4 ? "1" : ""}
+                    tabIndex={19 * i + 14}
                   >
                     <option value=""></option>
                     {[
@@ -484,12 +365,8 @@ export default function SM01694({ patient, user }: DataResponse) {
                   <select
                     name={`sedation_${i}`}
                     className="w-full"
-                    ref={
-                      tableRefs.current[i][11] as React.Ref<HTMLSelectElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 11)}
                     defaultValue={i === 0 ? "0" : i < 4 ? "S" : ""}
+                    tabIndex={19 * i + 15}
                   >
                     {["", "S", "0", "1", "2", "3"].map((e) => (
                       <option key={e} value={e}>
@@ -512,12 +389,8 @@ export default function SM01694({ patient, user }: DataResponse) {
                   <select
                     name={`dlr_${i}`}
                     className="w-full"
-                    ref={
-                      tableRefs.current[i][12] as React.Ref<HTMLSelectElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 12)}
                     defaultValue={i < 4 ? "0" : ""}
+                    tabIndex={19 * i + 16}
                   >
                     <option value=""></option>
                     {Array(11)
@@ -549,12 +422,8 @@ export default function SM01694({ patient, user }: DataResponse) {
                   <select
                     name={`sueur_${i}`}
                     className="w-full"
-                    ref={
-                      tableRefs.current[i][13] as React.Ref<HTMLSelectElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 13)}
                     defaultValue={i < 4 ? "Ø" : ""}
+                    tabIndex={19 * i + 17}
                   >
                     {["", "S", "N", "V", "Ø"].map((e) => (
                       <option key={e} value={e}>
@@ -573,11 +442,7 @@ export default function SM01694({ patient, user }: DataResponse) {
                 <td key={i}>
                   <QuestionWithInput
                     name={`other_${i}`}
-                    ref={
-                      tableRefs.current[i][14] as React.Ref<HTMLInputElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleTableKeyDown(e, i, 14)}
+                    tabIndex={19 * i + 18}
                   />
                 </td>
               ))}
@@ -586,7 +451,10 @@ export default function SM01694({ patient, user }: DataResponse) {
               <td className="text-right">Initiales :</td>
               {colArr.map((_, i) => (
                 <td key={i}>
-                  <QuestionWithInput name={`initiales_${i}`} />
+                  <QuestionWithInput
+                    name={`initiales_${i}`}
+                    tabIndex={19 * i + 19}
+                  />
                 </td>
               ))}
             </tr>
@@ -594,7 +462,7 @@ export default function SM01694({ patient, user }: DataResponse) {
         </table>
       </Page>
       <Page
-        dossier={patient.dossier}
+        patient={patient}
         index={2}
         total={3}
         title={title}
@@ -603,22 +471,19 @@ export default function SM01694({ patient, user }: DataResponse) {
         <table className="text-[.5rem]">
           <thead>
             <tr>
-              <th colSpan={11}>MÉDICAMENT(S)</th>
+              <th colSpan={10}>MÉDICAMENT(S)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th colSpan={2}>Heure</th>
+              <th>Rx (nom, dose voie d'adm.)</th>
+              <th>Heure</th>
               {colArr.map((_, i) => (
                 <th key={i}>
                   <QuestionWithInput
+                    tabIndex={500 + 8 * i + 1}
                     name={`med time ${i}`}
                     type="time"
-                    ref={
-                      medTableRefs.current[i][0] as React.Ref<HTMLInputElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleMedTableKeyDown(e, i, 0)}
                     onChange={() => {
                       const initEl = document.querySelector<HTMLInputElement>(
                         `input[name="med init ${i}"]`
@@ -632,71 +497,52 @@ export default function SM01694({ patient, user }: DataResponse) {
               ))}
             </tr>
             <tr>
-              <th rowSpan={6} style={verticalCellStyle}>
-                Rx (nom, dose voie d'adm.)
-              </th>
-              <th>VERSED (Mg I.V.)</th>
+              <th colSpan={2}>VERSED (Mg I.V.)</th>
               {colArr.map((_, i) => (
                 <td key={i}>
                   <QuestionWithInput
+                    tabIndex={500 + 8 * i + 2}
                     name={`VERSED ${i}`}
                     type="number"
                     min={1}
-                    ref={
-                      medTableRefs.current[i][1] as React.Ref<HTMLInputElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleMedTableKeyDown(e, i, 1)}
                   />
                 </td>
               ))}
             </tr>
             <tr>
-              <th>FENTANYL (mcg I.V.)</th>
+              <th colSpan={2}>FENTANYL (mcg I.V.)</th>
               {colArr.map((_, i) => (
                 <td key={i}>
                   <QuestionWithInput
+                    tabIndex={500 + 8 * i + 3}
                     name={`FENTANYL ${i}`}
                     type="number"
                     min={1}
-                    ref={
-                      medTableRefs.current[i][2] as React.Ref<HTMLInputElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleMedTableKeyDown(e, i, 2)}
                   />
                 </td>
               ))}
             </tr>
             <tr>
-              <th>NaCI 0.9% (ml I.V.)</th>
+              <th colSpan={2}>NaCI 0.9% (ml I.V.)</th>
               {colArr.map((_, i) => (
                 <td key={i}>
                   <QuestionWithInput
                     name={`NaCI ${i}`}
                     type="number"
                     min={1}
-                    ref={
-                      medTableRefs.current[i][3] as React.Ref<HTMLInputElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleMedTableKeyDown(e, i, 3)}
+                    tabIndex={500 + 8 * i + 4}
                   />
                 </td>
               ))}
             </tr>
             <tr>
-              <th>XYLO SPRAY (Nb de puff)</th>
+              <th colSpan={2}>XYLO SPRAY (Nb de puff)</th>
               {colArr.map((_, i) => (
                 <td key={i}>
                   <select
                     name={`XYLO SPRAY ${i}`}
                     className="w-full"
-                    ref={
-                      medTableRefs.current[i][4] as React.Ref<HTMLSelectElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleMedTableKeyDown(e, i, 4)}
+                    tabIndex={500 + 8 * i + 5}
                   >
                     <option value=""></option>
                     {Array(11)
@@ -712,7 +558,7 @@ export default function SM01694({ patient, user }: DataResponse) {
             </tr>
             {Array.from({ length: 2 }, (_, j) => (
               <tr key={j}>
-                <th>
+                <th colSpan={2}>
                   <div className="flex gap-3">
                     <QuestionWithChoices
                       choices={medications}
@@ -729,15 +575,9 @@ export default function SM01694({ patient, user }: DataResponse) {
                 {colArr.map((_, i) => (
                   <td key={i}>
                     <QuestionWithInput
+                      tabIndex={500 + 8 * i + 6 + j}
                       name={`other med ${j} value ${i}`}
                       type="number"
-                      ref={
-                        medTableRefs.current[i][
-                          5 + j
-                        ] as React.Ref<HTMLInputElement>
-                      }
-                      tabIndex={0}
-                      onKeyDown={(e) => handleMedTableKeyDown(e, i, 5 + j)}
                     />
                   </td>
                 ))}
@@ -751,11 +591,7 @@ export default function SM01694({ patient, user }: DataResponse) {
                 <td key={i}>
                   <QuestionWithInput
                     name={`med init ${i}`}
-                    ref={
-                      medTableRefs.current[i][7] as React.Ref<HTMLInputElement>
-                    }
-                    tabIndex={0}
-                    onKeyDown={(e) => handleMedTableKeyDown(e, i, 7)}
+                    tabIndex={500 + 8 * i + 7}
                   />
                 </td>
               ))}
@@ -766,6 +602,7 @@ export default function SM01694({ patient, user }: DataResponse) {
           choices={["Muko", "1 dose de xylo gelé 2%"]}
           type="multiple"
           label="Utilisation de :"
+          defaultValue="Muko"
         />
         <QuestionWithInput label="Scope #" />
         <table>
@@ -834,7 +671,7 @@ export default function SM01694({ patient, user }: DataResponse) {
             </tr>
             <tr>
               <td>
-                <Choice label="NaCI 0.9% 100ml" type="checkbox" />
+                <Choice label="NaCI 0.9%" type="checkbox" />
               </td>
               <td>
                 <div className="flex items-center gap-1">
@@ -849,7 +686,10 @@ export default function SM01694({ patient, user }: DataResponse) {
               </td>
               <td>
                 <QuestionWithChoices
-                  choices={["", "5ml", "6ml", "7ml", "8ml", "9ml", "10ml"]}
+                  choices={[
+                    "",
+                    ...Array.from({ length: 3 }, (_, i) => `${i + 2}ml`),
+                  ]}
                   type="single"
                   name="Encre de chine details"
                 />
@@ -963,12 +803,12 @@ export default function SM01694({ patient, user }: DataResponse) {
                 <QuestionWithChoices
                   choices={[
                     "",
-                    "Varices oesophagienne",
-                    "Varices gastiques",
-                    "Hemorroïdes",
+                    "varices œsophagiennes",
+                    "varices gastriques",
+                    "hémorroïdes",
                   ]}
                   type="single"
-                  name="Ligature varice œsophagienne"
+                  label="Ligature"
                 />
               </td>
               <td>
@@ -996,7 +836,7 @@ export default function SM01694({ patient, user }: DataResponse) {
             <tr>
               <td>
                 <div className="flex gap-4">
-                  <span>Pinces (clips)</span>
+                  <span>Clips endoscopiques</span>
                 </div>
               </td>
               <td>
@@ -1145,12 +985,13 @@ export default function SM01694({ patient, user }: DataResponse) {
           </tbody>
         </table>
       </Page>
-      <Page dossier={patient.dossier} index={3} total={3} title={title}>
+      <Page patient={patient} index={3} total={3} title={title}>
         <div className="space-y-1">
           <Heading level={3}>NOTES</Heading>
           <textarea
             name="notes"
             className="w-full max-h-16"
+            maxLength={750}
             defaultValue={
               "Consultation pré examen réalisée par md, examen bien toléré, sans complication."
             }
@@ -1158,7 +999,7 @@ export default function SM01694({ patient, user }: DataResponse) {
         </div>
 
         <div className="flex gap-2">
-          <QuestionWithInput label="Initiales" value={user.initiales} />
+          <QuestionWithInput label="Initiales" initValue={user.initiales} />
           <QuestionWithInput label="Signature" />
         </div>
       </Page>

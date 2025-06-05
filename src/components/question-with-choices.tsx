@@ -47,6 +47,7 @@ export function QuestionWithChoices({
               label={c}
               type={type === "multiple" ? "checkbox" : "radio"}
               name={`${name || label}_${c}`}
+              checked={c === defaultValue}
             />
           ))}
           {other && (
