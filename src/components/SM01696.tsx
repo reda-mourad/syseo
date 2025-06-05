@@ -50,7 +50,6 @@ export default function SM01696({ patient, user }: DataResponse) {
         total={2}
         title={title}
         patient={patient}
-        className="gap-2"
       >
         <FormHeader code="SM01696" patient={patient} />
         <Heading level={1}>{title}</Heading>

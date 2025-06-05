@@ -10,6 +10,7 @@ export interface QuestionWithChoicesProps {
   type: "single" | "multiple" | "radio";
   className?: string;
   defaultValue?: string;
+  defaultValues?: string[];
   other?: boolean;
   otherLabel?: string;
   columns?: number;
@@ -23,6 +24,7 @@ export function QuestionWithChoices({
   type,
   className,
   defaultValue,
+  defaultValues,
   other,
   otherLabel,
   columns,
@@ -47,7 +49,7 @@ export function QuestionWithChoices({
               label={c}
               type={type === "multiple" ? "checkbox" : "radio"}
               name={`${name || label}_${c}`}
-              checked={c === defaultValue}
+              defaultChecked={c === defaultValue || defaultValues?.includes(c)}
             />
           ))}
           {other && (

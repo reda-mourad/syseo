@@ -117,13 +117,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
 
   return (
     <Form>
-      <Page
-        patient={patient}
-        title={title}
-        index={1}
-        total={3}
-        className="gap-2"
-      >
+      <Page patient={patient} title={title} index={1} total={3}>
         <FormHeader code="SM01693" patient={patient} />
         <Heading level={1}>{title}</Heading>
         <div className="flex flex-wrap space-x-4 space-y-1">

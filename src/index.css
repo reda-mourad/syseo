@@ -91,6 +91,17 @@ input[type="number"] {
 }
 
 input,
-textarea {
+textarea,
+select {
+  @apply font-mono font-bold;
+}
+
+input[type="checkbox"]:checked + label,
+input[type="radio"]:checked + label {
+  @apply font-bold;
+}
+
+input[type="checkbox"] + label,
+input[type="radio"] + label {
   @apply font-mono;
 }

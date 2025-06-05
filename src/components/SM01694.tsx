@@ -45,13 +45,7 @@ export default function SM01694({ patient, user }: DataResponse) {
 
   return (
     <Form>
-      <Page
-        patient={patient}
-        title={title}
-        index={1}
-        total={3}
-        className="gap-1"
-      >
+      <Page patient={patient} title={title} index={1} total={3}>
         <FormHeader code="SM01694" patient={patient} />
         <Heading level={1}>{title}</Heading>
         <div className="flex flex-wrap space-x-4 space-y-1">
@@ -482,13 +476,7 @@ export default function SM01694({ patient, user }: DataResponse) {
           </tbody>
         </table>
       </Page>
-      <Page
-        patient={patient}
-        index={2}
-        total={3}
-        title={title}
-        className="gap-2"
-      >
+      <Page patient={patient} index={2} total={3} title={title}>
         <table className="text-[.5rem]">
           <thead>
             <tr>
@@ -619,13 +607,15 @@ export default function SM01694({ patient, user }: DataResponse) {
             </tr>
           </tbody>
         </table>
-        <QuestionWithChoices
-          choices={["Muko", "1 dose de xylo gelé 2%"]}
-          type="multiple"
-          label="Utilisation de :"
-          defaultValue="Muko"
-        />
-        <QuestionWithInput label="Scope #" />
+        <div className="flex justify-between">
+          <QuestionWithChoices
+            choices={["Muko", "1 dose de xylo gelé 2%"]}
+            type="multiple"
+            label="Utilisation de :"
+            defaultValue="Muko"
+          />
+          <QuestionWithInput label="Scope #" />
+        </div>
         <table>
           <thead>
             <tr>

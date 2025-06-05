@@ -430,7 +430,7 @@ export default function SM01695({ patient, form }: DataResponse) {
                   type="radio"
                   label="Orientation dans les 3 sphères"
                   className="justify-between"
-                  defaultValue="Non"
+                  defaultValue="Oui"
                 />
               </td>
               <td></td>
