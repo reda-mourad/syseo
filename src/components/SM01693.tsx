@@ -167,9 +167,13 @@ export default function SM01693({ patient, form, user }: DataResponse) {
               ))}
             </tr>
             <tr>
-              <th rowSpan={7} style={verticalCellStyle} className="max-w-9">
+              <td
+                rowSpan={7}
+                style={verticalCellStyle}
+                className="max-w-9 font-bold text-center"
+              >
                 signes vitaux et état respiratoire
-              </th>
+              </td>
               <td className="min-w-36">Pression artérielle :</td>
               {colArr.map((_, i) => (
                 <td key={i} className="space-y-1">
@@ -331,10 +335,13 @@ export default function SM01693({ patient, form, user }: DataResponse) {
               ))}
             </tr> */}
             <tr>
-              <th style={verticalCellStyle}>
+              <td
+                style={verticalCellStyle}
+                className="max-w-9 font-bold text-center"
+              >
                 monitoring
                 <br /> cardiaque
-              </th>
+              </td>
               <td className="space-y-1">
                 <div className="col-span-3">1. Rythme sinusal</div>
                 <div className="col-span-3">2 : Fibrilation auriculaire</div>
@@ -375,7 +382,12 @@ export default function SM01693({ patient, form, user }: DataResponse) {
               ))}
             </tr>
             <tr>
-              <th style={verticalCellStyle}>sédation</th>
+              <td
+                style={verticalCellStyle}
+                className="max-w-9 font-bold text-center"
+              >
+                sédation
+              </td>
               <td>
                 <ul>
                   <li>S : sommeil normal, s'éveille facilement</li>
@@ -406,7 +418,12 @@ export default function SM01693({ patient, form, user }: DataResponse) {
               ))}
             </tr>
             <tr>
-              <th style={verticalCellStyle}>DLR</th>
+              <td
+                style={verticalCellStyle}
+                className="max-w-9 font-bold text-center"
+              >
+                DLR
+              </td>
               <td>
                 Intensité Échelle de 0 à 10
                 <br />
@@ -433,10 +450,14 @@ export default function SM01693({ patient, form, user }: DataResponse) {
               ))}
             </tr>
             <tr>
-              <th rowSpan={3} style={verticalCellStyle}>
+              <td
+                rowSpan={3}
+                style={verticalCellStyle}
+                className="max-w-9 font-bold text-center"
+              >
                 autre
                 <br /> PARAMÈTRES
-              </th>
+              </td>
               <td>
                 <div className="grid grid-cols-2">
                   <span>S : Sueurs</span>
