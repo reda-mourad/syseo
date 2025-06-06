@@ -403,7 +403,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                   <select
                     name={`sedation_${i}`}
                     className="w-full"
-                    defaultValue={i < 3 ? "1" : i === 3 ? "0" : ""}
+                    defaultValue={i < 4 ? "0" : ""}
                     tabIndex={19 * i + 15}
                   >
                     {["", "S", "0", "1", "2", "3"].map((e) => (
@@ -716,11 +716,20 @@ export default function SM01693({ patient, form, user }: DataResponse) {
             {verifications.map((v, i) => (
               <tr key={v}>
                 <td>
-                  <Choice
-                    label={v}
-                    type="checkbox"
-                    defaultChecked={[0, 1, 2, 3, 5, 6, 11, 12, 15].includes(i)}
-                  />
+                  <div className="flex items-center gap-2">
+                    <Choice
+                      label={v}
+                      type="checkbox"
+                      defaultChecked={[0, 1, 2, 3, 5, 6, 12].includes(i)}
+                    />
+                    {v === "Client accompagné par :" && (
+                      <input
+                        name={`${v} details}`}
+                        className="flex-1 flex-1focus:bg-violet-100 px-1 border border-gray-400 rounded w-full"
+                        maxLength={50}
+                      />
+                    )}
+                  </div>
                 </td>
                 <td>
                   <QuestionWithInput
@@ -772,7 +781,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                   <QuestionWithInput type="time" name={`note time ${i}`} />
                 </td>
                 <td className="w-full">
-                  <QuestionWithInput name={`note time ${i}`} maxLength={90} />
+                  <QuestionWithInput name={`note text ${i}`} maxLength={90} />
                 </td>
               </tr>
             ))}
