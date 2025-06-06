@@ -713,37 +713,36 @@ export default function SM01693({ patient, form, user }: DataResponse) {
             </tr>
           </thead>
           <tbody>
-            {verifications.map((v, i) => (
-              <tr key={v}>
-                <td>
-                  <div className="flex items-center gap-2">
-                    <Choice
-                      label={v}
-                      type="checkbox"
-                      defaultChecked={[0, 1, 2, 3, 5, 6, 12].includes(i)}
-                    />
-                    {v === "Client accompagné par :" && (
-                      <input
-                        name={`${v} details}`}
-                        className="flex-1 flex-1focus:bg-violet-100 px-1 border border-gray-400 rounded w-full"
-                        maxLength={50}
+            {verifications.map((v, i) => {
+              const defaults = [0, 1, 2, 3, 5, 6, 12];
+              return (
+                <tr key={v}>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      <Choice
+                        label={v}
+                        type="checkbox"
+                        defaultChecked={defaults.includes(i)}
                       />
-                    )}
-                  </div>
-                </td>
-                <td>
-                  <QuestionWithInput
-                    name={`${v}_init`}
-                    className="w-10"
-                    value={
-                      [0, 1, 2, 3, 5, 6, 11, 12, 15].includes(i)
-                        ? user.initiales
-                        : ""
-                    }
-                  />
-                </td>
-              </tr>
-            ))}
+                      {v === "Client accompagné par :" && (
+                        <input
+                          name={`${v} details}`}
+                          className="flex-1 flex-1focus:bg-violet-100 px-1 border border-gray-400 rounded w-full"
+                          maxLength={50}
+                        />
+                      )}
+                    </div>
+                  </td>
+                  <td>
+                    <QuestionWithInput
+                      name={`${v}_init`}
+                      className="w-10"
+                      value={defaults.includes(i) ? user.initiales : ""}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <div className="flex gap-2">
