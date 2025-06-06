@@ -699,7 +699,7 @@ export default function SM01694({ patient, user }: DataResponse) {
                 <QuestionWithChoices
                   choices={[
                     "",
-                    ...Array.from({ length: 3 }, (_, i) => `${i + 2}ml`),
+                    ...Array.from({ length: 9 }, (_, i) => `${i + 2}ml`),
                   ]}
                   type="single"
                   name="Encre de chine details"
