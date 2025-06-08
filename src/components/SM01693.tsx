@@ -779,8 +779,9 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                 <td>
                   <QuestionWithInput type="time" name={`note time ${i}`} />
                 </td>
-                <td className="w-full">
-                  <QuestionWithInput name={`note text ${i}`} maxLength={90} />
+                <td className="space-y-1 w-full">
+                  <QuestionWithInput name={`note text ${i} A`} maxLength={90} />
+                  <QuestionWithInput name={`note text ${i} B`} maxLength={90} />
                 </td>
               </tr>
             ))}
