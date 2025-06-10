@@ -76,6 +76,7 @@ export default function SM01741({ patient }: DataResponse) {
                   other
                   type="multiple"
                   label="Raison de la consultation :"
+                  columns={2}
                 />
               </td>
             </tr>
@@ -156,6 +157,7 @@ export default function SM01741({ patient }: DataResponse) {
                   ]}
                   type="multiple"
                   other
+                  columns={2}
                 />
               </td>
             </tr>
@@ -211,6 +213,7 @@ export default function SM01741({ patient }: DataResponse) {
                   ]}
                   other
                   type="multiple"
+                  columns={2}
                 />
               </td>
             </tr>
