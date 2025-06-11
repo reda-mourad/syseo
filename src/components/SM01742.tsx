@@ -11,7 +11,7 @@ import Textarea from "./Textarea";
 import TimePicker from "./time-picker";
 
 const title = "SOINS INFIRMIERS EN ENDOSCOPIE UROLOGIQUE";
-const pages = 1;
+const pages = 2;
 
 export default function SM01742({ patient, form }: DataResponse) {
   return (
