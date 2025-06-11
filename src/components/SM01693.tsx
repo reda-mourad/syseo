@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
+import type { DataResponse } from "../4d";
 import { currentDate, medications, units } from "../choices";
-import type { DataResponse } from "../main";
 import { Choice } from "./choice";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
@@ -8,6 +8,8 @@ import Heading from "./heading";
 import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
+import Textarea from "./Textarea";
+import TimePicker from "./time-picker";
 
 const title = "SOINS INFIRMIERS APRÈS UN EXAMEN ENDOSCOPIQUE";
 const verticalCellStyle: React.CSSProperties = {
@@ -140,12 +142,12 @@ export default function SM01693({ patient, form, user }: DataResponse) {
               </th>
               {colArr.map((_, i) => (
                 <th key={i}>
-                  <QuestionWithInput
+                  <TimePicker
+                    initValue={form.data?.[`time_${i}`] ?? ""}
                     name={`time_${i}`}
-                    type="time"
                     tabIndex={19 * i + 1}
                     // className="hide-time-btn"
-                    onChange={() => {
+                    onClick={() => {
                       const initEl = document.querySelector<HTMLInputElement>(
                         `input[name="initiales_${i}"]`
                       );
@@ -154,13 +156,6 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                       }
                     }}
                   />
-                  {/* <button
-                    type="button"
-                    onDoubleClick={() => alert("double click")}
-                    className="flex justify-center items-center p-1 border border-gray-400 rounded w-full font-mono"
-                  >
-                    -- : --
-                  </button> */}
                 </th>
               ))}
             </tr>
@@ -614,17 +609,16 @@ export default function SM01693({ patient, form, user }: DataResponse) {
               .map((_, i) => (
                 <tr key={i}>
                   <td>
-                    <QuestionWithInput
+                    <TimePicker
+                      initValue={form.data?.[`med_${i}_time`] ?? ""}
                       name={`med_${i}_time`}
-                      type="time"
                       className="min-w-24"
-                      onChange={(e) => {
+                      onClick={() => {
                         const initEl = document.querySelector<HTMLInputElement>(
                           `input[name="med_${i}_init"]`
                         );
-                        const time = e.currentTarget.value;
                         if (initEl) {
-                          initEl.value = time ? user.initiales : "";
+                          initEl.value = user.initiales ?? "";
                         }
                       }}
                     />
@@ -777,11 +771,14 @@ export default function SM01693({ patient, form, user }: DataResponse) {
             {Array.from({ length: 4 }).map((_, i) => (
               <tr key={i}>
                 <td>
-                  <QuestionWithInput type="time" name={`note time ${i}`} />
+                  <TimePicker
+                    className="w-16"
+                    name={`note time ${i}`}
+                    initValue={form.data?.[`note time ${i}`] ?? ""}
+                  />
                 </td>
                 <td className="space-y-1 w-full">
-                  <QuestionWithInput name={`note text ${i} A`} maxLength={90} />
-                  <QuestionWithInput name={`note text ${i} B`} maxLength={90} />
+                  <Textarea lineLength={96} rows={2} name={`note text ${i}`} />
                 </td>
               </tr>
             ))}

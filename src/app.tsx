@@ -1,10 +1,11 @@
 import { useEffect } from "react";
+import type { DataResponse } from "./4d";
 import SM01693 from "./components/SM01693";
 import SM01694 from "./components/SM01694";
 import SM01695 from "./components/SM01695";
 import SM01696 from "./components/SM01696";
 import SM01741 from "./components/SM01741";
-import type { DataResponse } from "./main";
+import SM01742 from "./components/SM01742";
 
 export function App({ initData }: { initData?: DataResponse }) {
   useEffect(() => {
@@ -61,5 +62,6 @@ export function App({ initData }: { initData?: DataResponse }) {
   if (initData?.form?.code === "SM01694") return <SM01694 {...initData} />;
   if (initData?.form?.code === "SM01693") return <SM01693 {...initData} />;
   if (initData?.form?.code === "SM01741") return <SM01741 {...initData} />;
+  if (initData?.form?.code === "SM01742") return <SM01742 {...initData} />;
   return null;
 }

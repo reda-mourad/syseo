@@ -1,5 +1,5 @@
+import type { DataResponse } from "../4d";
 import { nonOui } from "../choices";
-import type { DataResponse } from "../main";
 import { Choice } from "./choice";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
@@ -8,18 +8,12 @@ import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
 
-const title = "QUESTIONNAIRE DE L’USAGER EN CLINIQUE D’UROLOGIE";
+const title = "QUESTIONNAIRE DE L'USAGER EN CLINIQUE D'UROLOGIE";
 
 export default function SM01741({ patient }: DataResponse) {
   return (
     <Form>
-      <Page
-        index={1}
-        total={2}
-        title={title}
-        patient={patient}
-        className="gap-4"
-      >
+      <Page index={1} total={2} title={title} patient={patient}>
         <FormHeader code="SM01741" patient={patient} />
         <Heading level={1}>{title}</Heading>
 
@@ -122,7 +116,7 @@ export default function SM01741({ patient }: DataResponse) {
               "Un problème au niveau de vos reins ?",
               "Une ou des allergie(s) ?",
               "Du diabète ?",
-              "D’autres problèmes de santé ?",
+              "D'autres problèmes de santé ?",
             ].map((label) => (
               <tr key={label}>
                 <td className="w-1/2">
@@ -233,13 +227,7 @@ export default function SM01741({ patient }: DataResponse) {
           </tbody>
         </table>
       </Page>
-      <Page
-        patient={patient}
-        index={2}
-        total={2}
-        title={title}
-        className="gap-4"
-      >
+      <Page patient={patient} index={2} total={2} title={title}>
         {/* PARTIE RÉSERVÉE AU PERSONNEL INFIRMIER */}
         <table>
           <thead>
@@ -281,7 +269,7 @@ export default function SM01741({ patient }: DataResponse) {
         <div className="gap-4 grid grid-cols-2">
           <QuestionWithInput label="Nom :" />
           <QuestionWithInput label="Signature :" />
-          <QuestionWithInput label="Titre d’emploi :" />
+          <QuestionWithInput label="Titre d'emploi :" />
           <QuestionWithInput label="Date et heure :" type="datetime-local" />
         </div>
       </Page>

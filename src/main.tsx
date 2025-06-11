@@ -1,50 +1,22 @@
+import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { App } from "./app";
-import type { Patient } from "./components/patient-ticket";
 import "./index.css";
+import { routeTree } from "./routeTree.gen";
+import { main_4d } from "./4d";
 
-export interface DataResponse {
-  form: { UUID: string; data: Record<string, never> | null; code: string };
-  patient: Patient;
-  user: { initiales: string };
-}
+const router = createRouter({ routeTree });
 
-declare global {
-  interface Window {
-    saveForm: () => void;
-    $4d: {
-      form_save: (id: string, data: Record<string, unknown>) => void;
-      form_get: (id: string, result: (res?: DataResponse) => void) => void;
-    };
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
   }
 }
 
-const params = new URLSearchParams(window.location.search);
-const formId = params.get("id") ?? "";
-const secret = params.get("secret") ?? "";
-
-if (!window.$4d) {
-  window.$4d = {
-    form_get: (id: string, result: (res?: DataResponse) => void) => {
-      fetch(`${location.origin}/4DACTION/form_get/?id=${id}`, {
-        headers: { secret },
-      })
-        .then((res) => res.json())
-        .then((json) => result(json));
-    },
-    form_save() {},
-  };
-}
-
-function init(initData?: DataResponse) {
+if (window.$4d) main_4d();
+else
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <App initData={initData} />
+      <RouterProvider router={router} />
     </StrictMode>
   );
-}
-
-window.$4d.form_get(formId, (res) => {
-  init(res);
-});

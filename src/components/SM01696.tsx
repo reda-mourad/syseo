@@ -1,5 +1,5 @@
-import { currentDate, currentTime, nonOui } from "../choices";
-import type { DataResponse } from "../main";
+import type { DataResponse } from "../4d";
+import { allergies, currentDate, currentTime, nonOui } from "../choices";
 import { Choice } from "./choice";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
@@ -9,38 +9,6 @@ import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
 
 const title = "SOINS INFIRMIERS AVANT UN EXAMEN ENDOSCOPIQUE - PARTIE USAGER";
-const allergies = [
-  "",
-  "AAS",
-  "AMOXICILLINE",
-  "ANAPHYLAXIE - AUTRE NON SPÉCIFIÉ",
-  "ANAPHYLAXIE - MÉDICAMENT NON SPÉCIFIÉ",
-  "ANESTHESIQUES -type non spécifique",
-  "ANTIBIOTIQUES -type non spécifique",
-  "ANTICONVULSIVANTS -type non spécifique",
-  "ANTI-INFLAMMATOIRES-NON-STEROIDIENS-(AINS)",
-  "ANTINEOPLASIQUES-ET-PRODUITS-APPARENTES -type non spécifique",
-  "ARACHIDES",
-  "BLÉ",
-  "CODÉINE",
-  "IMMUNISATION-ACTIVE -type non spécifique",
-  "IODE-TEINTURE",
-  "LACTOSE",
-  "LAIT-DE-VACHE",
-  "LATEX",
-  "MEPERIDINE",
-  "MOLLUSQUES/CRUSTACES",
-  "MORPHINE",
-  "NOIX",
-  "OEUFS",
-  "PENICILLINES -type non spécifique",
-  "POISSONS",
-  "RELAXANTS-MUSCULAIRES -type non spécifique",
-  "RUBAN-ADHESIF",
-  "SOYA",
-  "SUBSTANCE DE CONTRASTE: IMAGERIE RADIOLOGIE",
-  "SULFAMIDES -type non spécifique",
-];
 
 export default function SM01696({ patient, user }: DataResponse) {
   return (

@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
-import { examType, examTypeOther, medications, units } from "../choices";
-import type { DataResponse } from "../main";
+import type { DataResponse } from "../4d";
+import {
+  colonSite,
+  examType,
+  examTypeOther,
+  medications,
+  units,
+} from "../choices";
 import { Choice } from "./choice";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
@@ -8,6 +14,7 @@ import Heading from "./heading";
 import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
+import TimePicker from "./time-picker";
 
 const title = "SOINS INFIRMIERS PENDANT UN EXAMEN ENDOSCOPIQUE";
 const verticalCellStyle: React.CSSProperties = {
@@ -17,22 +24,7 @@ const verticalCellStyle: React.CSSProperties = {
 };
 const colArr = Array.from({ length: 8 });
 
-const colonSite = [
-  "",
-  "Iléon",
-  "Caecum",
-  "Valvule I-C",
-  "Colon ascendant",
-  "Anglé hépatique",
-  "Colon transverse",
-  "Angle splénique",
-  "Colon descendant",
-  "Colon sigmoïde",
-  "Rectum",
-  "Anus",
-];
-
-export default function SM01694({ patient, user }: DataResponse) {
+export default function SM01694({ patient, user, form }: DataResponse) {
   useEffect(() => {
     document
       .querySelectorAll('select[name^="prelevement flacon"]')
@@ -86,13 +78,27 @@ export default function SM01694({ patient, user }: DataResponse) {
           </div>
         </div>
         <div className="flex gap-4">
-          <QuestionWithInput
-            label="Heure d'entrée"
-            type="time"
-            className="appearance-auto"
-          />
-          <QuestionWithInput label="Heure de début" type="time" />
-          <QuestionWithInput label="Heure de fin" type="time" />
+          <div className="flex items-center gap-2">
+            Heure d'entrée
+            <TimePicker
+              name="Heure d'entrée"
+              initValue={form.data?.["Heure d'entrée"] ?? ""}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            Heure de début
+            <TimePicker
+              name="Heure de début"
+              initValue={form.data?.["Heure d'entrée"] ?? ""}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            Heure de fin
+            <TimePicker
+              name="Heure de fin"
+              initValue={form.data?.["Heure d'entrée"] ?? ""}
+            />
+          </div>
         </div>
         <table className="text-[.55rem]">
           <thead>
@@ -107,27 +113,11 @@ export default function SM01694({ patient, user }: DataResponse) {
               </th>
               {colArr.map((_, i) => (
                 <th key={i}>
-                  <QuestionWithInput
+                  <TimePicker
+                    className="w-full"
                     name={`time_${i}`}
-                    type="time"
-                    tabIndex={19 * i + 1}
-                    // className="hide-time-btn"
-                    onChange={() => {
-                      const initEl = document.querySelector<HTMLInputElement>(
-                        `input[name="initiales_${i}"]`
-                      );
-                      if (initEl) {
-                        initEl.value = user.initiales;
-                      }
-                    }}
+                    initValue={form.data?.[`time_${i}`] ?? ""}
                   />
-                  {/* <button
-                    type="button"
-                    onDoubleClick={() => alert("double click")}
-                    className="flex justify-center items-center p-1 border border-gray-400 rounded w-full font-mono"
-                  >
-                    -- : --
-                  </button> */}
                 </th>
               ))}
             </tr>
@@ -489,11 +479,12 @@ export default function SM01694({ patient, user }: DataResponse) {
               <th>Heure</th>
               {colArr.map((_, i) => (
                 <th key={i}>
-                  <QuestionWithInput
+                  <TimePicker
+                    initValue={form.data?.[`med time ${i}`] ?? ""}
+                    className="w-full"
                     tabIndex={500 + 8 * i + 1}
                     name={`med time ${i}`}
-                    type="time"
-                    onChange={() => {
+                    onClick={() => {
                       const initEl = document.querySelector<HTMLInputElement>(
                         `input[name="med init ${i}"]`
                       );

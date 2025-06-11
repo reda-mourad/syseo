@@ -1,6 +1,6 @@
 import { useState } from "react";
+import type { DataResponse } from "../4d";
 import { currentDate, examType, examTypeOther, nonOui } from "../choices";
-import type { DataResponse } from "../main";
 import { Choice } from "./choice";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
@@ -501,7 +501,7 @@ export default function SM01695({ patient, form }: DataResponse) {
             maxLength={1000}
             className="overflow-hidden"
             defaultValue={
-              "Évaluation infirmière complétée. Aucun enjeu clinique identifié à ce stade. Informé du déroulement de l’examen et des consignes post-examen. Consentement signé. Prêt pour l’intervention. L’équipe soignant avisé que l’usager est prêt à être transféré en salle."
+              "Évaluation infirmière complétée. Aucun enjeu clinique identifié à ce stade. Informé du déroulement de l'examen et des consignes post-examen. Consentement signé. Prêt pour l'intervention. L'équipe soignant avisé que l'usager est prêt à être transféré en salle."
             }
           />
         </fieldset>
