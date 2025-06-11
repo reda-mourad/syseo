@@ -6,11 +6,32 @@ import {
 } from "@tanstack/react-router";
 import { auth } from "../lib/utils";
 
+// interface Patient {
+//   NoDossier: number;
+//   Nom: string;
+//   Prénom: string;
+//   forms: { xNumID: number; code: string }[];
+// }
+
+interface Form {
+  UUID: string;
+  code: string;
+  data: Record<string, string>;
+}
+
+interface Exam {
+  UUID: string;
+  UUID_Patient: string;
+  date: string;
+  type: string;
+  forms: Form[];
+}
+
 interface Patient {
-  NoDossier: number;
-  Nom: string;
-  Prénom: string;
-  forms: { xNumID: number; code: string }[];
+  UUID: string;
+  first_name: string;
+  last_name: string;
+  exams: Exam[];
 }
 
 export const Route = createFileRoute("/_main")({
@@ -22,7 +43,7 @@ export const Route = createFileRoute("/_main")({
     const res = await fetch(`${location.origin}/4DACTION/patient_list`);
     const { result } = (await res.json()) as { result: Patient[] };
 
-    return { patients: result.filter((p) => p.forms.length) };
+    return { patients: result };
   },
 });
 
@@ -31,16 +52,21 @@ function RouteComponent() {
   return (
     <div className="flex divide-x h-dvh">
       <aside className="space-y-4 p-4 w-60">
-        {patients.map(({ NoDossier, Nom, Prénom, forms }) => (
-          <div className="space-y-2" key={NoDossier}>
-            <div>
-              {Prénom} {Nom}
-            </div>
+        {patients.map(({ UUID, first_name, last_name, exams }) => (
+          <div className="space-y-2" key={UUID}>
+            <div>{[first_name, last_name].join(" ")}</div>
             <div className="flex flex-col gap-2">
-              {forms.map(({ code, xNumID }) => (
-                <Link to="/$id" params={{ id: String(xNumID) }} key={xNumID}>
-                  {code}
-                </Link>
+              {exams.map(({ UUID, date, forms }) => (
+                <div key={UUID}>
+                  <span>Examen : {date}</span>
+                  <div className="flex flex-col gap-2">
+                    {forms.map(({ UUID, code }) => (
+                      <Link to="/$id" params={{ id: UUID }} key={UUID}>
+                        {code}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </div>
