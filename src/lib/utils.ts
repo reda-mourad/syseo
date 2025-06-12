@@ -7,7 +7,6 @@ export function cn(...inputs: ClassValue[]) {
 
 interface User {
   id: string;
-  username: string;
 }
 
 interface Auth {
@@ -16,8 +15,6 @@ interface Auth {
 }
 
 export const auth: Auth = {
+  setUser: (user) => (auth.user = user),
   user: null,
-  setUser: (user) => {
-    auth.user = user;
-  },
 };

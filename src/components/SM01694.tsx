@@ -114,6 +114,7 @@ export default function SM01694({ patient, user, form }: DataResponse) {
               {colArr.map((_, i) => (
                 <th key={i}>
                   <TimePicker
+                    tabIndex={19 * i + 1}
                     className="w-full"
                     name={`time_${i}`}
                     initValue={form.data?.[`time_${i}`] ?? ""}
