@@ -89,14 +89,14 @@ export default function SM01694({ patient, user, form }: DataResponse) {
             Heure de début
             <TimePicker
               name="Heure de début"
-              initValue={form.data?.["Heure d'entrée"] ?? ""}
+              initValue={form.data?.["Heure de début"] ?? ""}
             />
           </div>
           <div className="flex items-center gap-2">
             Heure de fin
             <TimePicker
               name="Heure de fin"
-              initValue={form.data?.["Heure d'entrée"] ?? ""}
+              initValue={form.data?.["Heure de fin"] ?? ""}
             />
           </div>
         </div>
@@ -117,6 +117,14 @@ export default function SM01694({ patient, user, form }: DataResponse) {
                     className="w-full"
                     name={`time_${i}`}
                     initValue={form.data?.[`time_${i}`] ?? ""}
+                    onClick={() => {
+                      const initEl = document.querySelector<HTMLInputElement>(
+                        `input[name="initiales_${i}"]`
+                      );
+                      if (initEl) {
+                        initEl.value = user.initiales ?? "";
+                      }
+                    }}
                   />
                 </th>
               ))}
@@ -250,7 +258,7 @@ export default function SM01694({ patient, user, form }: DataResponse) {
                   <div className="flex items-center-safe gap-0.5">
                     <QuestionWithInput
                       type="number"
-                      name="sat l/min"
+                      name={`sat l/min ${i}`}
                       tabIndex={19 * i + 11}
                       initValue={i < 4 ? "2" : ""}
                     />

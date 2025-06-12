@@ -288,7 +288,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                   <div className="flex items-center-safe gap-0.5">
                     <QuestionWithInput
                       type="number"
-                      name="sat l/min"
+                      name={`sat l/min ${i}`}
                       tabIndex={19 * i + 11}
                     />
                     L/min
