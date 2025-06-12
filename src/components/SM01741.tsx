@@ -272,7 +272,7 @@ export default function SM01741({ patient }: DataResponse) {
         </table>
         <div className="space-y-2">
           <Heading level={3}>NOTES COMPLÉMENTAIRES</Heading>
-          <Textarea name="NOTES COMPLÉMENTAIRES" lineLength={108} rows={9} />
+          <Textarea name="NOTES COMPLÉMENTAIRES" lineLength={108} rows={9} className="max-h-full" />
         </div>
         <div className="gap-4 grid grid-cols-2">
           <QuestionWithInput label="Nom :" />

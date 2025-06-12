@@ -392,7 +392,7 @@ export default function SM01742({ patient, form }: DataResponse) {
           </tbody>
         </table>
         <Heading level={2}>Notes d'observations</Heading>
-        <Textarea lineLength={108} rows={15} style={{height:"250px"}} name="Notes d'observations" />
+        <Textarea lineLength={108} rows={15} style={{height:"250px"}} name="Notes d'observations" className="max-h-full" />
         {/* <table>
           <thead>
             <tr>

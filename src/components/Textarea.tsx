@@ -29,7 +29,7 @@ export default function Textarea({
           }
         }
       }}
-      className={cn("w-full", className)}
+      className={cn("w-full max-h-11", className)}
       {...props}
     />
   );
