@@ -1,5 +1,5 @@
 import type { DataResponse } from "../4d";
-import { nonOui } from "../choices";
+import { currentDate, nonOui } from "../choices";
 import { Choice } from "./choice";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
@@ -7,6 +7,7 @@ import Heading from "./heading";
 import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
+import Textarea from "./Textarea";
 
 const title = "QUESTIONNAIRE DE L'USAGER EN CLINIQUE D'UROLOGIE";
 
@@ -41,6 +42,7 @@ export default function SM01741({ patient }: DataResponse) {
                 <QuestionWithInput
                   label="Date de l'intervention :"
                   type="date"
+                  initValue={currentDate()}
                 />
               </td>
             </tr>
@@ -88,6 +90,7 @@ export default function SM01741({ patient }: DataResponse) {
               <td colSpan={2}>
                 <QuestionWithChoices
                   choices={["Sur pieds", "Fauteuil", "Civière"]}
+                  defaultValue="Sur pieds"
                   type="radio"
                   other
                   label="Déplacement :"
@@ -125,6 +128,7 @@ export default function SM01741({ patient }: DataResponse) {
                     type="radio"
                     label={label}
                     className="justify-between justify"
+                    defaultValue="Non"
                   />
                 </td>
                 <td>
@@ -139,6 +143,7 @@ export default function SM01741({ patient }: DataResponse) {
                   type="radio"
                   label="Une présence ou une prothèse de métal ?"
                   className="justify-between justify"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -149,6 +154,7 @@ export default function SM01741({ patient }: DataResponse) {
                     "Pacemaker",
                     "Prothèse de genou ou de la hanche",
                   ]}
+                  defaultValue="Non"
                   type="multiple"
                   other
                   columns={2}
@@ -162,6 +168,7 @@ export default function SM01741({ patient }: DataResponse) {
                   type="radio"
                   label="Êtes-vous enceinte ?"
                   className="justify-between justify"
+                  defaultValue="Non"
                 />
               </td>
               <td>
@@ -169,6 +176,7 @@ export default function SM01741({ patient }: DataResponse) {
                   choices={nonOui}
                   type="radio"
                   label="Allaitez-vous ?"
+                  defaultValue="Non"
                   className="justify-between justify"
                 />
               </td>
@@ -264,7 +272,7 @@ export default function SM01741({ patient }: DataResponse) {
         </table>
         <div className="space-y-2">
           <Heading level={3}>NOTES COMPLÉMENTAIRES</Heading>
-          <textarea name="NOTES COMPLÉMENTAIRES" className="w-full" />
+          <Textarea name="NOTES COMPLÉMENTAIRES" lineLength={108} rows={9} />
         </div>
         <div className="gap-4 grid grid-cols-2">
           <QuestionWithInput label="Nom :" />

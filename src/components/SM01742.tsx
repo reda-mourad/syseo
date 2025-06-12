@@ -1,5 +1,5 @@
 import type { DataResponse } from "../4d";
-import { allergies, nonOui } from "../choices";
+import { allergies, currentDate, nonOui } from "../choices";
 import { Choice } from "./choice";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
@@ -20,7 +20,12 @@ export default function SM01742({ patient, form }: DataResponse) {
         <FormHeader code="SM01742" patient={patient} />
         <Heading level={1}>{title}</Heading>
         <div className="gap-2 grid grid-cols-2">
-          <QuestionWithInput label="Date :" type="date" className="max-w-40" />
+          <QuestionWithInput
+            label="Date :"
+            type="date"
+            className="max-w-40"
+            initValue={currentDate()}
+          />
           <QuestionWithInput label="Médecin  en charge :" />
           <QuestionWithChoices
             label="Salle :"
@@ -180,12 +185,12 @@ export default function SM01742({ patient, form }: DataResponse) {
         <table>
           <thead>
             <tr>
-              <th colSpan={8}>Sonde</th>
+              <th colSpan={8}>Sonde(s)</th>
             </tr>
             <tr>
               <th>Type</th>
               <th>Grandeur</th>
-              <th>Latex</th>
+              <th>MATIERE</th>
               <th>Voies</th>
               <th>Ballonet</th>
               <th>Sac collecteur</th>
@@ -386,7 +391,9 @@ export default function SM01742({ patient, form }: DataResponse) {
               ))}
           </tbody>
         </table>
-        <table>
+        <Heading level={2}>Notes d'observations</Heading>
+        <Textarea lineLength={108} rows={15} style={{height:"250px"}} />
+        {/* <table>
           <thead>
             <tr>
               <th colSpan={2}>Notes d'observations :</th>
@@ -408,7 +415,7 @@ export default function SM01742({ patient, form }: DataResponse) {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table> */}
         <QuestionWithInput label="Signature de l'infirmière :" />
       </Page>
     </Form>

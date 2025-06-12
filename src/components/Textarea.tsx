@@ -15,17 +15,21 @@ export default function Textarea({
   return (
     <textarea
       onKeyDown={(e) => {
+        if (e.key.length === 1) {
+          const lines = e.currentTarget.value.split("\n");
+          if (lines[lines.length - 1].length >= lineLength) {
+            e.preventDefault();
+            return;
+          }
+        }
+
         if (e.key === "Enter") {
           if (e.currentTarget.value.split("\n").length >= rows) {
             return e.preventDefault();
-          } else {
-            e.currentTarget.maxLength =
-              e.currentTarget.value.split("\n")[0].length + lineLength + 1;
           }
         }
       }}
-      maxLength={lineLength * rows}
-      className={cn("w-full max-h-11", className)}
+      className={cn("w-full", className)}
       {...props}
     />
   );
