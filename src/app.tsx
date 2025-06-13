@@ -6,6 +6,7 @@ import SM01695 from "./components/SM01695";
 import SM01696 from "./components/SM01696";
 import SM01741 from "./components/SM01741";
 import SM01742 from "./components/SM01742";
+import SM02493 from "./components/SM02493";
 
 export function App({ initData }: { initData?: DataResponse }) {
   useEffect(() => {
@@ -63,5 +64,6 @@ export function App({ initData }: { initData?: DataResponse }) {
   if (initData?.form?.code === "SM01693") return <SM01693 {...initData} />;
   if (initData?.form?.code === "SM01741") return <SM01741 {...initData} />;
   if (initData?.form?.code === "SM01742") return <SM01742 {...initData} />;
+  if (initData?.form?.code === "SM02493") return <SM02493 {...initData} />;
   return null;
 }

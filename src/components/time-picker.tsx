@@ -93,3 +93,18 @@ export default function TimePicker({
     </Popover>
   );
 }
+
+interface TimeFieldProps {
+  label: string;
+  name?: string;
+  initValue: string;
+}
+
+export function TimeField({ initValue, label, name }: TimeFieldProps) {
+  return (
+    <div className="flex items-center gap-1">
+      <label htmlFor="">{label}</label>
+      <TimePicker initValue={initValue} name={name || label} />
+    </div>
+  );
+}
