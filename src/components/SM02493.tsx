@@ -104,8 +104,8 @@ export default function SM02493({ patient, form }: DataResponse) {
             { label: "Xylocaïne en gelée 2%", unit: "ml" },
             { label: "Lidocaïne total", unit: "mg" },
             { label: "Cyclokapron", unit: "mg" },
-          ].map(({ label, unit }) => (
-            <div className="flex flex-wrap items-center gap-1">
+          ].map(({ label, unit }, i) => (
+            <div key={i} className="flex flex-wrap items-center gap-1">
               <Choice label={label} type="checkbox" />
               <QuestionWithInput type="number" name={`${label} dose`} />
               {unit}
@@ -230,8 +230,8 @@ function Truc({ index }: { index: number }) {
         { label: "Optiflow", unit: "%" },
         { label: "Ventilé mécaniquement", unit: "%" },
         { label: "Bipap", unit: "" },
-      ].map(({ label, unit }) => (
-        <div className="flex flex-wrap items-center gap-1">
+      ].map(({ label, unit }, i) => (
+        <div key={i} className="flex flex-wrap items-center gap-1">
           <Choice label={label} type="checkbox" name={`${label} ${index}`} />
           <QuestionWithInput
             type={label === "Bipap" ? "text" : "number"}

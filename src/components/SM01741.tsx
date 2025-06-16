@@ -161,7 +161,6 @@ export default function SM01741({ patient }: DataResponse) {
                   defaultValue="Non"
                   type="multiple"
                   other
-                  otherLength={20}
                   columns={2}
                 />
               </td>
@@ -224,7 +223,6 @@ export default function SM01741({ patient }: DataResponse) {
                     "Warfarine (Coumadin)",
                   ]}
                   other
-                  otherLength={20}
                   type="radio"
                   columns={2}
                 />

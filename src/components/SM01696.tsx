@@ -520,27 +520,24 @@ export default function SM01696({ patient, user }: DataResponse) {
                 />
               </td>
               <td className="space-y-1">
-                <Choice label="Aspirine" type="checkbox" />
-                <QuestionWithChoices
-                  name="Prenez-vous un médicament pour éclaircir le sang ?_details"
-                  choices={[
-                    "Coumadin",
-                    "Ticlid",
-                    "Sintrom",
-                    "Eliquis",
-                    "Héparine",
-                    "Pradaxa",
-                    "Innohep",
-                    "Lixiana",
-                    "Xarelto",
-                    "Plavix",
-                  ]}
-                  type="radio"
-                  columns={3}
+                <Choice
+                  label="Acide acétylsalicylique (Aspirine)"
+                  type="checkbox"
                 />
-                <QuestionWithInput
-                  name="Prenez-vous un médicament pour éclaircir le sang ?_other"
-                  label="Autre :"
+                <QuestionWithChoices
+                  choices={[
+                    // "Acide acétylsalicylique (Aspirine)",
+                    "Apixaban (Eliquis)",
+                    "Clopidogrel (Plavix)",
+                    "Dabigatran (Pradax)",
+                    "Enoxaparine (Lenovox)",
+                    "Héparine",
+                    "Rivaroxaban (Xarelto)",
+                    "Warfarine (Coumadin)",
+                  ]}
+                  other
+                  type="radio"
+                  columns={2}
                 />
               </td>
             </tr>
@@ -650,7 +647,7 @@ export default function SM01696({ patient, user }: DataResponse) {
           </tbody>
         </table>
         <QuestionWithInput
-          label="Document vérifié par :"
+          label="Vérifié par :"
           initValue={user.initiales}
         />
       </Page>
