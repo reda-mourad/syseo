@@ -31,6 +31,7 @@ export function QuestionWithChoices({
   onSelect,
 }: QuestionWithChoicesProps) {
   const [selected, setSelected] = useState<string>(defaultValue ?? "");
+  choices.sort();
 
   return (
     <div className={cn("flex items-center gap-2", className)}>

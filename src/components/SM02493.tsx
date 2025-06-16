@@ -11,7 +11,7 @@ import Textarea from "./Textarea";
 import { TimeField } from "./time-picker";
 
 const title = "INHALOTHÉRAPIE EN ENDOSCOPIE PULMONAIRE";
-const pages = 2;
+const pages = 3;
 
 export default function SM02493({ patient, form }: DataResponse) {
   return (
@@ -41,7 +41,7 @@ export default function SM02493({ patient, form }: DataResponse) {
             label="Type admission :"
           />
           <QuestionWithInput label="Médecin en charge :" />
-          <QuestionWithInput label="Raison de l’intervention :" />
+          <QuestionWithInput label="Raison de l'intervention :" />
         </div>
         <table>
           <thead>
@@ -127,7 +127,7 @@ export default function SM02493({ patient, form }: DataResponse) {
         <QuestionWithChoices
           choices={[
             "Pince à biopsie",
-            "Aig'uille ",
+            "Aiguille ",
             "Lasso",
             "Panier",
             "Ballon",
@@ -165,7 +165,7 @@ export default function SM02493({ patient, form }: DataResponse) {
         </div>
         <div>Oxygénothérapie :</div>
         <QuestionWithInput
-          label="À l’arrivée : SpO2 : "
+          label="À l'arrivée : SpO2 : "
           type="number"
           className="max-w-10"
         />
@@ -183,12 +183,12 @@ export default function SM02493({ patient, form }: DataResponse) {
           className="max-w-10"
         />
         <Truc index={2} />
-        <div>Note d’observations</div>
+        <div>Note d'observations</div>
         <Textarea lineLength={108} rows={9} className="h-72 max-h-full" />
         <div className="gap-2 grid grid-cols-2">
           <QuestionWithInput label="Nom et prénom :" />
           <QuestionWithInput label="No de permis :" />
-          <QuestionWithInput label="Titre d’emploi :" />
+          <QuestionWithInput label="Titre d'emploi :" />
           <QuestionWithInput label="Signature :" />
           <QuestionWithInput
             label="Date :"
@@ -207,7 +207,11 @@ export default function SM02493({ patient, form }: DataResponse) {
               <th className="w-full">
                 <div className="flex justify-around items-center">
                   Note
-                  <Choice label="Double identification faite" name="Double identification faite notes" type="checkbox" />
+                  <Choice
+                    label="Double identification faite"
+                    name="Double identification faite notes"
+                    type="checkbox"
+                  />
                 </div>
               </th>
             </tr>
@@ -230,7 +234,7 @@ export default function SM02493({ patient, form }: DataResponse) {
           </tbody>
         </table>
       </Page>
-      <Page index={4} patient={patient} title={title} total={pages}>
+      {/* <Page index={4} patient={patient} title={title} total={pages}>
         <table>
           <thead>
             <tr>
@@ -257,7 +261,7 @@ export default function SM02493({ patient, form }: DataResponse) {
             ))}
           </tbody>
         </table>
-      </Page>
+      </Page> */}
     </Form>
   );
 }

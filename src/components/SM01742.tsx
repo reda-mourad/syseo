@@ -1,5 +1,5 @@
 import type { DataResponse } from "../4d";
-import { allergies, currentDate, nonOui } from "../choices";
+import { currentDate, nonOui } from "../choices";
 import { Choice } from "./choice";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
@@ -31,16 +31,19 @@ export default function SM01742({ patient, form }: DataResponse) {
             label="Salle :"
             type="single"
             choices={["", "Cystoscopie"]}
+            defaultValue="Cystoscopie"
           />
           <QuestionWithChoices
             label="Type admission :"
             choices={["EXT.", "HOSP.", "URG."]}
             type="radio"
+            defaultValue="EXT."
           />
           <QuestionWithChoices
             label="Anesthésie :"
             choices={["Locale", "Local neuro.", "Nil"]}
             type="radio"
+            defaultValue="Locale"
           />
           <div className="flex items-center gap-2">
             Locale :
@@ -73,10 +76,12 @@ export default function SM01742({ patient, form }: DataResponse) {
             label="Consentement signé :"
             choices={nonOui}
             type="radio"
+            defaultValue="Oui"
           />
+          <div />
           <Choice label="Refus de traitement" type="checkbox" />
         </div>
-        <table>
+        {/* <table>
           <thead>
             <tr>
               <th>Allergie</th>
@@ -124,7 +129,7 @@ export default function SM01742({ patient, form }: DataResponse) {
                 </tr>
               ))}
           </tbody>
-        </table>
+        </table> */}
         <Heading level={2}>ENDOSCOPIE UROLOGIQUE</Heading>
         <div className="flex gap-4">
           <div className="flex items-center gap-2">
@@ -148,9 +153,9 @@ export default function SM01742({ patient, form }: DataResponse) {
               "Bilan urodynamique",
               "Toucher rectal",
               "Uréthrotomie interne",
-              "Double J :",
+              "Exérèse Double J :",
               "Exérèse",
-              "Installation",
+              // "Installation",
               "Dilatation urétrale",
               "Fulguration",
               "Pyélo-rétrograde",
@@ -160,35 +165,36 @@ export default function SM01742({ patient, form }: DataResponse) {
             ].map((e) => (
               <div key={e} className="flex gap-1">
                 <Choice type="checkbox" label={e} />
-                {e === "Double J :" && (
+                {e === "Exérèse Double J :" && (
                   <QuestionWithChoices
                     type="single"
                     choices={["", "Droit", "Gauche", "Bilatéral"]}
                   />
                 )}
-                {e === "Pyélo-rétrograde" && (
+                {/* {e === "Pyélo-rétrograde" && (
                   <QuestionWithInput
                     name="Pyélo-rétrograde details"
                     className="w-20"
                   />
-                )}
+                )} */}
               </div>
             ))}
           </div>
         </div>
-        <QuestionWithInput label="Diagnostic Préliminaire selon médecin :" />
-        <QuestionWithChoices
+        {/* <QuestionWithInput label="Diagnostic Préliminaire selon médecin :" /> */}
+        {/* <QuestionWithChoices
           label="Biopsie(s) :"
           choices={["Vésicale", "Prostate", "Lésion génitale"]}
           type="multiple"
-        />
-        <table>
+        /> */}
+        <table className="text-[.66rem]">
           <thead>
             <tr>
-              <th colSpan={8}>Sonde(s)</th>
+              <th colSpan={9}>Sonde(s)</th>
             </tr>
             <tr>
               <th>Type</th>
+              <th>Procedure</th>
               <th>Grandeur</th>
               <th>MATIERE</th>
               <th>Voies</th>
@@ -206,6 +212,12 @@ export default function SM01742({ patient, form }: DataResponse) {
                     choices={["", "Foley", "Tiemann", "Supra pubienne"]}
                     type="single"
                     name={`type ${i}`}
+                  />
+                </td>
+                <td>
+                  <QuestionWithChoices
+                    choices={["", "Retrait", "Insertion"]}
+                    type="single"
                   />
                 </td>
                 <td>
@@ -279,29 +291,40 @@ export default function SM01742({ patient, form }: DataResponse) {
             ))}
           </tbody>
         </table>
-      </Page>
-      <Page index={2} patient={patient} title={title} total={pages}>
-        <QuestionWithInput label="Scope :" />
+        <QuestionWithInput label="Scope :" className="max-w-40" />
         <div className="flex justify-between items-center gap-3">
           <QuestionWithInput label="Électrocautère :" />
           <QuestionWithInput label="Degrés : coag :" />
           <QuestionWithInput label="cut. :" />
-          <QuestionWithInput label="Par :" name="Par Électrocautère" />
+          {/* <QuestionWithInput label="Par :" name="Par Électrocautère" /> */}
         </div>
         <div className="flex justify-between items-center gap-3">
-          <QuestionWithInput label="Badigeonnage : Solution :" />
-          <QuestionWithInput label="Région" />
-          <QuestionWithInput label="Par :" name="Par Badigeonnage" />
+          <QuestionWithChoices
+            label="Badigeonnage : Solution :"
+            choices={[
+              "",
+              "chlorhexidine 0.05%",
+              "chlorhexidine 2%",
+              "providone-iodine 10%",
+            ]}
+            type="single"
+          />
+          <QuestionWithInput label="Région" initValue="génitale" />
+          <QuestionWithInput
+            label="Par :"
+            name="Par Badigeonnage"
+            initValue="infirmière"
+          />
         </div>
-        <QuestionWithInput label="Autres(s) spécimens(s) :" />
-        <div className="flex justify-between items-center gap-3">
+        {/* <QuestionWithInput label="Autres(s) spécimens(s) :" /> */}
+        {/* <div className="flex justify-between items-center gap-3">
           <QuestionWithInput label="Soluté :" />
           <QuestionWithInput label="Site" />
           <QuestionWithInput label="Par :" name="Par Soluté" />
-        </div>
+        </div> */}
         <Heading level={2}>Médicaments</Heading>
         <div className="gap-2 grid grid-cols-2">
-          <QuestionWithChoices
+          {/* <QuestionWithChoices
             label="Chorexidina 2% sans alcool avant examen"
             choices={["x1", "x2"]}
             type="radio"
@@ -310,11 +333,12 @@ export default function SM01742({ patient, form }: DataResponse) {
             label="Instillagel avant examen"
             choices={["x1 dose", "x2 doses"]}
             type="radio"
-          />
+          /> */}
           <QuestionWithChoices
             label="Muko"
             choices={["x1 dose", "x2 doses"]}
             type="radio"
+            defaultValue="x1 dose"
           />
           <QuestionWithInput
             label="Eau stérile intra vésicale (ml)"
@@ -322,6 +346,8 @@ export default function SM01742({ patient, form }: DataResponse) {
             className="w-10 max-w-10"
           />
         </div>
+      </Page>
+      <Page index={2} patient={patient} title={title} total={pages}>
         <table>
           <thead>
             <tr>
@@ -359,6 +385,8 @@ export default function SM01742({ patient, form }: DataResponse) {
                         "Culture urine",
                         "Bx vessie urinaire",
                         "Cytologie urinaire",
+                        "Bx prostate",
+                        "Bx lésion génitale",
                       ]}
                       type="single"
                       name={`prelevement type ${i}`}
@@ -376,7 +404,7 @@ export default function SM01742({ patient, form }: DataResponse) {
                       choices={[
                         "",
                         "vessie",
-                        "col vésicale",
+                        "col vésical",
                         "urètre",
                         "prostate - lobe droit",
                         "prostate - lobe gauche",
@@ -392,7 +420,13 @@ export default function SM01742({ patient, form }: DataResponse) {
           </tbody>
         </table>
         <Heading level={2}>Notes d'observations</Heading>
-        <Textarea lineLength={108} rows={15} style={{height:"250px"}} name="Notes d'observations" className="max-h-full" />
+        <Textarea
+          lineLength={108}
+          rows={15}
+          style={{ height: "250px" }}
+          name="Notes d'observations"
+          className="max-h-full"
+        />
         {/* <table>
           <thead>
             <tr>
