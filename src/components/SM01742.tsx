@@ -81,55 +81,6 @@ export default function SM01742({ patient, form }: DataResponse) {
           <div />
           <Choice label="Refus de traitement" type="checkbox" />
         </div>
-        {/* <table>
-          <thead>
-            <tr>
-              <th>Allergie</th>
-              <th>Type de reaction</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array(3)
-              .fill(null)
-              .map((_, i) => (
-                <tr key={i}>
-                  <td>
-                    <QuestionWithChoices
-                      choices={allergies}
-                      type="single"
-                      name={`allergie_${i}`}
-                    />
-                  </td>
-                  <td>
-                    <div className="grid grid-cols-3">
-                      {[
-                        "nausées",
-                        "vomissements",
-                        "délirium",
-                        "urticaire",
-                        "céphalée",
-                        "arythmie",
-                        "choc",
-                        "rougeur faciale",
-                      ].map((e) => (
-                        <Choice
-                          key={e}
-                          label={e}
-                          type="checkbox"
-                          name={`${e} ${i}`}
-                        />
-                      ))}
-                    </div>
-                    <QuestionWithInput
-                      label="Autre :"
-                      name={`reaction_${i}_autre`}
-                      maxLength={40}
-                    />
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table> */}
         <Heading level={2}>ENDOSCOPIE UROLOGIQUE</Heading>
         <div className="flex gap-4">
           <div className="flex items-center gap-2">

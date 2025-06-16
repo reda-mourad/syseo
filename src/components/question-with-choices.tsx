@@ -9,12 +9,16 @@ export interface QuestionWithChoicesProps {
   choices: string[];
   type: "single" | "multiple" | "radio";
   className?: string;
+  listClassName?: string;
+  labelClassName?: string;
   defaultValue?: string;
   defaultValues?: string[];
   other?: boolean;
   otherLabel?: string;
+  otherLength?: number;
   columns?: number;
   onSelect?: (value: string) => void;
+  noSort?: boolean;
 }
 
 export function QuestionWithChoices({
@@ -23,22 +27,26 @@ export function QuestionWithChoices({
   choices,
   type,
   className,
+  listClassName,
+  labelClassName,
   defaultValue,
   defaultValues,
   other,
   otherLabel,
+  otherLength,
   columns,
   onSelect,
 }: QuestionWithChoicesProps) {
   const [selected, setSelected] = useState<string>(defaultValue ?? "");
-  choices.sort();
+  // if (!noSort) choices.sort();
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      {label && <span className="">{label}</span>}
+      {label && <span className={labelClassName}>{label}</span>}
       {type === "multiple" && (
         <div
           className={cn(
+            listClassName,
             columns
               ? `grid grid-cols-${columns} gap-1 w-full`
               : "flex flex-wrap items-center space-x-2"
@@ -57,12 +65,20 @@ export function QuestionWithChoices({
             <QuestionWithInput
               label={otherLabel || "Autre"}
               name={`${label || name} other`}
+              maxLength={otherLength}
             />
           )}
         </div>
       )}
       {type === "radio" && (
-        <div className="flex flex-wrap items-center space-x-2">
+        <div
+          className={cn(
+            listClassName,
+            columns
+              ? `grid grid-cols-${columns} gap-1 w-full`
+              : "flex flex-wrap items-center space-x-2"
+          )}
+        >
           {choices.map((c) => (
             <Choice
               key={c}
@@ -82,7 +98,10 @@ export function QuestionWithChoices({
                 type="radio"
                 name={`${name || label}`}
               />
-              <QuestionWithInput name={`${label || name} other`} />
+              <QuestionWithInput
+                name={`${label || name} other`}
+                maxLength={otherLength}
+              />
             </>
           )}
         </div>

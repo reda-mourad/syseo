@@ -1,5 +1,6 @@
 import type { DataResponse } from "../4d";
-import { currentDate, nonOui } from "../choices";
+import { currentDate, currentTime, nonOui } from "../choices";
+import Allergies from "./allergies";
 import { Choice } from "./choice";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
@@ -8,6 +9,7 @@ import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
 import Textarea from "./Textarea";
+import TimePicker from "./time-picker";
 
 const title = "QUESTIONNAIRE DE L'USAGER EN CLINIQUE D'UROLOGIE";
 
@@ -31,6 +33,7 @@ export default function SM01741({ patient }: DataResponse) {
                   ]}
                   type="multiple"
                   label="Consentement :"
+                  defaultValues={["Usager", "Double identification faite"]}
                 />
               </td>
             </tr>
@@ -38,13 +41,13 @@ export default function SM01741({ patient }: DataResponse) {
               <td>
                 <QuestionWithInput label="Médecin traitant :" />
               </td>
-              <td>
+              {/* <td>
                 <QuestionWithInput
                   label="Date de l'intervention :"
                   type="date"
                   initValue={currentDate()}
                 />
-              </td>
+              </td> */}
             </tr>
           </tbody>
         </table>
@@ -83,6 +86,7 @@ export default function SM01741({ patient }: DataResponse) {
                   type="radio"
                   label="Provenance :"
                   other
+                  defaultValue="Domicile"
                 />
               </td>
             </tr>
@@ -117,7 +121,7 @@ export default function SM01741({ patient }: DataResponse) {
               "Des problèmes respiratoires ?",
               "Une pression artérielle élevée ?",
               "Un problème au niveau de vos reins ?",
-              "Une ou des allergie(s) ?",
+              // "Une ou des allergie(s) ?",
               "Du diabète ?",
               "D'autres problèmes de santé ?",
             ].map((label) => (
@@ -157,6 +161,7 @@ export default function SM01741({ patient }: DataResponse) {
                   defaultValue="Non"
                   type="multiple"
                   other
+                  otherLength={20}
                   columns={2}
                 />
               </td>
@@ -196,15 +201,20 @@ export default function SM01741({ patient }: DataResponse) {
               <td>
                 <QuestionWithChoices
                   choices={nonOui}
+                  defaultValue="Non"
                   type="radio"
                   label="Prenez-vous des médicaments pour éclaicir le sang ?"
                   className="justify-between justify"
                 />
               </td>
-              <td>
+              <td className="space-y-1">
+                <Choice
+                  label="Acide acétylsalicylique (Aspirine)"
+                  type="checkbox"
+                />
                 <QuestionWithChoices
                   choices={[
-                    "Acide acétylsalicylique (Aspirine)",
+                    // "Acide acétylsalicylique (Aspirine)",
                     "Apixaban (Eliquis)",
                     "Clopidogrel (Plavix)",
                     "Dabigatran (Pradax)",
@@ -214,7 +224,8 @@ export default function SM01741({ patient }: DataResponse) {
                     "Warfarine (Coumadin)",
                   ]}
                   other
-                  type="multiple"
+                  otherLength={20}
+                  type="radio"
                   columns={2}
                 />
               </td>
@@ -229,13 +240,130 @@ export default function SM01741({ patient }: DataResponse) {
                 />
               </td>
               <td>
-                <QuestionWithInput label="Si oui, depuis quand:" type="date" />
+                <QuestionWithChoices
+                  choices={[
+                    "",
+                    "1 jour",
+                    "2 jours",
+                    "3 jours",
+                    "4 jours",
+                    "5 jours",
+                  ]}
+                  type="single"
+                  label="Depuis :"
+                />
               </td>
             </tr>
           </tbody>
         </table>
       </Page>
       <Page patient={patient} index={2} total={2} title={title}>
+        <Allergies />
+        <table className="text-[.66rem]">
+          <thead>
+            <tr>
+              <th colSpan={9}>Sonde(s)</th>
+            </tr>
+            <tr>
+              <th>Type</th>
+              <th>Procedure</th>
+              <th>Grandeur</th>
+              <th>MATIERE</th>
+              <th>Voies</th>
+              <th>Ballonet</th>
+              <th>Sac collecteur</th>
+              <th>Draine</th>
+              <th>Urine</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.from({ length: 1 }, (_, i) => (
+              <tr key={i}>
+                <td>
+                  <QuestionWithChoices
+                    choices={["", "Foley", "Tiemann", "Supra pubienne"]}
+                    type="single"
+                    name={`type ${i}`}
+                  />
+                </td>
+                <td>
+                  <QuestionWithChoices
+                    choices={["", "Retrait", "Insertion"]}
+                    type="single"
+                  />
+                </td>
+                <td>
+                  <QuestionWithChoices
+                    name={`grandeur ${i}`}
+                    choices={[
+                      "",
+                      "#12",
+                      "#14",
+                      "#16",
+                      "#18",
+                      "#20",
+                      "#22",
+                      "#24",
+                      "#26",
+                    ]}
+                    type="single"
+                  />
+                </td>
+                <td>
+                  <QuestionWithChoices
+                    name={`latex ${i}`}
+                    choices={["", "Avec latex", "Sans latex", "En silicon"]}
+                    type="single"
+                  />
+                </td>
+                <td>
+                  <QuestionWithChoices
+                    name={`voies ${i}`}
+                    choices={["", "X2", "X3"]}
+                    type="single"
+                  />
+                </td>
+                <td>
+                  <QuestionWithChoices
+                    name={`BALLONET ${i}`}
+                    choices={["", "5ml", "10ml", "15ml", "30ml"]}
+                    type="single"
+                  />
+                </td>
+                <td>
+                  <QuestionWithChoices
+                    name={`sac ${i}`}
+                    choices={["", "500ml", "1000ml", "2000ml", "4000ml"]}
+                    type="single"
+                  />
+                </td>
+                <td>
+                  <div className="flex gap-1">
+                    <QuestionWithInput type="number" name={`draine ${i}`} />
+                    ml
+                  </div>
+                </td>
+                <td>
+                  <QuestionWithChoices
+                    name={`urine ${i}`}
+                    choices={[
+                      "",
+                      "jaune claire",
+                      "jaune foncé",
+                      "ambrée",
+                      "brune",
+                      "trouble",
+                      "avec sédiments",
+                      "avec sang",
+                    ]}
+                    type="single"
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
         {/* PARTIE RÉSERVÉE AU PERSONNEL INFIRMIER */}
         <table>
           <thead>
@@ -256,7 +384,11 @@ export default function SM01741({ patient }: DataResponse) {
               <tr key={e}>
                 <td>
                   <div className="flex justify-between">
-                    <Choice label={e} type="checkbox" />
+                    <Choice
+                      label={e}
+                      type="checkbox"
+                      defaultChecked={[0, 2, 4, 5].includes(i)}
+                    />
                     {i === 6 && (
                       <QuestionWithChoices
                         choices={[...nonOui, "N/A"]}
@@ -272,13 +404,33 @@ export default function SM01741({ patient }: DataResponse) {
         </table>
         <div className="space-y-2">
           <Heading level={3}>NOTES COMPLÉMENTAIRES</Heading>
-          <Textarea name="NOTES COMPLÉMENTAIRES" lineLength={108} rows={9} className="max-h-full" />
+          <Textarea
+            name="NOTES COMPLÉMENTAIRES"
+            lineLength={108}
+            rows={9}
+            className="max-h-full"
+            defaultValue={`Évaluation infirmière complétée.
+Aucun enjeu clinique identifié à ce stade.
+Informé du déroulement de l'examen et des consignes post-examen.
+Consentement signé.
+Prêt pour l'intervention.
+L'équipe soignante avisée que l'usager est prêt à être transféré en salle.`}
+          />
         </div>
-        <div className="gap-4 grid grid-cols-2">
-          <QuestionWithInput label="Nom :" />
-          <QuestionWithInput label="Signature :" />
-          <QuestionWithInput label="Titre d'emploi :" />
-          <QuestionWithInput label="Date et heure :" type="datetime-local" />
+        <div className="flex items-center gap-4">
+          <QuestionWithInput
+            label="Date :"
+            type="date"
+            className="max-w-fit"
+            initValue={currentDate()}
+          />
+          <div className="flex items-center gap-2">
+            Heure :
+            <TimePicker initValue={currentTime()} name="heure :" />
+          </div>
+          <div className="flex-1">
+            <QuestionWithInput label="Signature :" />
+          </div>
         </div>
       </Page>
     </Form>

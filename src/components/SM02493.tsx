@@ -1,5 +1,6 @@
 import type { DataResponse } from "@/4d";
-import { allergies, currentDate } from "@/choices";
+import { currentDate } from "@/choices";
+import Allergies from "./allergies";
 import { Choice } from "./choice";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
@@ -43,55 +44,7 @@ export default function SM02493({ patient, form }: DataResponse) {
           <QuestionWithInput label="Médecin en charge :" />
           <QuestionWithInput label="Raison de l'intervention :" />
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Allergie</th>
-              <th>Type de reaction</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array(3)
-              .fill(null)
-              .map((_, i) => (
-                <tr key={i}>
-                  <td>
-                    <QuestionWithChoices
-                      choices={allergies}
-                      type="single"
-                      name={`allergie_${i}`}
-                    />
-                  </td>
-                  <td>
-                    <div className="grid grid-cols-3">
-                      {[
-                        "nausées",
-                        "vomissements",
-                        "délirium",
-                        "urticaire",
-                        "céphalée",
-                        "arythmie",
-                        "choc",
-                        "rougeur faciale",
-                      ].map((e) => (
-                        <Choice
-                          key={e}
-                          label={e}
-                          type="checkbox"
-                          name={`${e} ${i}`}
-                        />
-                      ))}
-                    </div>
-                    <QuestionWithInput
-                      label="Autre :"
-                      name={`reaction_${i}_autre`}
-                      maxLength={40}
-                    />
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+        <Allergies />
         <div className="gap-4 grid grid-cols-2">
           <TimeField
             label="Heure de début :"

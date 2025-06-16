@@ -1,5 +1,6 @@
 import type { DataResponse } from "../4d";
-import { allergies, currentDate, currentTime, nonOui } from "../choices";
+import { currentDate, currentTime, nonOui } from "../choices";
+import Allergies from "./allergies";
 import { Choice } from "./choice";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
@@ -40,22 +41,22 @@ export default function SM01696({ patient, user }: DataResponse) {
               </td>
             </tr>
             <tr>
-              <td>
+              <td colSpan={2}>
                 <QuestionWithInput label="Nom et prénom de l'accompagnateur :" />
               </td>
+            </tr>
+            <tr>
               <td>
                 <QuestionWithInput label="Lien avec l'usager :" />
               </td>
-            </tr>
-            <tr>
               <td>
                 <QuestionWithInput label="Téléphone :" type="tel" />
               </td>
+            </tr>
+            <tr>
               <td>
                 **RAPPEL : L'accompagnateur doit être présent lors du congé **
               </td>
-            </tr>
-            <tr>
               <td>
                 <QuestionWithChoices
                   label="Document complété par :"
@@ -192,7 +193,6 @@ export default function SM01696({ patient, user }: DataResponse) {
                   <QuestionWithInput
                     name="Blessure récente à la tête details"
                     label="Details"
-                    maxLength={25}
                   />
                 </div>
               </td>
@@ -208,7 +208,7 @@ export default function SM01696({ patient, user }: DataResponse) {
                 />
               </td>
               <td>
-                <QuestionWithInput name="Glaucome_details" />
+                <QuestionWithInput name="Glaucome_details" maxLength={64} />
               </td>
             </tr>
             <tr>
@@ -253,60 +253,12 @@ export default function SM01696({ patient, user }: DataResponse) {
                 />
               </td>
               <td>
-                <QuestionWithInput name="Autre_details" />
+                <QuestionWithInput name="Autre_details" maxLength={64} />
               </td>
             </tr>
           </tbody>
         </table>
-        <table>
-          <thead>
-            <tr>
-              <th>Allergie</th>
-              <th>Type de reaction</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array(3)
-              .fill(null)
-              .map((_, i) => (
-                <tr key={i}>
-                  <td>
-                    <QuestionWithChoices
-                      choices={allergies}
-                      type="single"
-                      name={`allergie_${i}`}
-                    />
-                  </td>
-                  <td>
-                    <div className="grid grid-cols-3">
-                      {[
-                        "nausées",
-                        "vomissements",
-                        "délirium",
-                        "urticaire",
-                        "céphalée",
-                        "arythmie",
-                        "choc",
-                        "rougeur faciale",
-                      ].map((e) => (
-                        <Choice
-                          key={e}
-                          label={e}
-                          type="checkbox"
-                          name={`${e} ${i}`}
-                        />
-                      ))}
-                    </div>
-                    <QuestionWithInput
-                      label="Autre :"
-                      name={`reaction_${i}_autre`}
-                      maxLength={40}
-                    />
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+        <Allergies />
       </Page>
       <Page patient={patient} index={2} total={2} title={title}>
         <table className="w-full">
@@ -370,6 +322,8 @@ export default function SM01696({ patient, user }: DataResponse) {
                   type="radio"
                   className="justify-between"
                   defaultValue="Non"
+                  labelClassName="w-full"
+                  listClassName="justify-end"
                 />
               </td>
               <td>
@@ -411,6 +365,8 @@ export default function SM01696({ patient, user }: DataResponse) {
                   type="radio"
                   className="justify-between"
                   defaultValue="Non"
+                  // labelClassName="w-full"
+                  listClassName="shrink-0"
                 />
               </td>
               <td className="space-y-2">
@@ -418,18 +374,18 @@ export default function SM01696({ patient, user }: DataResponse) {
                   name="Avez-vous une prothèse ou la présence de métal ?_details"
                   choices={[
                     "Dentaire",
-                    "Lunette",
+                    "Lunettes",
                     "Auditive",
                     "Lentilles",
                     "Valvule cardiaque",
                     "Stimulateur",
                     "Perçage",
-                    "Appareillage Orthopédique",
-                    "Prothèse hanche",
                     "Prothèse genou",
+                    "Prothèse hanche",
+                    "Appareillage orthopédique",
                   ]}
                   type="multiple"
-                  columns={3}
+                  columns={2}
                 />
                 <QuestionWithInput
                   label="Autre :"
@@ -519,6 +475,7 @@ export default function SM01696({ patient, user }: DataResponse) {
                   type="radio"
                   className="justify-between"
                   defaultValue="Oui"
+                  listClassName="shrink-0"
                 />
               </td>
               <td>
@@ -562,7 +519,7 @@ export default function SM01696({ patient, user }: DataResponse) {
                   defaultValue="Non"
                 />
               </td>
-              <td>
+              <td className="space-y-1">
                 <Choice label="Aspirine" type="checkbox" />
                 <QuestionWithChoices
                   name="Prenez-vous un médicament pour éclaircir le sang ?_details"
@@ -579,7 +536,7 @@ export default function SM01696({ patient, user }: DataResponse) {
                     "Plavix",
                   ]}
                   type="radio"
-                  columns={5}
+                  columns={3}
                 />
                 <QuestionWithInput
                   name="Prenez-vous un médicament pour éclaircir le sang ?_other"
@@ -656,6 +613,7 @@ export default function SM01696({ patient, user }: DataResponse) {
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  listClassName="shrink-0"
                 />
               </td>
               <td>
@@ -684,6 +642,7 @@ export default function SM01696({ patient, user }: DataResponse) {
                   choices={nonOui}
                   type="radio"
                   className="justify-between"
+                  listClassName="shrink-0"
                 />
               </td>
               <td></td>

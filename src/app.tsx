@@ -40,6 +40,16 @@ export function App({ initData }: { initData?: DataResponse }) {
         return json;
       }
     };
+    document.querySelectorAll("input").forEach((e) => {
+      if (e.type === "text") {
+        const style = window.getComputedStyle(e);
+        const pl = parseFloat(style.paddingLeft);
+        const pr = parseFloat(style.paddingRight);
+        const w = e.clientWidth - pl - pr;
+
+        e.maxLength = w / 6.59;
+      }
+    });
   }, [initData]);
 
   // const p: Patient = {
