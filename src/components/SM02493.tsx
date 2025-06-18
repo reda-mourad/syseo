@@ -183,7 +183,7 @@ export default function SM02493({ patient, form }: DataResponse) {
         <table>
           <thead>
             <tr>
-              <th className="min-w-16">Date</th>
+              <th className="min-w-16">Heure</th>
               <th className="w-full">
                 <div className="flex justify-around items-center">
                   Note
