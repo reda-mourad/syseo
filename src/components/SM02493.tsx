@@ -183,7 +183,7 @@ export default function SM02493({ patient, form }: DataResponse) {
         <table>
           <thead>
             <tr>
-              <th>Date</th>
+              <th className="min-w-16">Date</th>
               <th className="w-full">
                 <div className="flex justify-around items-center">
                   Note
@@ -197,51 +197,27 @@ export default function SM02493({ patient, form }: DataResponse) {
             </tr>
           </thead>
           <tbody>
-            {Array.from({ length: 33 }, (_, i) => (
+            {Array.from({ length: 12 }, (_, i) => (
               <tr key={i}>
-                <td>
-                  <QuestionWithInput
-                    type="date"
-                    name={`note ${i} date`}
-                    className="max-w-fit"
+                <td className="text-center">
+                  <TimePicker
+                    name={`note ${i} heure`}
+                    initValue={form.data?.[`note ${i} heure`] ?? ""}
                   />
                 </td>
                 <td>
-                  <QuestionWithInput name={`note ${i}`} />
+                  <Textarea
+                    lineLength={97}
+                    rows={3}
+                    name={`note ${i}`}
+                    className="min-h-[58px]"
+                  />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </Page>
-      {/* <Page index={4} patient={patient} title={title} total={pages}>
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th className="w-full">
-                <div className="flex justify-around items-center">Note</div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.from({ length: 33 }, (_, i) => (
-              <tr key={i}>
-                <td>
-                  <QuestionWithInput
-                    type="date"
-                    name={`note ${i + 33} date`}
-                    className="max-w-fit"
-                  />
-                </td>
-                <td>
-                  <QuestionWithInput name={`note ${i + 33}`} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </Page> */}
     </Form>
   );
 }
