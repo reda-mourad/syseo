@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import type { DataResponse } from "../4d";
 import {
   colonSite,
+  currentTime,
   examType,
   examTypeOther,
   medications,
@@ -82,21 +83,21 @@ export default function SM01694({ patient, user, form }: DataResponse) {
             Heure d'entrée
             <TimePicker
               name="Heure d'entrée"
-              initValue={form.data?.["Heure d'entrée"] ?? ""}
+              initValue={form.data?.["Heure d'entrée"] ?? currentTime()}
             />
           </div>
           <div className="flex items-center gap-2">
             Heure de début
             <TimePicker
               name="Heure de début"
-              initValue={form.data?.["Heure de début"] ?? ""}
+              initValue={form.data?.["Heure de début"] ?? currentTime()}
             />
           </div>
           <div className="flex items-center gap-2">
             Heure de fin
             <TimePicker
               name="Heure de fin"
-              initValue={form.data?.["Heure de fin"] ?? ""}
+              initValue={form.data?.["Heure de fin"] ?? currentTime()}
             />
           </div>
         </div>
@@ -261,7 +262,7 @@ export default function SM01694({ patient, user, form }: DataResponse) {
                       type="number"
                       name={`sat l/min ${i}`}
                       tabIndex={19 * i + 11}
-                      initValue={i < 4 ? "2" : ""}
+                      initValue={i < 4 && i > 0 ? "2" : ""}
                     />
                     L/min
                   </div>
@@ -649,15 +650,29 @@ export default function SM01694({ patient, user, form }: DataResponse) {
               <td>
                 <QuestionWithInput label="Endocut :" />
               </td>
-              <td colSpan={2}>
+              <td colSpan={2} className="space-y-1 divide-y">
                 <div className="flex gap-4">
                   <QuestionWithChoices
                     choices={["Utilisé", "Non-utilisé"]}
                     type="radio"
                     label="Argon :"
                   />
-                  <QuestionWithInput name="Argon details" />
+                  {/* <QuestionWithInput name="Argon details" /> */}
                 </div>
+                <QuestionWithChoices
+                  label="Voies dig sup :"
+                  name="Argon Voies dig sup :"
+                  choices={["larynx", "oesophage", "estomac", "duodenum"]}
+                  columns={2}
+                  type="multiple"
+                />
+                <QuestionWithChoices
+                  label="Voies dig sup :"
+                  name="Argon Voies dig sup :"
+                  choices={colonSite.slice(1)}
+                  columns={2}
+                  type="multiple"
+                />
               </td>
             </tr>
           </tbody>
@@ -910,6 +925,8 @@ export default function SM01694({ patient, user, form }: DataResponse) {
             </tr>
           </tbody>
         </table>
+      </Page>
+      <Page patient={patient} index={3} total={3} title={title}>
         <table>
           <thead>
             <tr>
@@ -995,8 +1012,6 @@ export default function SM01694({ patient, user, form }: DataResponse) {
               ))}
           </tbody>
         </table>
-      </Page>
-      <Page patient={patient} index={3} total={3} title={title}>
         <div className="space-y-1">
           <Heading level={3}>NOTES</Heading>
           <textarea
@@ -1011,7 +1026,9 @@ export default function SM01694({ patient, user, form }: DataResponse) {
 
         <div className="flex gap-2">
           <QuestionWithInput label="Initiales" initValue={user.initiales} />
-          <QuestionWithInput label="Signature" />
+          <div className="flex-1">
+            <QuestionWithInput label="Signature" />
+          </div>
         </div>
       </Page>
     </Form>

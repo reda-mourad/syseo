@@ -1,6 +1,12 @@
 import { useState } from "react";
 import type { DataResponse } from "../4d";
-import { currentDate, examType, examTypeOther, nonOui } from "../choices";
+import {
+  currentDate,
+  currentTime,
+  examType,
+  examTypeOther,
+  nonOui,
+} from "../choices";
 import { Choice } from "./choice";
 import { Form } from "./form";
 import { FormHeader } from "./form-header";
@@ -8,6 +14,8 @@ import Heading from "./heading";
 import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
+import Textarea from "./Textarea";
+import TimePicker from "./time-picker";
 
 const title =
   "SOINS INFIRMIERS AVANT UN EXAMEN ENDOSCOPIQUE (PARTIE INFIRMIÈRE) ";
@@ -495,14 +503,15 @@ export default function SM01695({ patient, form }: DataResponse) {
           <label htmlFor="notes">
             Notes de l'infirmière sur l'évaluation initiale
           </label>
-          <textarea
+          <Textarea
+            lineLength={108}
+            rows={9}
             name="notes"
             id="notes"
-            maxLength={1000}
-            className="overflow-hidden"
-            defaultValue={
-              "Évaluation infirmière complétée. Aucun enjeu clinique identifié à ce stade. Informé du déroulement de l'examen et des consignes post-examen. Consentement signé. Prêt pour l'intervention. L'équipe soignant avisé que l'usager est prêt à être transféré en salle."
-            }
+            className="min-h-40"
+            defaultValue={`Évaluation infirmière complétée. Aucun enjeu clinique identifié à ce stade.
+Informé du déroulement de l'examen et des consignes post-examen. Consentement signé.
+Prêt pour l'intervention. L'équipe soignant avisé que l'usager est prêt à être transféré en salle.`}
           />
         </fieldset>
         <div className="gap-4 grid grid-cols-2">
@@ -513,11 +522,17 @@ export default function SM01695({ patient, form }: DataResponse) {
             label="Avisé des constats ci-haut"
           />
           <QuestionWithInput label="Signature :" />
-          <QuestionWithInput
-            label="Date :"
-            type="date"
-            initValue={currentDate()}
-          />
+          <div className="flex gap-2">
+            <QuestionWithInput
+              label="Date :"
+              type="date"
+              initValue={currentDate()}
+            />
+            <div>
+              <label htmlFor="heure">Heure : </label>
+              <TimePicker id="heure" initValue={currentTime()} name="Heure :" />
+            </div>
+          </div>
         </div>
       </Page>
     </Form>

@@ -5,6 +5,7 @@ import {
   redirect,
 } from "@tanstack/react-router";
 import { auth } from "../lib/utils";
+import { Button } from "@/components/ui/button";
 
 // interface Patient {
 //   NoDossier: number;
@@ -61,9 +62,11 @@ function RouteComponent() {
                   <span>Examen : {date}</span>
                   <div className="flex flex-col gap-2">
                     {forms.map(({ UUID, code }) => (
-                      <Link to="/$id" params={{ id: UUID }} key={UUID}>
-                        {code}
-                      </Link>
+                      <Button key={UUID} asChild variant="ghost">
+                        <Link to="/$id" params={{ id: UUID }}>
+                          {code}
+                        </Link>
+                      </Button>
                     ))}
                   </div>
                 </div>

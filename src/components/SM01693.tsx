@@ -31,7 +31,7 @@ const verifications = [
   "Formulaire «Certification présence» signé par l'infirmière",
   "Rendez-vous médical",
   "Cartes assurance-maladie et hôpital remises",
-  "Lunette, dentiers ou autres effets personnels remis",
+  "Lunettes, dentiers ou autres effets personnels remis",
   "Client accompagné par :",
   "Client seul si examen sans sédation",
   "Si la liste de vérification a été complétée par une infirmière auxiliaire, l'évaluation de l'usager a été faite par une infirmière avant son départ",

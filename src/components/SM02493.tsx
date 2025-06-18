@@ -9,10 +9,20 @@ import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
 import Textarea from "./Textarea";
-import { TimeField } from "./time-picker";
+import TimePicker, { TimeField } from "./time-picker";
 
 const title = "INHALOTHÉRAPIE EN ENDOSCOPIE PULMONAIRE";
 const pages = 3;
+
+const list = [
+  { label: "AA", unit: "" },
+  // { label: "Adrénaline", unit: "mcg" },
+  { label: "Lunette Nasale", unit: "L/min" },
+  { label: "Masque multi concentration", unit: "%" },
+  { label: "Optiflow", unit: "%" },
+  { label: "Ventilé mécaniquement", unit: "%" },
+  { label: "Bipap", unit: "" },
+];
 
 export default function SM02493({ patient, form }: DataResponse) {
   return (
@@ -42,8 +52,8 @@ export default function SM02493({ patient, form }: DataResponse) {
             label="Type admission :"
           />
           <QuestionWithInput label="Médecin en charge :" />
-          <QuestionWithInput label="Raison de l'intervention :" />
         </div>
+        <QuestionWithInput label="Raison de l'intervention :" />
         <Allergies />
         <div className="gap-4 grid grid-cols-2">
           <TimeField
@@ -91,7 +101,7 @@ export default function SM02493({ patient, form }: DataResponse) {
         />
       </Page>
       <Page index={2} patient={patient} title={title} total={pages}>
-        <div>Médicaments :</div>
+        <Heading level={2}>Médicaments :</Heading>
         <div className="gap-2 grid grid-cols-2">
           {[
             { label: "Lidocaïne spray", unit: "mg total" },
@@ -116,28 +126,45 @@ export default function SM02493({ patient, form }: DataResponse) {
           ))}
           <QuestionWithInput label="Autre :" name="Autre medicament" />
         </div>
-        <div>Oxygénothérapie :</div>
+        <Heading level={2}>Oxygénothérapie :</Heading>
         <QuestionWithInput
           label="À l'arrivée : SpO2 : "
           type="number"
           className="max-w-10"
         />
-        <Truc index={1} />
-        <div>Per intervention :</div>
+        <Truc index={1} list={list} />
+        <Heading level={2}>Per intervention :</Heading>
         <Textarea
           lineLength={108}
           rows={5}
           name="Per intervention :"
           className="max-h-24"
         />
-        <QuestionWithInput
-          label="Post intervention : SpO2 : "
-          type="number"
-          className="max-w-10"
-        />
-        <Truc index={2} />
-        <div>Note d'observations</div>
-        <Textarea lineLength={108} rows={9} className="h-72 max-h-full" />
+        <Heading level={2}>Post intervention</Heading>
+        <QuestionWithInput label="SpO2 : " type="number" className="max-w-10" />
+        <Truc index={2} list={list} />
+        <Heading level={2}>Notes d'observations</Heading>
+        <table>
+          <thead>
+            <tr>
+              <th className="w-16">Heure</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.from({ length: 5 }, (_, i) => (
+              <tr key={i}>
+                <td className="text-center">
+                  <TimePicker initValue={form.data?.[""] ?? ""} name="" />
+                </td>
+                <td>
+                  <QuestionWithInput />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {/* <Textarea lineLength={108} rows={9} className="h-72 max-h-full" /> */}
         <div className="gap-2 grid grid-cols-2">
           <QuestionWithInput label="Nom et prénom :" />
           <QuestionWithInput label="No de permis :" />
@@ -219,18 +246,16 @@ export default function SM02493({ patient, form }: DataResponse) {
   );
 }
 
-function Truc({ index }: { index: number }) {
+function Truc({
+  list,
+  index,
+}: {
+  index: number;
+  list: { label: string; unit: string }[];
+}) {
   return (
     <div className="gap-2 grid grid-cols-2">
-      {[
-        { label: "AA", unit: "" },
-        { label: "Adrénaline", unit: "mcg" },
-        { label: "Lunette Nasale", unit: "L/min" },
-        { label: "Masque multi concentration", unit: "%" },
-        { label: "Optiflow", unit: "%" },
-        { label: "Ventilé mécaniquement", unit: "%" },
-        { label: "Bipap", unit: "" },
-      ].map(({ label, unit }, i) => (
+      {list.map(({ label, unit }, i) => (
         <div key={i} className="flex flex-wrap items-center gap-1">
           <Choice label={label} type="checkbox" name={`${label} ${index}`} />
           <QuestionWithInput

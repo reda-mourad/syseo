@@ -251,7 +251,7 @@ export default function SM01742({ patient, form }: DataResponse) {
         </div>
         <div className="flex justify-between items-center gap-3">
           <QuestionWithChoices
-            label="Badigeonnage : Solution :"
+            label="Badigeonnage :"
             choices={[
               "",
               "chlorhexidine 0.05%",
