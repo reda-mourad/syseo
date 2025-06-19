@@ -30,7 +30,7 @@ export default function SM01742({ patient, form }: DataResponse) {
           <QuestionWithChoices
             label="Salle :"
             type="single"
-            choices={["", "Cystoscopie"]}
+            choices={["", "Cystoscopie", "Bx prostate"]}
             defaultValue="Cystoscopie"
           />
           <QuestionWithChoices
@@ -46,11 +46,16 @@ export default function SM01742({ patient, form }: DataResponse) {
             defaultValue="Locale"
           />
           <div className="flex items-center gap-2">
-            Locale :
             <QuestionWithChoices
-              label="Instillagel :"
-              choices={["x1 dose", "x2 doses"]}
+              label="Locale : Instillagel :"
+              choices={[
+                "x1 dose",
+                "x2 doses",
+                "Lidocaine 2% 10 ml i. prostate",
+              ]}
               type="radio"
+              columns={1}
+              labelClassName="shrink-0"
             />
           </div>
           <div className="flex items-center gap-3">
@@ -87,15 +92,12 @@ export default function SM01742({ patient, form }: DataResponse) {
             Début :
             <TimePicker name="Début" initValue={form.data?.["Début"] ?? ""} />
           </div>
-          <div className="flex items-center gap-2">
-            Fin :
-            <TimePicker name="Fin" initValue={form.data?.["Fin"] ?? ""} />
-          </div>
         </div>
         <div>
           <div>Intervention exécutée :</div>
           <div className="grid grid-cols-3">
             {[
+              "Bx de prostate",
               "Cystoscopie",
               "Cystométrie",
               "Débimétrie",
@@ -244,12 +246,6 @@ export default function SM01742({ patient, form }: DataResponse) {
         </table>
         <QuestionWithInput label="Scope :" className="max-w-40" />
         <div className="flex justify-between items-center gap-3">
-          <QuestionWithInput label="Électrocautère :" />
-          <QuestionWithInput label="Degrés : coag :" />
-          <QuestionWithInput label="cut. :" />
-          {/* <QuestionWithInput label="Par :" name="Par Électrocautère" /> */}
-        </div>
-        <div className="flex justify-between items-center gap-3">
           <QuestionWithChoices
             label="Badigeonnage :"
             choices={[
@@ -267,24 +263,30 @@ export default function SM01742({ patient, form }: DataResponse) {
             initValue="infirmière"
           />
         </div>
-        {/* <QuestionWithInput label="Autres(s) spécimens(s) :" /> */}
-        {/* <div className="flex justify-between items-center gap-3">
-          <QuestionWithInput label="Soluté :" />
-          <QuestionWithInput label="Site" />
-          <QuestionWithInput label="Par :" name="Par Soluté" />
-        </div> */}
+        <div className="flex justify-between items-center gap-3">
+          <QuestionWithInput label="Électrocautère :" />
+          <QuestionWithInput label="Degrés : coag :" />
+          <QuestionWithInput label="cut. :" />
+        </div>
+        <Heading level={2}>Laser</Heading>
+        <div className="flex justify-between items-center gap-3">
+          <QuestionWithInput label="Puissance (J)" type="number" />
+          <QuestionWithInput label="Fréquence (Hz)" type="number" />
+          <QuestionWithInput label="Temps (s)" type="number" />
+          <QuestionWithChoices
+            choices={[
+              "",
+              "200 micron",
+              "272 micron",
+              "365 micron",
+              "550 micron",
+            ]}
+            type="single"
+            label="Fil laser"
+          />
+        </div>
         <Heading level={2}>Médicaments</Heading>
         <div className="gap-2 grid grid-cols-2">
-          {/* <QuestionWithChoices
-            label="Chorexidina 2% sans alcool avant examen"
-            choices={["x1", "x2"]}
-            type="radio"
-          />
-          <QuestionWithChoices
-            label="Instillagel avant examen"
-            choices={["x1 dose", "x2 doses"]}
-            type="radio"
-          /> */}
           <QuestionWithChoices
             label="Muko"
             choices={["x1 dose", "x2 doses"]}
@@ -338,6 +340,7 @@ export default function SM01742({ patient, form }: DataResponse) {
                         "Cytologie urinaire",
                         "Bx prostate",
                         "Bx lésion génitale",
+                        "Vésicules séminales",
                       ]}
                       type="single"
                       name={`prelevement type ${i}`}
@@ -360,6 +363,9 @@ export default function SM01742({ patient, form }: DataResponse) {
                         "prostate - lobe droit",
                         "prostate - lobe gauche",
                         "lésion génitale",
+                        "D (vesic sem)",
+                        "G (vesic sem)",
+                        "Bilatérale (vesic sem)",
                       ]}
                       type="single"
                       name={`segment colo ${i}`}
@@ -401,7 +407,15 @@ export default function SM01742({ patient, form }: DataResponse) {
             ))}
           </tbody>
         </table> */}
-        <QuestionWithInput label="Signature de l'infirmière :" />
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            Fin :
+            <TimePicker name="Fin" initValue={form.data?.["Fin"] ?? ""} />
+          </div>
+          <div className="flex-1">
+            <QuestionWithInput label="Signature de l'infirmière :" />
+          </div>
+        </div>
       </Page>
     </Form>
   );

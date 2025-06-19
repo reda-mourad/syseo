@@ -41,7 +41,7 @@ export default function SM01694({ patient, user, form }: DataResponse) {
       <Page patient={patient} title={title} index={1} total={3}>
         <FormHeader code="SM01694" patient={patient} />
         <Heading level={1}>{title}</Heading>
-        <div className="flex flex-wrap space-x-4 space-y-1">
+        <div className="flex flex-wrap space-x-4 space-y-2">
           <QuestionWithInput
             label="Date :"
             type="date"

@@ -118,13 +118,13 @@ export default function SM01695({ patient, form }: DataResponse) {
               choices={examType}
               label="Examen :"
             />
-            <QuestionWithChoices
-              label="Autre :"
-              name="autre3"
-              choices={examTypeOther}
-              type="single"
-            />
           </div>
+          <QuestionWithChoices
+            label="Autre :"
+            name="autre3"
+            choices={examTypeOther}
+            type="single"
+          />
           <QuestionWithChoices
             label="Nom et prénom de l'accompagnateur :"
             choices={[

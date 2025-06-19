@@ -12,11 +12,11 @@ import Textarea from "./Textarea";
 import TimePicker from "./time-picker";
 
 const title = "QUESTIONNAIRE DE L'USAGER EN CLINIQUE D'UROLOGIE";
-
+const pages = 3;
 export default function SM01741({ patient }: DataResponse) {
   return (
     <Form>
-      <Page index={1} total={2} title={title} patient={patient}>
+      <Page index={1} total={pages} title={title} patient={patient}>
         <FormHeader code="SM01741" patient={patient} />
         <Heading level={1}>{title}</Heading>
 
@@ -246,6 +246,8 @@ export default function SM01741({ patient }: DataResponse) {
                     "3 jours",
                     "4 jours",
                     "5 jours",
+                    "6 jours",
+                    "7 jours",
                   ]}
                   type="single"
                   label="Depuis :"
@@ -255,7 +257,7 @@ export default function SM01741({ patient }: DataResponse) {
           </tbody>
         </table>
       </Page>
-      <Page patient={patient} index={2} total={2} title={title}>
+      <Page index={2} total={pages} title={title} patient={patient}>
         <Allergies />
         <table className="text-[.66rem]">
           <thead>
@@ -380,7 +382,7 @@ export default function SM01741({ patient }: DataResponse) {
               "Si biopsie de la prostate, antibiotique en prophylaxie",
             ].map((e, i) => (
               <tr key={e}>
-                <td>
+                <td className="space-y-1">
                   <div className="flex justify-between">
                     <Choice
                       label={e}
@@ -395,26 +397,117 @@ export default function SM01741({ patient }: DataResponse) {
                       />
                     )}
                   </div>
+                  {i === 6 && (
+                    <div className="flex justify-end">
+                      <QuestionWithChoices
+                        choices={[
+                          "",
+                          "Ciprofloxacine 500 mg BID 1 jour avant examen",
+                          "Ciprofloxacine 500 mg BID pendant 72h avant examen",
+                          "Ciprofloxacine 500 mg 1h avant examen",
+                          "Monurol 3g DIE 24h avant examen",
+                          "Monurol 3g 1h avant examen",
+                        ]}
+                        type="single"
+                        name="biopsue antibiotique"
+                      />
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <div className="space-y-2">
-          <Heading level={3}>NOTES COMPLÉMENTAIRES</Heading>
-          <Textarea
-            name="NOTES COMPLÉMENTAIRES"
-            lineLength={108}
-            rows={9}
-            className="max-h-full"
-            defaultValue={`Évaluation infirmière complétée.
+        <table>
+          <thead>
+            <tr>
+              <th colSpan={5}>Prélèvements</th>
+            </tr>
+            <tr>
+              <th>Flacon</th>
+              <th>Type</th>
+              <th>Nombre</th>
+              <th>Site</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array(8)
+              .fill(null)
+              .map((_, i, arr) => (
+                <tr key={i}>
+                  <td className="text-center">
+                    <select name={`prelevement flacon ${i}`}>
+                      <option value=""></option>
+                      {arr
+                        .map((_, i) => `Flacon ${i + 1}`)
+                        .map((c) => (
+                          <option key={c} value={c}>
+                            {c}
+                          </option>
+                        ))}
+                    </select>
+                  </td>
+                  <td>
+                    <QuestionWithChoices
+                      choices={[
+                        "",
+                        "Analyse d'urine",
+                        "Culture urine",
+                        "Bx vessie urinaire",
+                        "Cytologie urinaire",
+                        "Bx prostate",
+                        "Bx lésion génitale",
+                        "Vésicules séminales",
+                      ]}
+                      type="single"
+                      name={`prelevement type ${i}`}
+                      className="justify-center"
+                    />
+                  </td>
+                  <td>
+                    <QuestionWithInput
+                      name={`prelevement nombre ${i}`}
+                      type="number"
+                    />
+                  </td>
+                  <td>
+                    <QuestionWithChoices
+                      choices={[
+                        "",
+                        "vessie",
+                        "col vésical",
+                        "urètre",
+                        "prostate - lobe droit",
+                        "prostate - lobe gauche",
+                        "lésion génitale",
+                        "D (vesic sem)",
+                        "G (vesic sem)",
+                        "Bilatérale (vesic sem)",
+                      ]}
+                      type="single"
+                      name={`segment colo ${i}`}
+                      className="justify-center"
+                    />
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </Page>
+      <Page index={3} total={pages} title={title} patient={patient}>
+        <Heading level={3}>NOTES COMPLÉMENTAIRES</Heading>
+        <Textarea
+          name="NOTES COMPLÉMENTAIRES"
+          lineLength={108}
+          rows={9}
+          className="max-h-full"
+          defaultValue={`Évaluation infirmière complétée.
 Aucun enjeu clinique identifié à ce stade.
 Informé du déroulement de l'examen et des consignes post-examen.
 Consentement signé.
 Prêt pour l'intervention.
 L'équipe soignante avisée que l'usager est prêt à être transféré en salle.`}
-          />
-        </div>
+        />
         <div className="flex items-center gap-4">
           <QuestionWithInput
             label="Date :"

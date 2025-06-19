@@ -1,6 +1,7 @@
 export const nonOui = ["Non", "Oui"];
 
 export const examType = [
+  "Bronchoscopie",
   "Colonoscopie courte",
   "Colonoscopie totale",
   "Gastroscopie",
