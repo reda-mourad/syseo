@@ -71,7 +71,7 @@ export const allergies = [
   "ANTIBIOTIQUES -type non spécifique",
   "ANTICONVULSIVANTS -type non spécifique",
   "ANTI-INFLAMMATOIRES-NON-STEROIDIENS-(AINS)",
-  "ANTINEOPLASIQUES-ET-PRODUITS-APPARENTES -type non spécifique",
+  "ANTINEOPLASIQUES-ET-PRODUITS-APPARENTES",
   "ARACHIDES",
   "BLÉ",
   "CODÉINE",

@@ -107,8 +107,8 @@ export default function SM01742({ patient, form }: DataResponse) {
               "Toucher rectal",
               "Uréthrotomie interne",
               "Exérèse Double J :",
-              "Exérèse",
-              // "Installation",
+              // "Exérèse",
+              "Installation",
               "Dilatation urétrale",
               "Fulguration",
               "Pyélo-rétrograde",
@@ -383,30 +383,10 @@ export default function SM01742({ patient, form }: DataResponse) {
           style={{ height: "250px" }}
           name="Notes d'observations"
           className="max-h-full"
+          defaultValue={
+            "Consultation pré examen réalisée par md, examen bien toléré, sans complication."
+          }
         />
-        {/* <table>
-          <thead>
-            <tr>
-              <th colSpan={2}>Notes d'observations :</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.from({ length: 4 }).map((_, i) => (
-              <tr key={i}>
-                <td>
-                  <TimePicker
-                    className="w-16"
-                    name={`note time ${i}`}
-                    initValue={form.data?.[`note time ${i}`] ?? ""}
-                  />
-                </td>
-                <td className="space-y-1 w-full">
-                  <Textarea lineLength={96} rows={2} name={`note text ${i}`} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table> */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             Fin :

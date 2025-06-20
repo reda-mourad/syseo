@@ -16,6 +16,7 @@ import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
 import TimePicker from "./time-picker";
+import Textarea from "./Textarea";
 
 const title = "SOINS INFIRMIERS PENDANT UN EXAMEN ENDOSCOPIQUE";
 const verticalCellStyle: React.CSSProperties = {
@@ -1014,9 +1015,11 @@ export default function SM01694({ patient, user, form }: DataResponse) {
         </table>
         <div className="space-y-1">
           <Heading level={3}>NOTES</Heading>
-          <textarea
+          <Textarea
+            lineLength={108}
+            rows={9}
             name="notes"
-            className="w-full max-h-16"
+            className="w-full max-h-40"
             maxLength={750}
             defaultValue={
               "Consultation pré examen réalisée par md, examen bien toléré, sans complication."

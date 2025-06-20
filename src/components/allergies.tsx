@@ -25,7 +25,7 @@ export default function Allergies() {
                 />
               </td>
               <td>
-                <div className="grid grid-cols-3">
+                <div className="grid grid-cols-4">
                   {[
                     "nausées",
                     "vomissements",
