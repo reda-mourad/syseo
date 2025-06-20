@@ -91,14 +91,14 @@ export default function SM01694({ patient, user, form }: DataResponse) {
             Heure de début
             <TimePicker
               name="Heure de début"
-              initValue={form.data?.["Heure de début"] ?? currentTime()}
+              initValue={form.data?.["Heure de début"] ?? ""}
             />
           </div>
           <div className="flex items-center gap-2">
             Heure de fin
             <TimePicker
               name="Heure de fin"
-              initValue={form.data?.["Heure de fin"] ?? currentTime()}
+              initValue={form.data?.["Heure de fin"] ?? ""}
             />
           </div>
         </div>
