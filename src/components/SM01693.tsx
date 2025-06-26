@@ -740,7 +740,13 @@ export default function SM01693({ patient, form, user }: DataResponse) {
           </tbody>
         </table>
         <div className="flex gap-2">
-          <QuestionWithInput label="Heure de départ :" type="time" />
+          <div className="flex items-center gap-1">
+            <span>Heure de départ :</span>
+            <TimePicker
+              initValue={form.data?.["Heure de départ :"] ?? ""}
+              name="Heure de départ :"
+            />
+          </div>
           <QuestionWithChoices
             choices={[
               "Sur pied",
