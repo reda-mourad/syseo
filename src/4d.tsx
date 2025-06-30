@@ -15,6 +15,7 @@ declare global {
     $4d: {
       form_save: (id: string, data: Record<string, unknown>) => void;
       form_get: (id: string, result: (res?: DataResponse) => void) => void;
+      print_ticket_4d: (data: unknown) => void;
     };
   }
 }
@@ -34,6 +35,7 @@ export async function main_4d() {
           .then((json) => result(json));
       },
       form_save() {},
+      print_ticket_4d() {},
     };
   }
 

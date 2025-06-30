@@ -1,3 +1,4 @@
+import { LucidePrinter } from "lucide-react";
 import type { DataResponse } from "../4d";
 import { currentDate, currentTime, nonOui } from "../choices";
 import Allergies from "./allergies";
@@ -428,6 +429,7 @@ export default function SM01741({ patient }: DataResponse) {
               <th>Type</th>
               <th>Nombre</th>
               <th>Site</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -488,6 +490,25 @@ export default function SM01741({ patient }: DataResponse) {
                       name={`segment colo ${i}`}
                       className="justify-center"
                     />
+                  </td>
+                  <td className="text-center">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (window.$4d) {
+                          window.$4d.print_ticket_4d({ test: "Reda" });
+                        } else {
+                          const body = new FormData();
+                          body.set("patient", "123");
+                          fetch(`${location.origin}/4DACTION/print_ticket`, {
+                            method: "POST",
+                            body,
+                          });
+                        }
+                      }}
+                    >
+                      <LucidePrinter className="w-4 h-4" />
+                    </button>
                   </td>
                 </tr>
               ))}
