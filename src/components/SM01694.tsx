@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import type { DataResponse } from "../4d";
+import React, { useEffect, useState } from "react";
+import type { DataResponse, VitalSign } from "../4d";
 import {
   colonSite,
   currentTime,
@@ -15,8 +15,8 @@ import Heading from "./heading";
 import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
-import TimePicker from "./time-picker";
 import Textarea from "./Textarea";
+import TimePicker from "./time-picker";
 
 const title = "SOINS INFIRMIERS PENDANT UN EXAMEN ENDOSCOPIQUE";
 const verticalCellStyle: React.CSSProperties = {
@@ -26,8 +26,73 @@ const verticalCellStyle: React.CSSProperties = {
 };
 const colArr = Array.from({ length: 8 });
 
+const interval = 5_000;
+
+function formatTime(stamp: string) {
+  const chars = stamp.substring(8, 12).split("");
+  return [...chars.slice(0, 2), ":", ...chars.slice(2)].join("");
+}
+
 export default function SM01694({ patient, user, form }: DataResponse) {
+  const [viatlsArr, setVitalsArr] = useState<Array<VitalSign>>([]);
+
   useEffect(() => {
+    viatlsArr.forEach((data, i) => {
+      const freq_card = document.querySelector<HTMLInputElement>(
+        `input[name="freq_card_${i}"]`
+      );
+      if (freq_card) {
+        freq_card.value = data.heartRate.value;
+      }
+
+      const freq_res = document.querySelector<HTMLInputElement>(
+        `input[name="freq_resp numbder ${i}"]`
+      );
+      if (freq_res) {
+        freq_res.value = data.respirationRate.value;
+      }
+
+      const sat = document.querySelector<HTMLInputElement>(
+        `input[name="saturation_${i}"]`
+      );
+      if (sat) {
+        sat.value = data.spo2.value;
+      }
+
+      const art1 = document.querySelector<HTMLInputElement>(
+        `input[name="press_art_max_${i}"]`
+      );
+      if (art1) {
+        art1.value = data.systolic.value;
+      }
+
+      const art2 = document.querySelector<HTMLInputElement>(
+        `input[name="press_art_min_${i}"]`
+      );
+      if (art2) {
+        art2.value = data.diastolic.value;
+      }
+
+      const etco2 = document.querySelector<HTMLInputElement>(
+        `input[name="etco2_${i}"]`
+      );
+      if (etco2) {
+        etco2.value = data.CO2EndExpiration.value;
+      }
+    });
+  }, [viatlsArr]);
+
+  useEffect(() => {
+    if (window.$4d) {
+      window.$4d.get_vitals(patient.dossier, (vitals) => {
+        setVitalsArr(vitals || []);
+      });
+      setInterval(() => {
+        window.$4d.get_vitals(patient.dossier, (vitals) => {
+          setVitalsArr(vitals || []);
+        });
+      }, interval);
+    }
     document
       .querySelectorAll('select[name^="prelevement flacon"]')
       .forEach((el) => {
@@ -35,7 +100,7 @@ export default function SM01694({ patient, user, form }: DataResponse) {
           // console.log("flacon `");
         };
       });
-  }, []);
+  }, [patient.dossier]);
 
   return (
     <Form>
@@ -115,20 +180,24 @@ export default function SM01694({ patient, user, form }: DataResponse) {
               </th>
               {colArr.map((_, i) => (
                 <th key={i}>
-                  <TimePicker
-                    tabIndex={19 * i + 1}
-                    className="w-full"
-                    name={`time_${i}`}
-                    initValue={form.data?.[`time_${i}`] ?? ""}
-                    onClick={() => {
-                      const initEl = document.querySelector<HTMLInputElement>(
-                        `input[name="initiales_${i}"]`
-                      );
-                      if (initEl) {
-                        initEl.value = user.initiales ?? "";
-                      }
-                    }}
-                  />
+                  {viatlsArr.length <= i ? (
+                    <TimePicker
+                      tabIndex={19 * i + 1}
+                      className="w-full"
+                      name={`time_${i}`}
+                      initValue={form.data?.[`time_${i}`] ?? ""}
+                      onClick={() => {
+                        const initEl = document.querySelector<HTMLInputElement>(
+                          `input[name="initiales_${i}"]`
+                        );
+                        if (initEl) {
+                          initEl.value = user.initiales ?? "";
+                        }
+                      }}
+                    />
+                  ) : (
+                    formatTime(viatlsArr.at(i)?.snapshotTime.value || "")
+                  )}
                 </th>
               ))}
             </tr>

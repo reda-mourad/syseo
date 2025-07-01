@@ -9,12 +9,27 @@ export interface DataResponse {
   user: { initiales: string };
 }
 
+export type VitalSign = Record<
+  string,
+  {
+    value: string;
+    unit: string;
+    champ: string;
+    code: string;
+    signification: string;
+  }
+>;
+
 declare global {
   interface Window {
     saveForm: () => void;
     $4d: {
       form_save: (id: string, data: Record<string, unknown>) => void;
       form_get: (id: string, result: (res?: DataResponse) => void) => void;
+      get_vitals: (
+        dossierpatient: string,
+        result: (res?: Array<VitalSign>) => void
+      ) => void;
     };
   }
 }
@@ -34,6 +49,7 @@ export async function main_4d() {
           .then((json) => result(json));
       },
       form_save() {},
+      get_vitals() {},
     };
   }
 
