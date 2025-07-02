@@ -4,7 +4,7 @@ import {
   PopoverTrigger,
 } from "@radix-ui/react-popover";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { useState, type ComponentProps } from "react";
+import { useEffect, useState, type ComponentProps } from "react";
 import { currentTime } from "../choices";
 import { cn } from "../lib/utils";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "./ui/input-otp";
@@ -20,8 +20,12 @@ export default function TimePicker({
   initValue,
   ...props
 }: TimePickerProps) {
-  const [time, setTime] = useState(initValue);
+  const [time, setTime] = useState("");
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setTime(initValue);
+  }, [initValue]);
 
   return (
     <Popover

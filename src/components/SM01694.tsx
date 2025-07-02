@@ -37,6 +37,26 @@ export default function SM01694({ patient, user, form }: DataResponse) {
   const [viatlsArr, setVitalsArr] = useState<Array<VitalSign>>([]);
 
   useEffect(() => {
+    if (window.$4d) {
+      window.$4d.get_vitals(patient.dossier, (vitals) => {
+        setVitalsArr(vitals || []);
+      });
+      setInterval(() => {
+        window.$4d.get_vitals(patient.dossier, (vitals) => {
+          setVitalsArr(vitals || []);
+        });
+      }, interval);
+    }
+    document
+      .querySelectorAll('select[name^="prelevement flacon"]')
+      .forEach((el) => {
+        (el as HTMLSelectElement).onchange = () => {
+          // console.log("flacon `");
+        };
+      });
+  }, [patient.dossier]);
+
+  useEffect(() => {
     viatlsArr.forEach((data, i) => {
       const freq_card = document.querySelector<HTMLInputElement>(
         `input[name="freq_card_${i}"]`
@@ -81,26 +101,6 @@ export default function SM01694({ patient, user, form }: DataResponse) {
       }
     });
   }, [viatlsArr]);
-
-  useEffect(() => {
-    if (window.$4d) {
-      window.$4d.get_vitals(patient.dossier, (vitals) => {
-        setVitalsArr(vitals || []);
-      });
-      setInterval(() => {
-        window.$4d.get_vitals(patient.dossier, (vitals) => {
-          setVitalsArr(vitals || []);
-        });
-      }, interval);
-    }
-    document
-      .querySelectorAll('select[name^="prelevement flacon"]')
-      .forEach((el) => {
-        (el as HTMLSelectElement).onchange = () => {
-          // console.log("flacon `");
-        };
-      });
-  }, [patient.dossier]);
 
   return (
     <Form>
@@ -180,24 +180,24 @@ export default function SM01694({ patient, user, form }: DataResponse) {
               </th>
               {colArr.map((_, i) => (
                 <th key={i}>
-                  {viatlsArr.length <= i ? (
-                    <TimePicker
-                      tabIndex={19 * i + 1}
-                      className="w-full"
-                      name={`time_${i}`}
-                      initValue={form.data?.[`time_${i}`] ?? ""}
-                      onClick={() => {
-                        const initEl = document.querySelector<HTMLInputElement>(
-                          `input[name="initiales_${i}"]`
-                        );
-                        if (initEl) {
-                          initEl.value = user.initiales ?? "";
-                        }
-                      }}
-                    />
-                  ) : (
-                    formatTime(viatlsArr.at(i)?.snapshotTime.value || "")
-                  )}
+                  <TimePicker
+                    // disabled={i < viatlsArr.length - 1}
+                    tabIndex={19 * i + 1}
+                    className="w-full"
+                    name={`time_${i}`}
+                    initValue={
+                      form.data?.[`time_${i}`] ||
+                      formatTime(viatlsArr.at(i)?.snapshotTime.value || "")
+                    }
+                    onClick={() => {
+                      const initEl = document.querySelector<HTMLInputElement>(
+                        `input[name="initiales_${i}"]`
+                      );
+                      if (initEl) {
+                        initEl.value = user.initiales ?? "";
+                      }
+                    }}
+                  />
                 </th>
               ))}
             </tr>
