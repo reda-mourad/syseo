@@ -138,6 +138,7 @@ export default function SM01694({ patient, user, form }: DataResponse) {
                 "unité de soins",
                 "autre établissement",
               ]}
+              defaultValue="domicile"
               type="single"
               label="Provenance :"
             />
@@ -157,13 +158,6 @@ export default function SM01694({ patient, user, form }: DataResponse) {
             <TimePicker
               name="Heure de début"
               initValue={form.data?.["Heure de début"] ?? ""}
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            Heure de fin
-            <TimePicker
-              name="Heure de fin"
-              initValue={form.data?.["Heure de fin"] ?? ""}
             />
           </div>
         </div>
@@ -732,12 +726,12 @@ export default function SM01694({ patient, user, form }: DataResponse) {
                 <QuestionWithChoices
                   label="Voies dig sup :"
                   name="Argon Voies dig sup :"
-                  choices={["larynx", "oesophage", "estomac", "duodenum"]}
+                  choices={["Larynx", "Œsophage", "Estomac", "Duodenum"]}
                   columns={2}
                   type="multiple"
                 />
                 <QuestionWithChoices
-                  label="Voies dig sup :"
+                  label="Voies dig inf :"
                   name="Argon Voies dig sup :"
                   choices={colonSite.slice(1)}
                   columns={2}
@@ -915,7 +909,7 @@ export default function SM01694({ patient, user, form }: DataResponse) {
                       ...Array(5)
                         .fill(null)
                         .map(
-                          (_, i) => `X${i + 1} élastique${i > 0 ? "s" : ""}`
+                          (_, i) => `#${i + 1} élastique${i > 0 ? "s" : ""}`
                         ),
                     ]}
                     type="single"
@@ -1097,9 +1091,16 @@ export default function SM01694({ patient, user, form }: DataResponse) {
         </div>
 
         <div className="flex gap-2">
-          <QuestionWithInput label="Initiales" initValue={user.initiales} />
+          <QuestionWithInput label="Initiales" initValue={user.initiales} className="max-w-10" />
           <div className="flex-1">
             <QuestionWithInput label="Signature" />
+          </div>
+          <div className="flex items-center gap-2">
+            Heure de fin
+            <TimePicker
+              name="Heure de fin"
+              initValue={form.data?.["Heure de fin"] ?? ""}
+            />
           </div>
         </div>
       </Page>

@@ -640,6 +640,11 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                         type="single"
                         name={`med_${i}_unit`}
                       />
+                      <QuestionWithChoices
+                        choices={["", "I.V ", "I.M", "I/R", "s.c", "p.os"]}
+                        type="single"
+                        name={`med_${i}_voie`}
+                      />
                     </div>
                   </td>
                   <td>
@@ -794,43 +799,23 @@ export default function SM01693({ patient, form, user }: DataResponse) {
           <thead>
             <tr>
               <th>Initiales</th>
-              <th>Signatures</th>
-              <th>Initiales</th>
-              <th>Signatures</th>
+              <th className="w-full">Signatures</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <QuestionWithInput
-                  name="Initiales1"
-                  initValue={user.initiales}
-                />
-              </td>
-              <td>
-                <QuestionWithInput name="Signatures1" />
-              </td>
-              <td>
-                <QuestionWithInput name="Initiales2" />
-              </td>
-              <td>
-                <QuestionWithInput name="Signatures2" />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <QuestionWithInput name="Initiales3" />
-              </td>
-              <td>
-                <QuestionWithInput name="Signatures3" />
-              </td>
-              <td>
-                <QuestionWithInput name="Initiales4" />
-              </td>
-              <td>
-                <QuestionWithInput name="Signatures4" />
-              </td>
-            </tr>
+            {Array.from({ length: 3 }, (_, i) => (
+              <tr key={i}>
+                <td>
+                  <QuestionWithInput
+                    name={`initiale ${i}`}
+                    initValue={user.initiales}
+                  />
+                </td>
+                <td>
+                  <QuestionWithInput name={`signature ${i}`} />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </Page>

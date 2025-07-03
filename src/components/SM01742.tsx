@@ -51,7 +51,7 @@ export default function SM01742({ patient, form }: DataResponse) {
               choices={[
                 "x1 dose",
                 "x2 doses",
-                "Lidocaine 2% 10 ml i. prostate",
+                "Lidocaïne 2% 10 ml intra prostate injecté par médecin",
               ]}
               type="radio"
               columns={1}
@@ -366,7 +366,10 @@ export default function SM01742({ patient, form }: DataResponse) {
                         "D (vesic sem)",
                         "G (vesic sem)",
                         "Bilatérale (vesic sem)",
-                      ]}
+                        "miction libre",
+                        "sac urinaire",
+                        "cystoscopie",
+                      ].sort()}
                       type="single"
                       name={`segment colo ${i}`}
                       className="justify-center"
