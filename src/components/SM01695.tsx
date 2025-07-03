@@ -125,7 +125,11 @@ export default function SM01695({ patient, form }: DataResponse) {
             choices={examTypeOther}
             type="single"
           />
-          <QuestionWithInput label="Nom et prénom de l'accompagnateur :" className="max-w-60" />
+          <QuestionWithInput
+            label="Nom et prénom de l'accompagnateur :"
+            className="max-w-60"
+            initValue={form.extra?.accompagnateur as string}
+          />
           <QuestionWithChoices
             label="Accompagnateur :"
             choices={[

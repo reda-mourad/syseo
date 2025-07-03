@@ -4,7 +4,12 @@ import { App } from "./app";
 import type { Patient } from "./components/patient-ticket";
 
 export interface DataResponse {
-  form: { UUID: string; data: Record<string, never> | null; code: string };
+  form: {
+    UUID: string;
+    data: Record<string, never> | null;
+    code: string;
+    extra?: Record<string, unknown>;
+  };
   patient: Patient;
   user: { initiales: string };
 }
