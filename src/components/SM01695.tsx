@@ -20,7 +20,7 @@ import TimePicker from "./time-picker";
 const title =
   "SOINS INFIRMIERS AVANT UN EXAMEN ENDOSCOPIQUE (PARTIE INFIRMIÈRE) ";
 
-export default function SM01695({ patient, form }: DataResponse) {
+export default function SM01695({ patient, form, extra, user }: DataResponse) {
   const [poids, setPoids] = useState(form.data?.["Poids (kg)"] ?? 0);
   const [taille, setTaille] = useState(form.data?.["Taille (cm)"] ?? 0);
 
@@ -128,7 +128,7 @@ export default function SM01695({ patient, form }: DataResponse) {
           <QuestionWithInput
             label="Nom et prénom de l'accompagnateur :"
             className="max-w-60"
-            initValue={form.extra?.accompagnateur as string}
+            value={(extra?.accompagnateur as string) || undefined}
           />
           <QuestionWithChoices
             label="Accompagnateur :"
@@ -526,7 +526,7 @@ Prêt pour l'intervention. L'équipe soignant avisé que l'usager est prêt à �
             type="radio"
             label="Avisé des constats ci-haut"
           />
-          <QuestionWithInput label="Signature :" />
+          <QuestionWithInput label="Signature :" value={user.signature} />
           <div className="flex gap-2">
             <QuestionWithInput
               label="Date :"

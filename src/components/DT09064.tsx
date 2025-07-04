@@ -10,7 +10,7 @@ import TimePicker from "./time-picker";
 const title = "DT09064";
 const pages = 1;
 
-export default function DT09064({ patient }: DataResponse) {
+export default function DT09064({ patient, user }: DataResponse) {
   return (
     <Form>
       <Page index={1} patient={patient} title={title} total={pages}>
@@ -48,7 +48,7 @@ export default function DT09064({ patient }: DataResponse) {
             ))}
           </tbody>
         </table>
-        <QuestionWithInput label="Signature :" />
+        <QuestionWithInput label="Signature :" value={user.signature} />
       </Page>
     </Form>
   );

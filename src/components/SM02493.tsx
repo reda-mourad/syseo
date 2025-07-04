@@ -24,7 +24,7 @@ const list = [
   { label: "Bipap", unit: "" },
 ];
 
-export default function SM02493({ patient, form }: DataResponse) {
+export default function SM02493({ patient, form, user }: DataResponse) {
   return (
     <Form>
       <Page index={1} patient={patient} title={title} total={pages}>
@@ -169,7 +169,7 @@ export default function SM02493({ patient, form }: DataResponse) {
           <QuestionWithInput label="Nom et prénom :" />
           <QuestionWithInput label="No de permis :" />
           <QuestionWithInput label="Titre d'emploi :" />
-          <QuestionWithInput label="Signature :" />
+          <QuestionWithInput label="Signature :" value={user.signature} />
           <QuestionWithInput
             label="Date :"
             type="date"

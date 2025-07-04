@@ -1093,7 +1093,7 @@ export default function SM01694({ patient, user, form }: DataResponse) {
         <div className="flex gap-2">
           <QuestionWithInput label="Initiales" initValue={user.initiales} className="max-w-10" />
           <div className="flex-1">
-            <QuestionWithInput label="Signature" />
+            <QuestionWithInput label="Signature" value={user.signature} />
           </div>
           <div className="flex items-center gap-2">
             Heure de fin

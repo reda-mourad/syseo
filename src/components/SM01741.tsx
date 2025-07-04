@@ -13,7 +13,7 @@ import TimePicker from "./time-picker";
 
 const title = "QUESTIONNAIRE DE L'USAGER EN CLINIQUE D'UROLOGIE";
 const pages = 3;
-export default function SM01741({ patient }: DataResponse) {
+export default function SM01741({ patient, user }: DataResponse) {
   return (
     <Form>
       <Page index={1} total={pages} title={title} patient={patient}>
@@ -520,7 +520,7 @@ L'équipe soignante avisée que l'usager est prêt à être transféré en salle
             <TimePicker initValue={currentTime()} name="heure :" />
           </div>
           <div className="flex-1">
-            <QuestionWithInput label="Signature :" />
+            <QuestionWithInput label="Signature :" value={user.signature} />
           </div>
         </div>
       </Page>

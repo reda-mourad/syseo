@@ -8,10 +8,10 @@ export interface DataResponse {
     UUID: string;
     data: Record<string, never> | null;
     code: string;
-    extra?: Record<string, unknown>;
   };
   patient: Patient;
-  user: { initiales: string };
+  user: { initiales: string; signature: string };
+  extra?: Record<string, unknown>;
 }
 
 export type VitalSign = Record<
