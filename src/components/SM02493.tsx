@@ -14,16 +14,6 @@ import TimePicker, { TimeField } from "./time-picker";
 const title = "INHALOTHÉRAPIE EN ENDOSCOPIE PULMONAIRE";
 const pages = 3;
 
-const list = [
-  { label: "AA", unit: "" },
-  // { label: "Adrénaline", unit: "mcg" },
-  { label: "Lunette Nasale", unit: "L/min" },
-  { label: "Masque multi concentration", unit: "%" },
-  { label: "Optiflow", unit: "%" },
-  { label: "Ventilé mécaniquement", unit: "%" },
-  { label: "Bipap", unit: "" },
-];
-
 export default function SM02493({ patient, form, user }: DataResponse) {
   return (
     <Form>
@@ -31,7 +21,7 @@ export default function SM02493({ patient, form, user }: DataResponse) {
         <FormHeader code="SM02493" patient={patient} />
         <Heading level={1}>{title}</Heading>
         <div className="flex justify-between">
-          <Choice label="Demande médicale" type="checkbox" />
+          <Choice label="Demande médicale" type="checkbox" defaultChecked />
           <Choice label="Double identification faite" type="checkbox" />
         </div>
         <div className="gap-4 grid grid-cols-2">
@@ -45,6 +35,7 @@ export default function SM02493({ patient, form, user }: DataResponse) {
             choices={["", "Salle 1", "Salle 2"]}
             type="single"
             label="Salle :"
+            defaultValue="Salle 1"
           />
           <QuestionWithChoices
             choices={["Hospitalisé", "Externe"]}
@@ -53,7 +44,27 @@ export default function SM02493({ patient, form, user }: DataResponse) {
           />
           <QuestionWithInput label="Médecin en charge :" />
         </div>
-        <QuestionWithInput label="Raison de l'intervention :" />
+        {/* <QuestionWithInput label="Raison de l'intervention :" /> */}
+        <div className="flex gap-4">
+          <QuestionWithChoices
+            choices={[
+              "",
+              "Masse ou adénopathie pulmonaire",
+              "Hémoptysie",
+              "Pneumonie non résolutive / Atélectasie",
+              "Toux chronique / Anomalie radiologique",
+              "Corps étranger / Bouchon muqueux",
+              "Sténose bronchique / Obstruction",
+              "Maladie interstitielle diffuse",
+              "Évaluation pré-opératoire lésion centrale",
+              "Traumatisme ou brûlure inhalatoire",
+              "Drainage sécrétions / Atélectasie ventilée",
+            ]}
+            type="single"
+            label="Raison de l'intervention :"
+          />
+          <QuestionWithInput label="Autre :" name="autre raison" />
+        </div>
         <Allergies />
         <div className="gap-4 grid grid-cols-2">
           <TimeField
@@ -69,6 +80,7 @@ export default function SM02493({ patient, form, user }: DataResponse) {
           choices={["Bronchoscopie", "Ebus", "Talcage", "Ponction pleurale"]}
           type="multiple"
           label="Intervention exécutée :"
+          defaultValue="Bronchoscopie"
         />
         <QuestionWithInput label="Drain thoracique :" />
         <QuestionWithInput label="Autre :" />
@@ -132,7 +144,7 @@ export default function SM02493({ patient, form, user }: DataResponse) {
           type="number"
           className="max-w-10"
         />
-        <Truc index={1} list={list} />
+        <Truc index={1} />
         <Heading level={2}>Per intervention :</Heading>
         <Textarea
           lineLength={108}
@@ -142,7 +154,7 @@ export default function SM02493({ patient, form, user }: DataResponse) {
         />
         <Heading level={2}>Post intervention</Heading>
         <QuestionWithInput label="SpO2 : " type="number" className="max-w-10" />
-        <Truc index={2} list={list} />
+        <Truc index={2} />
         <Heading level={2}>Notes d'observations</Heading>
         <table>
           <thead>
@@ -165,18 +177,18 @@ export default function SM02493({ patient, form, user }: DataResponse) {
           </tbody>
         </table>
         {/* <Textarea lineLength={108} rows={9} className="h-72 max-h-full" /> */}
+        <QuestionWithInput label="Signature :" value={user.signature} />
         <div className="gap-2 grid grid-cols-2">
-          <QuestionWithInput label="Nom et prénom :" />
+          {/* <QuestionWithInput label="Nom et prénom :" />
           <QuestionWithInput label="No de permis :" />
-          <QuestionWithInput label="Titre d'emploi :" />
-          <QuestionWithInput label="Signature :" value={user.signature} />
-          <QuestionWithInput
+          <QuestionWithInput label="Titre d'emploi :" /> */}
+          {/* <QuestionWithInput
             label="Date :"
             type="date"
             className="max-w-fit"
             name="signature date"
             initValue={form.data?.["signature date"] ?? currentDate()}
-          />
+          /> */}
         </div>
       </Page>
       <Page index={3} patient={patient} title={title} total={pages}>
@@ -222,34 +234,70 @@ export default function SM02493({ patient, form, user }: DataResponse) {
   );
 }
 
-function Truc({
-  list,
-  index,
-}: {
-  index: number;
-  list: { label: string; unit: string }[];
-}) {
+function Truc({ index }: { index: number }) {
   return (
-    <div className="gap-2 grid grid-cols-2">
-      {list.map(({ label, unit }, i) => (
-        <div key={i} className="flex flex-wrap items-center gap-1">
-          <Choice label={label} type="checkbox" name={`${label} ${index}`} />
-          <QuestionWithInput
-            type={label === "Bipap" ? "text" : "number"}
-            name={`${label} dose ${index}`}
-          />
-          {unit}
-          {label === "Optiflow" && (
-            <>
-              <QuestionWithInput
-                name={`Optiflow l/min ${index}`}
-                type="number"
-              />
-              L/min
-            </>
-          )}
-        </div>
-      ))}
+    <div className="gap-4 grid grid-cols-2">
+      <div className="flex items-center gap-2">
+        <Choice label="AA" type="checkbox" name={`oxy aa ${index}`} />
+        <QuestionWithInput type="number" name={`oxy aa ${index}`} />
+      </div>
+      <div className="flex items-center gap-2">
+        <Choice label="" type="checkbox" name={`oxy lunette ${index}`} />
+        <QuestionWithChoices
+          choices={[
+            "Lunette nasale",
+            "Lunette nasale avec Co2",
+            "Lunette nasale haut débit",
+          ]}
+          type="single"
+          name={`oxy lunette type ${index}`}
+        />
+        <QuestionWithInput type="number" name={`oxy aa ${index}`} />
+        L/min
+      </div>
+      <div className="flex items-center gap-2">
+        <Choice
+          label="Masque multi-concentration"
+          type="checkbox"
+          name={`oxy masque ${index}`}
+        />
+        <QuestionWithChoices
+          choices={["24%", "28%", "31%", "35%", "40%", "60%"]}
+          type="single"
+          name={`oxy masque value ${index}`}
+        />
+      </div>
+      <div className="flex items-center gap-2">
+        <Choice
+          label="Optiflow"
+          type="checkbox"
+          name={`oxy Optiflow ${index}`}
+        />
+        <QuestionWithInput type="number" name={`oxy Optiflow val1 ${index}`} />%
+        <QuestionWithInput type="number" name={`oxy Optiflow val2 ${index}`} />
+        L/min
+      </div>
+      <Choice
+        label="Masque 100%"
+        type="checkbox"
+        name={`oxy masque 100 ${index}`}
+      />
+      <div className="flex items-center gap-2">
+        <Choice label="Bipap" type="checkbox" name={`oxy Bipap ${index}`} />
+        <QuestionWithInput type="number" name={`oxy Bipap val1 ${index}`} />%
+      </div>
+      <div className="flex items-center gap-2">
+        <Choice
+          label="Ventilé mécaniquement"
+          type="checkbox"
+          name={`oxy Ventilé mécaniquement ${index}`}
+        />
+        <QuestionWithInput
+          type="number"
+          name={`oxy Ventilé mécaniquement val1 ${index}`}
+        />
+        %
+      </div>
     </div>
   );
 }

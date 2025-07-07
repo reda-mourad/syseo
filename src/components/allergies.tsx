@@ -8,6 +8,14 @@ export default function Allergies() {
     <table>
       <thead>
         <tr>
+          <th>
+            <Choice label="Evalué par l'infirmière" type="checkbox" />
+          </th>
+          <th>
+            <Choice label="Aucune allergie connue" type="checkbox" />
+          </th>
+        </tr>
+        <tr>
           <th>Allergie</th>
           <th>Type de reaction</th>
         </tr>

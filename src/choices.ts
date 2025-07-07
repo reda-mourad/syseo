@@ -30,6 +30,7 @@ export const medications = [
   "Ketamine",
   "Lorazepam (Ativan)",
   "Meperidine (Demerol)",
+  "Metoclopramide (Maxeran)",
   "Midazolam (Versed)",
   "Morphine",
   "NaCl (Soluté)",

@@ -7,14 +7,14 @@ import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
 import TimePicker from "./time-picker";
 
-const title = "DT09064";
+const title = "DT9064";
 const pages = 1;
 
-export default function DT09064({ patient, user }: DataResponse) {
+export default function DT9064({ patient, user }: DataResponse) {
   return (
     <Form>
       <Page index={1} patient={patient} title={title} total={pages}>
-        <FormHeader code="DT09064" patient={patient} />
+        <FormHeader code="DT9064" patient={patient} />
         <div className="flex justify-between">
           <QuestionWithInput
             label="Date :"
