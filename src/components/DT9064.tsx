@@ -36,13 +36,16 @@ export default function DT9064({ patient, user }: DataResponse) {
             </tr>
           </thead>
           <tbody>
-            {Array.from({ length: 23 }, (_, i) => (
+            {Array.from({ length: 10 }, (_, i) => (
               <tr key={i}>
                 <td className="text-center">
                   <TimePicker initValue="" name={`time ${i}`} />
                 </td>
                 <td>
-                  <QuestionWithInput name={`note ${i}`} />
+                  <textarea
+                    name={`note ${i}`}
+                    className="w-full min-h-[3.75rem] max-h-[3.75rem]"
+                  />
                 </td>
               </tr>
             ))}
