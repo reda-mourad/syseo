@@ -47,13 +47,6 @@ export default function SM01694({ patient, user, form }: DataResponse) {
         });
       }, interval);
     }
-    document
-      .querySelectorAll('select[name^="prelevement flacon"]')
-      .forEach((el) => {
-        (el as HTMLSelectElement).onchange = () => {
-          // console.log("flacon `");
-        };
-      });
   }, [patient.dossier]);
 
   useEffect(() => {
@@ -100,7 +93,24 @@ export default function SM01694({ patient, user, form }: DataResponse) {
         etco2.value = data.CO2EndExpiration.value;
       }
     });
-  }, [viatlsArr]);
+    const data = form.data;
+    const formEl = document.querySelector("form");
+    if (formEl && data) {
+      document.querySelectorAll("input").forEach((e) => {
+        const value = data[e.name] ?? "";
+        if (e.type === "radio" || e.type === "checkbox")
+          e.checked = e.value === value;
+        else e.value = value ?? "";
+      });
+      document.querySelectorAll("textarea").forEach((e) => {
+        const value = data[e.name] ?? "";
+        e.value = value || "";
+      });
+      document.querySelectorAll("select").forEach((e) => {
+        e.value = data[e.name];
+      });
+    }
+  }, [viatlsArr, form.data]);
 
   return (
     <Form>
@@ -1091,7 +1101,11 @@ export default function SM01694({ patient, user, form }: DataResponse) {
         </div>
 
         <div className="flex gap-2">
-          <QuestionWithInput label="Initiales" initValue={user.initiales} className="max-w-10" />
+          <QuestionWithInput
+            label="Initiales"
+            initValue={user.initiales}
+            className="max-w-10"
+          />
           <div className="flex-1">
             <QuestionWithInput label="Signature" value={user.signature} />
           </div>
