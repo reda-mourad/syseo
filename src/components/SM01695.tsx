@@ -32,7 +32,11 @@ export default function SM01695({ patient, form, extra, user }: DataResponse) {
         <div className="flex flex-col gap-2">
           <Heading level={2}>INFORMATIONS GÉNÉRALES </Heading>
           <div className="w-80">
-            <QuestionWithInput label="Médecin traitant :" />
+            <QuestionWithInput
+              label="Médecin traitant :"
+              readOnly
+              initValue={extra?.medecin}
+            />
           </div>
           <div className="flex gap-4">
             <QuestionWithChoices
@@ -526,7 +530,6 @@ Prêt pour l'intervention. L'équipe soignant avisé que l'usager est prêt à �
             type="radio"
             label="Avisé des constats ci-haut"
           />
-          <QuestionWithInput label="Signature :" value={user.signature} />
           <div className="flex gap-2">
             <QuestionWithInput
               label="Date :"
@@ -539,6 +542,7 @@ Prêt pour l'intervention. L'équipe soignant avisé que l'usager est prêt à �
             </div>
           </div>
         </div>
+        <QuestionWithInput name="signature" value={user.signature} readOnly />
       </Page>
     </Form>
   );

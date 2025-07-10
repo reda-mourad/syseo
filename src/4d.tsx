@@ -11,7 +11,7 @@ export interface DataResponse {
   };
   patient: Patient;
   user: { initiales: string; signature: string };
-  extra?: Record<string, unknown>;
+  extra?: Record<string, string>;
 }
 
 export type VitalSign = Record<

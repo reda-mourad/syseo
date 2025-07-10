@@ -33,7 +33,7 @@ function formatTime(stamp: string) {
   return [...chars.slice(0, 2), ":", ...chars.slice(2)].join("");
 }
 
-export default function SM01694({ patient, user, form }: DataResponse) {
+export default function SM01694({ patient, user, form, extra }: DataResponse) {
   const [viatlsArr, setVitalsArr] = useState<Array<VitalSign>>([]);
 
   useEffect(() => {
@@ -123,7 +123,7 @@ export default function SM01694({ patient, user, form }: DataResponse) {
             type="date"
             initValue={new Date().toISOString().substring(0, 10)}
           />
-          <QuestionWithInput label="Médecin :" />
+          <QuestionWithInput label="Médecin :" initValue={extra?.medecin} readOnly />
           <QuestionWithChoices
             choices={["Salle 1", "Salle 2", "Salle 3", "Salle 4", "Salle 5"]}
             type="single"
@@ -688,8 +688,13 @@ export default function SM01694({ patient, user, form }: DataResponse) {
             type="multiple"
             label="Utilisation de :"
             defaultValue="Muko"
+            listClassName="w-fit"
           />
-          <QuestionWithInput label="Scope #" />
+          <QuestionWithInput
+            label="Scope #"
+            initValue={extra?.scope}
+            className="min-w-60"
+          />
         </div>
         <table>
           <thead>
@@ -1107,7 +1112,11 @@ export default function SM01694({ patient, user, form }: DataResponse) {
             className="max-w-10"
           />
           <div className="flex-1">
-            <QuestionWithInput label="Signature" value={user.signature} />
+            <QuestionWithInput
+              name="signature"
+              value={user.signature}
+              disabled
+            />
           </div>
           <div className="flex items-center gap-2">
             Heure de fin

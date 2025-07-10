@@ -1,5 +1,5 @@
 import type { DataResponse } from "../4d";
-import { currentDate, currentTime, nonOui } from "../choices";
+import { nonOui } from "../choices";
 import Allergies from "./allergies";
 import { Choice } from "./choice";
 import { Form } from "./form";
@@ -9,11 +9,10 @@ import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
 import Textarea from "./Textarea";
-import TimePicker from "./time-picker";
 
 const title = "QUESTIONNAIRE DE L'USAGER EN CLINIQUE D'UROLOGIE";
 const pages = 3;
-export default function SM01741({ patient, user }: DataResponse) {
+export default function SM01741({ patient, user, extra }: DataResponse) {
   return (
     <Form>
       <Page index={1} total={pages} title={title} patient={patient}>
@@ -39,7 +38,7 @@ export default function SM01741({ patient, user }: DataResponse) {
             </tr>
             <tr>
               <td>
-                <QuestionWithInput label="Médecin traitant :" />
+                <QuestionWithInput label="Médecin traitant :" initValue={extra?.medecin} readOnly />
               </td>
               {/* <td>
                 <QuestionWithInput
@@ -509,7 +508,7 @@ Prêt pour l'intervention.
 L'équipe soignante avisée que l'usager est prêt à être transféré en salle.`}
         />
         <div className="flex items-center gap-4">
-          <QuestionWithInput
+          {/* <QuestionWithInput
             label="Date :"
             type="date"
             className="max-w-fit"
@@ -518,9 +517,13 @@ L'équipe soignante avisée que l'usager est prêt à être transféré en salle
           <div className="flex items-center gap-2">
             Heure :
             <TimePicker initValue={currentTime()} name="heure :" />
-          </div>
+          </div> */}
           <div className="flex-1">
-            <QuestionWithInput label="Signature :" value={user.signature} />
+            <QuestionWithInput
+              name="signature"
+              value={user.signature}
+              disabled
+            />
           </div>
         </div>
       </Page>

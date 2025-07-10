@@ -14,7 +14,7 @@ import TimePicker, { TimeField } from "./time-picker";
 const title = "INHALOTHÉRAPIE EN ENDOSCOPIE PULMONAIRE";
 const pages = 4;
 
-export default function SM02493({ patient, form, user }: DataResponse) {
+export default function SM02493({ patient, form, user, extra }: DataResponse) {
   return (
     <Form>
       <Page index={1} patient={patient} title={title} total={pages}>
@@ -42,7 +42,11 @@ export default function SM02493({ patient, form, user }: DataResponse) {
             type="radio"
             label="Type admission :"
           />
-          <QuestionWithInput label="Médecin en charge :" />
+          <QuestionWithInput
+            label="Médecin en charge :"
+            initValue={extra?.medecin}
+            readOnly
+          />
         </div>
         {/* <QuestionWithInput label="Raison de l'intervention :" /> */}
         <div className="flex gap-4">
@@ -295,7 +299,7 @@ export default function SM02493({ patient, form, user }: DataResponse) {
           </tbody>
         </table>
         <div className="gap-4 grid grid-cols-2">
-          <QuestionWithInput label="Scope # :" />
+          <QuestionWithInput label="Scope # :" initValue={extra?.scope} />
           <QuestionWithInput label="Scope Ebus # : " />
         </div>
         <QuestionWithChoices
@@ -408,8 +412,6 @@ export default function SM02493({ patient, form, user }: DataResponse) {
       </Page>
 
       <Page index={3} patient={patient} title={title} total={pages}>
-        
-        
         <Heading level={2}>Post intervention</Heading>
         <QuestionWithInput label="SpO2 : " type="number" className="max-w-10" />
         <Truc index={2} />
@@ -434,7 +436,7 @@ export default function SM02493({ patient, form, user }: DataResponse) {
             ))}
           </tbody>
         </table>
-        <QuestionWithInput label="Signature :" value={user.signature} />
+        <QuestionWithInput name="signature" value={user.signature} readOnly />
         <div className="gap-2 grid grid-cols-2"></div>
       </Page>
       <Page index={4} patient={patient} title={title} total={pages}>
