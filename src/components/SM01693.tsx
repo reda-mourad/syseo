@@ -806,13 +806,12 @@ export default function SM01693({ patient, form, user }: DataResponse) {
             {Array.from({ length: 3 }, (_, i) => (
               <tr key={i}>
                 <td>
-                  <QuestionWithInput
-                    name={`initiale ${i}`}
-                    initValue={user.initiales}
-                  />
+                  <QuestionWithInput name={`initiale ${i}`} />
                 </td>
                 <td>
-                  <QuestionWithInput name={`signature ${i}`} />
+                  <QuestionWithInput
+                    name={i === 0 ? `signature` : `signature ${i}`}
+                  />
                 </td>
               </tr>
             ))}

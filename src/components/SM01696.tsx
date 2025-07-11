@@ -11,7 +11,7 @@ import { QuestionWithInput } from "./question-with-input";
 
 const title = "SOINS INFIRMIERS AVANT UN EXAMEN ENDOSCOPIQUE - PARTIE USAGER";
 
-export default function SM01696({ patient, user }: DataResponse) {
+export default function SM01696({ patient }: DataResponse) {
   return (
     <Form>
       <Page index={1} total={2} title={title} patient={patient}>
@@ -646,10 +646,7 @@ export default function SM01696({ patient, user }: DataResponse) {
             </tr>
           </tbody>
         </table>
-        <QuestionWithInput
-          label="Vérifié par :"
-          initValue={user.initiales}
-        />
+        <QuestionWithInput name="signature" />
       </Page>
     </Form>
   );

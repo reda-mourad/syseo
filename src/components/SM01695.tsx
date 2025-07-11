@@ -31,13 +31,12 @@ export default function SM01695({ patient, form, extra, user }: DataResponse) {
         <Heading level={1}>{title}</Heading>
         <div className="flex flex-col gap-2">
           <Heading level={2}>INFORMATIONS GÉNÉRALES </Heading>
-          <div className="w-80">
             <QuestionWithInput
               label="Médecin traitant :"
               readOnly
               initValue={extra?.medecin}
+              className="max-w-80"
             />
-          </div>
           <div className="flex gap-4">
             <QuestionWithChoices
               label="Provenance de l'usager :"

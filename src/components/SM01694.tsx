@@ -123,7 +123,12 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
             type="date"
             initValue={new Date().toISOString().substring(0, 10)}
           />
-          <QuestionWithInput label="Médecin :" initValue={extra?.medecin} readOnly />
+          <QuestionWithInput
+            label="Médecin :"
+            initValue={extra?.medecin}
+            readOnly
+            className="min-w-80"
+          />
           <QuestionWithChoices
             choices={["Salle 1", "Salle 2", "Salle 3", "Salle 4", "Salle 5"]}
             type="single"
@@ -1106,11 +1111,6 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
         </div>
 
         <div className="flex gap-2">
-          <QuestionWithInput
-            label="Initiales"
-            initValue={user.initiales}
-            className="max-w-10"
-          />
           <div className="flex-1">
             <QuestionWithInput
               name="signature"
