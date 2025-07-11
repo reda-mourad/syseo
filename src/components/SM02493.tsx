@@ -14,7 +14,7 @@ import TimePicker, { TimeField } from "./time-picker";
 const title = "INHALOTHÉRAPIE EN ENDOSCOPIE PULMONAIRE";
 const pages = 4;
 
-export default function SM02493({ patient, form, user, extra }: DataResponse) {
+export default function SM02493({ patient, form, extra }: DataResponse) {
   return (
     <Form>
       <Page index={1} patient={patient} title={title} total={pages}>
@@ -436,7 +436,7 @@ export default function SM02493({ patient, form, user, extra }: DataResponse) {
             ))}
           </tbody>
         </table>
-        <QuestionWithInput name="signature" value={user.signature} readOnly />
+        <textarea name="signature" className="w-full max-h-12" readOnly />
         <div className="gap-2 grid grid-cols-2"></div>
       </Page>
       <Page index={4} patient={patient} title={title} total={pages}>

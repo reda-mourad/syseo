@@ -20,7 +20,7 @@ import TimePicker from "./time-picker";
 const title =
   "SOINS INFIRMIERS AVANT UN EXAMEN ENDOSCOPIQUE (PARTIE INFIRMIÈRE) ";
 
-export default function SM01695({ patient, form, extra, user }: DataResponse) {
+export default function SM01695({ patient, form, extra }: DataResponse) {
   const [poids, setPoids] = useState(form.data?.["Poids (kg)"] ?? 0);
   const [taille, setTaille] = useState(form.data?.["Taille (cm)"] ?? 0);
 
@@ -31,12 +31,12 @@ export default function SM01695({ patient, form, extra, user }: DataResponse) {
         <Heading level={1}>{title}</Heading>
         <div className="flex flex-col gap-2">
           <Heading level={2}>INFORMATIONS GÉNÉRALES </Heading>
-            <QuestionWithInput
-              label="Médecin traitant :"
-              readOnly
-              initValue={extra?.medecin}
-              className="max-w-80"
-            />
+          <QuestionWithInput
+            label="Médecin traitant :"
+            readOnly
+            initValue={extra?.medecin}
+            className="max-w-80"
+          />
           <div className="flex gap-4">
             <QuestionWithChoices
               label="Provenance de l'usager :"
@@ -523,7 +523,7 @@ Prêt pour l'intervention. L'équipe soignant avisé que l'usager est prêt à �
           />
         </fieldset>
         <div className="gap-4 grid grid-cols-2">
-          <QuestionWithInput label="Continuité des soins :" />
+          <QuestionWithInput label="Continuité des soins :" initValue={extra?.medecin} />
           <QuestionWithChoices
             choices={nonOui}
             type="radio"
@@ -541,7 +541,7 @@ Prêt pour l'intervention. L'équipe soignant avisé que l'usager est prêt à �
             </div>
           </div>
         </div>
-        <QuestionWithInput name="signature" value={user.signature} readOnly />
+        <textarea name="signature" className="w-full max-h-12" readOnly />
       </Page>
     </Form>
   );

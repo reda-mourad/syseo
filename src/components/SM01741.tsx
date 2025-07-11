@@ -12,7 +12,7 @@ import Textarea from "./Textarea";
 
 const title = "QUESTIONNAIRE DE L'USAGER EN CLINIQUE D'UROLOGIE";
 const pages = 3;
-export default function SM01741({ patient, user, extra }: DataResponse) {
+export default function SM01741({ patient, extra }: DataResponse) {
   return (
     <Form>
       <Page index={1} total={pages} title={title} patient={patient}>
@@ -38,7 +38,11 @@ export default function SM01741({ patient, user, extra }: DataResponse) {
             </tr>
             <tr>
               <td>
-                <QuestionWithInput label="Médecin traitant :" initValue={extra?.medecin} readOnly />
+                <QuestionWithInput
+                  label="Médecin traitant :"
+                  initValue={extra?.medecin}
+                  readOnly
+                />
               </td>
               {/* <td>
                 <QuestionWithInput
@@ -519,11 +523,7 @@ L'équipe soignante avisée que l'usager est prêt à être transféré en salle
             <TimePicker initValue={currentTime()} name="heure :" />
           </div> */}
           <div className="flex-1">
-            <QuestionWithInput
-              name="signature"
-              value={user.signature}
-              disabled
-            />
+            <textarea name="signature" className="w-full max-h-12" readOnly />
           </div>
         </div>
       </Page>

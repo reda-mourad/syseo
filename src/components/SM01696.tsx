@@ -646,7 +646,7 @@ export default function SM01696({ patient }: DataResponse) {
             </tr>
           </tbody>
         </table>
-        <QuestionWithInput name="signature" />
+        <textarea name="signature" className="w-full max-h-12" readOnly />
       </Page>
     </Form>
   );

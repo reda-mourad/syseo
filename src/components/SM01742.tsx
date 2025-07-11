@@ -13,7 +13,7 @@ import TimePicker from "./time-picker";
 const title = "SOINS INFIRMIERS EN ENDOSCOPIE UROLOGIQUE";
 const pages = 2;
 
-export default function SM01742({ patient, form, user, extra }: DataResponse) {
+export default function SM01742({ patient, form, extra }: DataResponse) {
   return (
     <Form>
       <Page index={1} patient={patient} title={title} total={pages}>
@@ -26,7 +26,11 @@ export default function SM01742({ patient, form, user, extra }: DataResponse) {
             className="max-w-40"
             initValue={currentDate()}
           />
-          <QuestionWithInput label="Médecin  en charge :" initValue={extra?.medecin} readOnly />
+          <QuestionWithInput
+            label="Médecin  en charge :"
+            initValue={extra?.medecin}
+            readOnly
+          />
           <QuestionWithChoices
             label="Salle :"
             type="single"
@@ -400,11 +404,7 @@ export default function SM01742({ patient, form, user, extra }: DataResponse) {
             <TimePicker name="Fin" initValue={form.data?.["Fin"] ?? ""} />
           </div>
           <div className="flex-1">
-            <QuestionWithInput
-              name="signature"
-              value={user.signature}
-              disabled
-            />
+            <textarea name="signature" className="w-full max-h-12" readOnly />
           </div>
         </div>
       </Page>

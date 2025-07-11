@@ -93,23 +93,23 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
         etco2.value = data.CO2EndExpiration.value;
       }
     });
-    const data = form.data;
-    const formEl = document.querySelector("form");
-    if (formEl && data) {
-      document.querySelectorAll("input").forEach((e) => {
-        const value = data[e.name] ?? "";
-        if (e.type === "radio" || e.type === "checkbox")
-          e.checked = e.value === value;
-        else e.value = value ?? "";
-      });
-      document.querySelectorAll("textarea").forEach((e) => {
-        const value = data[e.name] ?? "";
-        e.value = value || "";
-      });
-      document.querySelectorAll("select").forEach((e) => {
-        e.value = data[e.name];
-      });
-    }
+    // const data = form.data;
+    // const formEl = document.querySelector("form");
+    // if (formEl && data) {
+    //   document.querySelectorAll("input").forEach((e) => {
+    //     const value = data[e.name] ?? "";
+    //     if (e.type === "radio" || e.type === "checkbox")
+    //       e.checked = e.value === value || e.checked;
+    //     else e.value = value || e.value;
+    //   });
+    //   document.querySelectorAll("textarea").forEach((e) => {
+    //     const value = data[e.name] ?? "";
+    //     e.value = value || e.value;
+    //   });
+    //   document.querySelectorAll("select").forEach((e) => {
+    //     e.value = data[e.name] || e.value;
+    //   });
+    // }
   }, [viatlsArr, form.data]);
 
   return (
@@ -1112,11 +1112,7 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
 
         <div className="flex gap-2">
           <div className="flex-1">
-            <QuestionWithInput
-              name="signature"
-              value={user.signature}
-              disabled
-            />
+            <textarea name="signature" className="w-full max-h-12" readOnly />
           </div>
           <div className="flex items-center gap-2">
             Heure de fin
