@@ -31,7 +31,7 @@ export default function TimePicker({
     <Popover
       open={open}
       onOpenChange={() => {
-        if (!time) setTime(currentTime());
+        if (!time.replaceAll(":","")) setTime(currentTime());
         else setOpen(!open);
       }}
     >

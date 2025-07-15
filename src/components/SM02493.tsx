@@ -12,7 +12,7 @@ import Textarea from "./Textarea";
 import TimePicker, { TimeField } from "./time-picker";
 
 const title = "INHALOTHÉRAPIE EN ENDOSCOPIE PULMONAIRE";
-const pages = 4;
+const pages = 3;
 
 export default function SM02493({ patient, form, extra }: DataResponse) {
   return (
@@ -22,7 +22,6 @@ export default function SM02493({ patient, form, extra }: DataResponse) {
         <Heading level={1}>{title}</Heading>
         <div className="flex justify-between">
           <Choice label="Demande médicale" type="checkbox" defaultChecked />
-          <Choice label="Double identification faite" type="checkbox" />
         </div>
         <div className="gap-4 grid grid-cols-2">
           <QuestionWithInput
@@ -416,7 +415,7 @@ export default function SM02493({ patient, form, extra }: DataResponse) {
         <QuestionWithInput label="SpO2 : " type="number" className="max-w-10" />
         <Truc index={2} />
         <Heading level={2}>Notes d'observations</Heading>
-        <table>
+        {/* <table>
           <thead>
             <tr>
               <th className="w-16">Heure</th>
@@ -435,29 +434,18 @@ export default function SM02493({ patient, form, extra }: DataResponse) {
               </tr>
             ))}
           </tbody>
-        </table>
-        <textarea name="signature" className="w-full max-h-12" readOnly />
-        <div className="gap-2 grid grid-cols-2"></div>
-      </Page>
-      <Page index={4} patient={patient} title={title} total={pages}>
+        </table> */}
         <table>
           <thead>
             <tr>
               <th className="min-w-16">Heure</th>
               <th className="w-full">
-                <div className="flex justify-around items-center">
-                  Note
-                  <Choice
-                    label="Double identification faite"
-                    name="Double identification faite notes"
-                    type="checkbox"
-                  />
-                </div>
+                <div className="flex justify-around items-center">Note</div>
               </th>
             </tr>
           </thead>
           <tbody>
-            {Array.from({ length: 12 }, (_, i) => (
+            {Array.from({ length: 9 }, (_, i) => (
               <tr key={i}>
                 <td className="text-center">
                   <TimePicker
@@ -466,17 +454,19 @@ export default function SM02493({ patient, form, extra }: DataResponse) {
                   />
                 </td>
                 <td>
-                  <Textarea
-                    lineLength={97}
+                  <textarea
                     rows={3}
                     name={`note ${i}`}
-                    className="min-h-[58px]"
+                    className="w-full max-h-[58px]"
                   />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        <textarea name="signature" className="w-full max-h-12" readOnly />
+        <div className="gap-2 grid grid-cols-2"></div>
       </Page>
     </Form>
   );
