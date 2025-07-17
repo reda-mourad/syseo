@@ -10,6 +10,8 @@ import SM01742 from "./components/SM01742";
 import SM02493 from "./components/SM02493";
 
 export function App({ initData }: { initData?: DataResponse }) {
+  useEffect(() => {}, []);
+
   useEffect(() => {
     if (initData) {
       const {
@@ -51,6 +53,16 @@ export function App({ initData }: { initData?: DataResponse }) {
         e.maxLength = w / 6.59;
       }
     });
+    if (window.$4d && initData) {
+      const formEl = document.querySelector("form");
+      if (formEl) {
+        setInterval(() => {
+          const formData = new FormData(formEl);
+          const data = Object.fromEntries(formData);
+          window.$4d.form_save(initData.form.UUID, data);
+        }, 5000);
+      }
+    }
   }, [initData]);
 
   if (initData) {
