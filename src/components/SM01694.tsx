@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import type { DataResponse, VitalSign } from "../4d";
 import {
   colonSite,
@@ -33,84 +33,79 @@ function formatTime(stamp: string) {
   return [...chars.slice(0, 2), ":", ...chars.slice(2)].join("");
 }
 
-export default function SM01694({ patient, user, form, extra }: DataResponse) {
-  const [viatlsArr, setVitalsArr] = useState<Array<VitalSign>>([]);
+function setVitals(vitals?: VitalSign[]) {
+  vitals?.forEach((data, i) => {
+    const btn_time = document.querySelector<HTMLButtonElement>(
+      `button[id="time_${i} btn"]`
+    );
+    if (btn_time) {
+      btn_time.innerText = formatTime(data.snapshotTime.value);
+    }
 
+    const time = document.querySelector<HTMLInputElement>(
+      `input[name="time_${i}"]`
+    );
+    if (time) {
+      time.value = data.snapshotTime.value;
+    }
+
+    const freq_card = document.querySelector<HTMLInputElement>(
+      `input[name="freq_card_${i}"]`
+    );
+    if (freq_card) {
+      freq_card.value = data.heartRate.value;
+    }
+
+    const freq_res = document.querySelector<HTMLInputElement>(
+      `input[name="freq_resp numbder ${i}"]`
+    );
+    if (freq_res) {
+      freq_res.value = data.respirationRate.value;
+    }
+
+    const sat = document.querySelector<HTMLInputElement>(
+      `input[name="saturation_${i}"]`
+    );
+    if (sat) {
+      sat.value = data.spo2.value;
+    }
+
+    const art1 = document.querySelector<HTMLInputElement>(
+      `input[name="press_art_max_${i}"]`
+    );
+    if (art1) {
+      art1.value = data.systolic.value;
+    }
+
+    const art2 = document.querySelector<HTMLInputElement>(
+      `input[name="press_art_min_${i}"]`
+    );
+    if (art2) {
+      art2.value = data.diastolic.value;
+    }
+
+    const etco2 = document.querySelector<HTMLInputElement>(
+      `input[name="etco2_${i}"]`
+    );
+    if (etco2) {
+      etco2.value = data.CO2EndExpiration.value;
+    }
+  });
+}
+
+export default function SM01694({ patient, user, form, extra }: DataResponse) {
   useEffect(() => {
     if (window.$4d) {
-      window.$4d.get_vitals(patient.dossier, (vitals) => {
-        setVitalsArr(vitals || []);
-      });
+      window.$4d.get_vitals(patient.dossier, (vitals) =>
+        setVitals(vitals || [])
+      );
       setInterval(() => {
-        window.$4d.get_vitals(patient.dossier, (vitals) => {
-          setVitalsArr(vitals || []);
-        });
+        window.$4d.get_vitals(patient.dossier, (vitals) =>
+          setVitals(vitals || [])
+        );
       }, interval);
     }
   }, [patient.dossier]);
-
-  useEffect(() => {
-    viatlsArr.forEach((data, i) => {
-      const freq_card = document.querySelector<HTMLInputElement>(
-        `input[name="freq_card_${i}"]`
-      );
-      if (freq_card) {
-        freq_card.value = data.heartRate.value;
-      }
-
-      const freq_res = document.querySelector<HTMLInputElement>(
-        `input[name="freq_resp numbder ${i}"]`
-      );
-      if (freq_res) {
-        freq_res.value = data.respirationRate.value;
-      }
-
-      const sat = document.querySelector<HTMLInputElement>(
-        `input[name="saturation_${i}"]`
-      );
-      if (sat) {
-        sat.value = data.spo2.value;
-      }
-
-      const art1 = document.querySelector<HTMLInputElement>(
-        `input[name="press_art_max_${i}"]`
-      );
-      if (art1) {
-        art1.value = data.systolic.value;
-      }
-
-      const art2 = document.querySelector<HTMLInputElement>(
-        `input[name="press_art_min_${i}"]`
-      );
-      if (art2) {
-        art2.value = data.diastolic.value;
-      }
-
-      const etco2 = document.querySelector<HTMLInputElement>(
-        `input[name="etco2_${i}"]`
-      );
-      if (etco2) {
-        etco2.value = data.CO2EndExpiration.value;
-      }
-    });
-    // const data = form.data;
-    // const formEl = document.querySelector("form");
-    // if (formEl && data) {
-    //   document.querySelectorAll("input").forEach((e) => {
-    //     const value = data[e.name] ?? "";
-    //     if (e.type === "radio" || e.type === "checkbox")
-    //       e.checked = e.value === value || e.checked;
-    //     else e.value = value || e.value;
-    //   });
-    //   document.querySelectorAll("textarea").forEach((e) => {
-    //     const value = data[e.name] ?? "";
-    //     e.value = value || e.value;
-    //   });
-    //   document.querySelectorAll("select").forEach((e) => {
-    //     e.value = data[e.name] || e.value;
-    //   });
-    // }
-  }, [viatlsArr, form.data]);
 
   return (
     <Form>
@@ -194,10 +189,7 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
                     tabIndex={19 * i + 1}
                     className="w-full"
                     name={`time_${i}`}
-                    initValue={
-                      form.data?.[`time_${i}`] ||
-                      formatTime(viatlsArr.at(i)?.snapshotTime.value || "")
-                    }
+                    initValue={form.data?.[`time_${i}`] || ""}
                     onClick={() => {
                       const initEl = document.querySelector<HTMLInputElement>(
                         `input[name="initiales_${i}"]`

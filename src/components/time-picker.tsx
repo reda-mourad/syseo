@@ -31,11 +31,12 @@ export default function TimePicker({
     <Popover
       open={open}
       onOpenChange={() => {
-        if (!time.replaceAll(":","")) setTime(currentTime());
+        if (!time.replaceAll(":", "")) setTime(currentTime());
         else setOpen(!open);
       }}
     >
       <PopoverTrigger
+        id={`${name} btn`}
         className={cn(
           "focus:bg-violet-100 p-0.5 px-2 border border-gray-400 rounded w-fit min-w-fit h-fit min-h-fit font-mono",
           time && "font-bold",
