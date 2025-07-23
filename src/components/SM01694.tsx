@@ -15,7 +15,6 @@ import Heading from "./heading";
 import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
-import Textarea from "./Textarea";
 import TimePicker from "./time-picker";
 
 const title = "SOINS INFIRMIERS PENDANT UN EXAMEN ENDOSCOPIQUE";
@@ -1090,8 +1089,7 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
         </table>
         <div className="space-y-1">
           <Heading level={3}>NOTES</Heading>
-          <Textarea
-            lineLength={108}
+          <textarea
             rows={9}
             name="notes"
             className="w-full max-h-40"

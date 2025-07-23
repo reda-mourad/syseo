@@ -7,7 +7,6 @@ import Heading from "./heading";
 import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
-import Textarea from "./Textarea";
 import TimePicker from "./time-picker";
 
 const title = "SOINS INFIRMIERS EN ENDOSCOPIE UROLOGIQUE";
@@ -388,12 +387,10 @@ export default function SM01742({ patient, form, extra }: DataResponse) {
           </tbody>
         </table>
         <Heading level={2}>Notes d'observations</Heading>
-        <Textarea
-          lineLength={108}
+        <textarea
           rows={15}
-          style={{ height: "250px" }}
           name="Notes d'observations"
-          className="max-h-full"
+          className="h-40"
           defaultValue={
             "Consultation pré examen réalisée par md, examen bien toléré, sans complication."
           }

@@ -14,7 +14,6 @@ import Heading from "./heading";
 import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
-import Textarea from "./Textarea";
 import TimePicker from "./time-picker";
 
 const title =
@@ -511,8 +510,7 @@ export default function SM01695({ patient, form, extra }: DataResponse) {
           <label htmlFor="notes">
             Notes de l'infirmière sur l'évaluation initiale
           </label>
-          <Textarea
-            lineLength={108}
+          <textarea
             rows={9}
             name="notes"
             id="notes"
@@ -523,7 +521,10 @@ Prêt pour l'intervention. L'équipe soignant avisé que l'usager est prêt à �
           />
         </fieldset>
         <div className="gap-4 grid grid-cols-2">
-          <QuestionWithInput label="Continuité des soins :" initValue={extra?.medecin} />
+          <QuestionWithInput
+            label="Continuité des soins :"
+            initValue={extra?.medecin}
+          />
           <QuestionWithChoices
             choices={nonOui}
             type="radio"

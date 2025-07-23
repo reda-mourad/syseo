@@ -8,7 +8,6 @@ import Heading from "./heading";
 import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
-import Textarea from "./Textarea";
 import TimePicker, { TimeField } from "./time-picker";
 
 const title = "INHALOTHÉRAPIE EN ENDOSCOPIE PULMONAIRE";
@@ -402,12 +401,7 @@ export default function SM02493({ patient, form, extra }: DataResponse) {
         />
         <Truc index={1} />
         <Heading level={2}>Per intervention :</Heading>
-        <Textarea
-          lineLength={108}
-          rows={5}
-          name="Per intervention :"
-          className="max-h-24"
-        />
+        <textarea rows={5} name="Per intervention :" className="h-24" />
       </Page>
 
       <Page index={3} patient={patient} title={title} total={pages}>

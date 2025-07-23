@@ -8,7 +8,6 @@ import Heading from "./heading";
 import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
-import Textarea from "./Textarea";
 import TimePicker from "./time-picker";
 
 const title = "SOINS INFIRMIERS APRÈS UN EXAMEN ENDOSCOPIQUE";
@@ -789,7 +788,11 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                   />
                 </td>
                 <td className="space-y-1 w-full">
-                  <Textarea lineLength={96} rows={2} name={`note text ${i}`} />
+                  <textarea
+                    className="w-full h-12"
+                    rows={2}
+                    name={`note text ${i}`}
+                  />
                 </td>
               </tr>
             ))}

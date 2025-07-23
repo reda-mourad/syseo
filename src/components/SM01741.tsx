@@ -8,7 +8,6 @@ import Heading from "./heading";
 import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
-import Textarea from "./Textarea";
 
 const title = "QUESTIONNAIRE DE L'USAGER EN CLINIQUE D'UROLOGIE";
 const pages = 3;
@@ -499,11 +498,10 @@ export default function SM01741({ patient, extra }: DataResponse) {
       </Page>
       <Page index={3} total={pages} title={title} patient={patient}>
         <Heading level={3}>NOTES COMPLÉMENTAIRES</Heading>
-        <Textarea
+        <textarea
           name="NOTES COMPLÉMENTAIRES"
-          lineLength={108}
           rows={9}
-          className="max-h-full"
+          className="h-40"
           defaultValue={`Évaluation infirmière complétée.
 Aucun enjeu clinique identifié à ce stade.
 Informé du déroulement de l'examen et des consignes post-examen.
