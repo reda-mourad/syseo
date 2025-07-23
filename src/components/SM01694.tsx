@@ -120,7 +120,6 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
           <QuestionWithInput
             label="Médecin :"
             initValue={extra?.medecin}
-            readOnly
             className="min-w-80"
           />
           <QuestionWithChoices

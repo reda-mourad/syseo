@@ -32,7 +32,6 @@ export default function SM01695({ patient, form, extra }: DataResponse) {
           <Heading level={2}>INFORMATIONS GÉNÉRALES </Heading>
           <QuestionWithInput
             label="Médecin traitant :"
-            readOnly
             initValue={extra?.medecin}
             className="max-w-80"
           />

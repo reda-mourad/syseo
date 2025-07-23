@@ -40,7 +40,6 @@ export default function SM01741({ patient, extra }: DataResponse) {
                 <QuestionWithInput
                   label="Médecin traitant :"
                   initValue={extra?.medecin}
-                  readOnly
                 />
               </td>
               {/* <td>

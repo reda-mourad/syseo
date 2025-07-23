@@ -43,7 +43,6 @@ export default function SM02493({ patient, form, extra }: DataResponse) {
           <QuestionWithInput
             label="Médecin en charge :"
             initValue={extra?.medecin}
-            readOnly
           />
         </div>
         {/* <QuestionWithInput label="Raison de l'intervention :" /> */}
