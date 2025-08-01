@@ -10,7 +10,7 @@ export interface DataResponse {
     code: string;
   };
   patient: Patient;
-  user: { initiales: string; signature: string };
+  user?: { initiales: string; signature: string };
   extra?: Record<string, string>;
 }
 

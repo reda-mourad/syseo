@@ -51,7 +51,7 @@ export default function DT9064({ patient, user }: DataResponse) {
             ))}
           </tbody>
         </table>
-        <QuestionWithInput name="signature" value={user.signature} readOnly />
+        <QuestionWithInput name="signature" value={user?.signature} readOnly />
       </Page>
     </Form>
   );

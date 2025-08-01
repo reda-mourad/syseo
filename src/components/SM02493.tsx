@@ -60,6 +60,7 @@ export default function SM02493({ patient, form, extra }: DataResponse) {
               "Évaluation pré-opératoire lésion centrale",
               "Traumatisme ou brûlure inhalatoire",
               "Drainage sécrétions / Atélectasie ventilée",
+              "Tuberculose suspecté / Active",
             ]}
             type="single"
             label="Raison de l'intervention :"
@@ -364,7 +365,7 @@ export default function SM02493({ patient, form, extra }: DataResponse) {
               i
             ) => (
               <div key={i} className="flex flex-wrap items-center gap-1">
-                <Choice label={label} type="checkbox" name={`${i} ${label} `} />
+                <Choice label={label} type="checkbox" name={`${i} ${label} `} className="w-48" />
                 {choices ? (
                   <QuestionWithChoices
                     choices={choices}
@@ -493,7 +494,7 @@ function Truc({ index }: { index: number }) {
           name={`oxy masque ${index}`}
         />
         <QuestionWithChoices
-          choices={["24%", "28%", "31%", "35%", "40%", "60%"]}
+          choices={["24%", "28%", "31%", "35%", "40%", "50%"]}
           type="single"
           name={`oxy masque value ${index}`}
         />
