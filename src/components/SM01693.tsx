@@ -93,7 +93,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
       if (check && init) {
         check.onchange = (e) => {
           init.value = (e.target as HTMLInputElement).checked
-            ? user.initiales
+            ? (user?.initiales ?? "")
             : "";
         };
       }
@@ -109,7 +109,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
       if (time && init) {
         time.onchange = (e) => {
           init.value = (e.target as HTMLInputElement).value
-            ? user.initiales
+            ? (user?.initiales ?? "")
             : "";
         };
       }
@@ -151,7 +151,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                         `input[name="initiales_${i}"]`
                       );
                       if (initEl) {
-                        initEl.value = user.initiales;
+                        initEl.value = user?.initiales ?? "";
                       }
                     }}
                   />
@@ -617,7 +617,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                           `input[name="med_${i}_init"]`
                         );
                         if (initEl) {
-                          initEl.value = user.initiales ?? "";
+                          initEl.value = user?.initiales ?? "";
                         }
                       }}
                     />
@@ -735,7 +735,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                     <QuestionWithInput
                       name={`${v}_init`}
                       className="w-10"
-                      value={defaults.includes(i) ? user.initiales : ""}
+                      value={defaults.includes(i) ? user?.initiales : ""}
                     />
                   </td>
                 </tr>

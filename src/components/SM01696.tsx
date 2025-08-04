@@ -8,6 +8,7 @@ import Heading from "./heading";
 import { Page } from "./page";
 import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
+import TimePicker from "./time-picker";
 
 const title = "SOINS INFIRMIERS AVANT UN EXAMEN ENDOSCOPIQUE - PARTIE USAGER";
 
@@ -33,11 +34,8 @@ export default function SM01696({ patient }: DataResponse) {
                 />
               </td>
               <td className="w-1/2">
-                <QuestionWithInput
-                  label="Heure:"
-                  type="time"
-                  initValue={currentTime()}
-                />
+                <label>Heure : </label>
+                <TimePicker initValue={currentTime()} name="Heure :" />
               </td>
             </tr>
             <tr>

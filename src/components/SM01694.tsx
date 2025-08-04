@@ -193,7 +193,7 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
                         `input[name="initiales_${i}"]`
                       );
                       if (initEl) {
-                        initEl.value = user.initiales ?? "";
+                        initEl.value = user?.initiales ?? "";
                       }
                     }}
                   />
@@ -568,7 +568,7 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
                         `input[name="med init ${i}"]`
                       );
                       if (initEl) {
-                        initEl.value = user.initiales;
+                        initEl.value = user?.initiales ?? "";
                       }
                     }}
                   />
