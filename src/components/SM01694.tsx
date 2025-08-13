@@ -1,3 +1,4 @@
+import { LucidePrinter } from "lucide-react";
 import React, { useEffect } from "react";
 import type { DataResponse, VitalSign } from "../4d";
 import {
@@ -1086,6 +1087,42 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
               ))}
           </tbody>
         </table>
+        <button
+          className="flex items-center gap-1 mx-auto px-2 py-1 border rounded w-fit"
+          type="button"
+          onClick={() => {
+            const prelevements = [];
+            for (let i = 0; i < 8; i++) {
+              prelevements.push({
+                flacon: document.querySelector<HTMLSelectElement>(
+                  `[name="prelevement flacon ${i}"]`
+                )?.value,
+                type: document.querySelector<HTMLSelectElement>(
+                  `[name="prelevement type ${i}"]`
+                )?.value,
+                nombre: document.querySelector<HTMLSelectElement>(
+                  `[name="prelevement nombre ${i}"]`
+                )?.value,
+                segment1: document.querySelector<HTMLSelectElement>(
+                  `[name="segment colo ${i}"]`
+                )?.value,
+                segment2: document.querySelector<HTMLSelectElement>(
+                  `[name="segement gastro ${i}"]`
+                )?.value,
+              });
+            }
+            const filtered = prelevements.filter((p) => p.flacon);
+            if (filtered.length)
+              //@ts-expect-error($4d)
+              $4d.print_test({
+                prelevements: filtered,
+                patient,
+              });
+          }}
+        >
+          <LucidePrinter className="w-4 h-4" />
+          Imprimer la list des prélèvements
+        </button>
         <div className="space-y-1">
           <Heading level={3}>NOTES</Heading>
           <textarea
