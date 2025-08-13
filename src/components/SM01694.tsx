@@ -1121,7 +1121,7 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
           }}
         >
           <LucidePrinter className="w-4 h-4" />
-          Imprimer la list des prélèvements
+          Imprimer la liste des prélèvements
         </button>
         <div className="space-y-1">
           <Heading level={3}>NOTES</Heading>
