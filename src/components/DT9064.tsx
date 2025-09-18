@@ -10,7 +10,7 @@ import TimePicker from "./time-picker";
 const title = "DT9064";
 const pages = 1;
 
-export default function DT9064({ patient, user }: DataResponse) {
+export default function DT9064({ patient, user, form }: DataResponse) {
   return (
     <Form>
       <Page index={1} patient={patient} title={title} total={pages}>
@@ -39,7 +39,10 @@ export default function DT9064({ patient, user }: DataResponse) {
             {Array.from({ length: 10 }, (_, i) => (
               <tr key={i}>
                 <td className="text-center">
-                  <TimePicker initValue="" name={`time ${i}`} />
+                  <TimePicker
+                    initValue={form.data?.[`time ${i}`] ?? ""}
+                    name={`time ${i}`}
+                  />
                 </td>
                 <td>
                   <textarea

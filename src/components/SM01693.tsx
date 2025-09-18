@@ -10,6 +10,7 @@ import { QuestionWithChoices } from "./question-with-choices";
 import { QuestionWithInput } from "./question-with-input";
 import TimePicker from "./time-picker";
 
+const pages = 4;
 const title = "SOINS INFIRMIERS APRÈS UN EXAMEN ENDOSCOPIQUE";
 const verticalCellStyle: React.CSSProperties = {
   textTransform: "uppercase",
@@ -118,7 +119,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
 
   return (
     <Form>
-      <Page patient={patient} title={title} index={1} total={3}>
+      <Page patient={patient} title={title} index={1} total={pages}>
         <FormHeader code="SM01693" patient={patient} />
         <Heading level={1}>{title}</Heading>
         <div className="flex flex-wrap space-x-4 space-y-1">
@@ -502,7 +503,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
           </tbody>
         </table>
       </Page>
-      <Page patient={patient} index={2} total={3} title={title}>
+      <Page patient={patient} index={2} total={pages} title={title}>
         {/* <table className="text-[.5rem]">
           <thead>
             <tr>
@@ -697,7 +698,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
           </tbody>
         </table>
       </Page>
-      <Page patient={patient} index={3} total={3} title={title}>
+      <Page patient={patient} index={3} total={pages} title={title}>
         <table className="w-full">
           <thead>
             <tr>
@@ -743,7 +744,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
             })}
           </tbody>
         </table>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <div className="flex items-center gap-1">
             <span>Heure de départ :</span>
             <TimePicker
@@ -762,8 +763,6 @@ export default function SM01693({ patient, form, user }: DataResponse) {
             name="moyen_depart"
           />
           <QuestionWithInput name="depart_autre" />
-        </div>
-        <div className="flex gap-2">
           <QuestionWithChoices
             choices={["Domicile", "Unité de soins", "Autre"]}
             type="single"
@@ -771,6 +770,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
           />
           <QuestionWithInput name="Destination_autre" />
         </div>
+        <div className="flex gap-2"></div>
         <table>
           <thead>
             <tr>
@@ -789,7 +789,7 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                 </td>
                 <td className="space-y-1 w-full">
                   <textarea
-                    className="w-full h-12"
+                    className="w-full h-20"
                     rows={2}
                     name={`note text ${i}`}
                   />
@@ -798,6 +798,8 @@ export default function SM01693({ patient, form, user }: DataResponse) {
             ))}
           </tbody>
         </table>
+      </Page>
+      <Page index={4} patient={patient} title={title} total={pages}>
         <table>
           <thead>
             <tr>
@@ -812,8 +814,9 @@ export default function SM01693({ patient, form, user }: DataResponse) {
                   <QuestionWithInput name={`initiale ${i}`} />
                 </td>
                 <td>
-                  <QuestionWithInput
+                  <textarea
                     name={i === 0 ? `signature` : `signature ${i}`}
+                    className="w-full h-11"
                   />
                 </td>
               </tr>

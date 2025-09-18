@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import type { DataResponse, VitalSign } from "../4d";
 import {
   colonSite,
-  currentTime,
   examType,
   examTypeOther,
   medications,
@@ -159,7 +158,7 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
             Heure d'entrée
             <TimePicker
               name="Heure d'entrée"
-              initValue={form.data?.["Heure d'entrée"] ?? currentTime()}
+              initValue={form.data?.["Heure d'entrée"] ?? ""}
             />
           </div>
           <div className="flex items-center gap-2">
@@ -550,91 +549,101 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
         <table className="text-[.5rem]">
           <thead>
             <tr>
-              <th colSpan={10}>MÉDICAMENT(S)</th>
+              <th colSpan={9}>MÉDICAMENT(S)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <th>Rx (nom, dose voie d'adm.)</th>
               <th>Heure</th>
-              {colArr.map((_, i) => (
-                <th key={i}>
-                  <TimePicker
-                    initValue={form.data?.[`med time ${i}`] ?? ""}
-                    className="w-full"
-                    tabIndex={500 + 8 * i + 1}
-                    name={`med time ${i}`}
-                    onClick={() => {
-                      const initEl = document.querySelector<HTMLInputElement>(
-                        `input[name="med init ${i}"]`
-                      );
-                      if (initEl) {
-                        initEl.value = user?.initiales ?? "";
-                      }
-                    }}
-                  />
-                </th>
-              ))}
+              {Array(7)
+                .fill(null)
+                .map((_, i) => (
+                  <th key={i}>
+                    <TimePicker
+                      initValue={form.data?.[`med time ${i}`] ?? ""}
+                      className="w-full"
+                      tabIndex={500 + 8 * i + 1}
+                      name={`med time ${i}`}
+                      onClick={() => {
+                        const initEl = document.querySelector<HTMLInputElement>(
+                          `input[name="med init ${i}"]`
+                        );
+                        if (initEl) {
+                          initEl.value = user?.initiales ?? "";
+                        }
+                      }}
+                    />
+                  </th>
+                ))}
             </tr>
             <tr>
               <th colSpan={2}>VERSED (Mg I.V.)</th>
-              {colArr.map((_, i) => (
-                <td key={i}>
-                  <QuestionWithInput
-                    tabIndex={500 + 8 * i + 2}
-                    name={`VERSED ${i}`}
-                    type="number"
-                    min={1}
-                  />
-                </td>
-              ))}
+              {Array(7)
+                .fill(null)
+                .map((_, i) => (
+                  <td key={i}>
+                    <QuestionWithInput
+                      tabIndex={500 + 8 * i + 2}
+                      name={`VERSED ${i}`}
+                      type="number"
+                      min={1}
+                    />
+                  </td>
+                ))}
             </tr>
             <tr>
               <th colSpan={2}>FENTANYL (mcg I.V.)</th>
-              {colArr.map((_, i) => (
-                <td key={i}>
-                  <QuestionWithInput
-                    tabIndex={500 + 8 * i + 3}
-                    name={`FENTANYL ${i}`}
-                    type="number"
-                    min={1}
-                  />
-                </td>
-              ))}
+              {Array(7)
+                .fill(null)
+                .map((_, i) => (
+                  <td key={i}>
+                    <QuestionWithInput
+                      tabIndex={500 + 8 * i + 3}
+                      name={`FENTANYL ${i}`}
+                      type="number"
+                      min={1}
+                    />
+                  </td>
+                ))}
             </tr>
             <tr>
               <th colSpan={2}>NaCI 0.9% (ml I.V.)</th>
-              {colArr.map((_, i) => (
-                <td key={i}>
-                  <QuestionWithInput
-                    name={`NaCI ${i}`}
-                    type="number"
-                    min={1}
-                    tabIndex={500 + 8 * i + 4}
-                  />
-                </td>
-              ))}
+              {Array(7)
+                .fill(null)
+                .map((_, i) => (
+                  <td key={i}>
+                    <QuestionWithInput
+                      name={`NaCI ${i}`}
+                      type="number"
+                      min={1}
+                      tabIndex={500 + 8 * i + 4}
+                    />
+                  </td>
+                ))}
             </tr>
             <tr>
               <th colSpan={2}>XYLO SPRAY (Nb de puff)</th>
-              {colArr.map((_, i) => (
-                <td key={i}>
-                  <select
-                    name={`XYLO SPRAY ${i}`}
-                    className="w-full"
-                    tabIndex={500 + 8 * i + 5}
-                  >
-                    <option value=""></option>
-                    {Array(11)
-                      .fill(null)
-                      .map((_, i) => (
-                        <option key={i} value={i}>
-                          {i}
-                        </option>
-                      ))}
-                  </select>
-                </td>
-              ))}
+              {Array(7)
+                .fill(null)
+                .map((_, i) => (
+                  <td key={i}>
+                    <select
+                      name={`XYLO SPRAY ${i}`}
+                      className="w-full"
+                      tabIndex={500 + 8 * i + 5}
+                    >
+                      <option value=""></option>
+                      {Array(11)
+                        .fill(null)
+                        .map((_, i) => (
+                          <option key={i} value={i}>
+                            {i}
+                          </option>
+                        ))}
+                    </select>
+                  </td>
+                ))}
             </tr>
             {Array.from({ length: 2 }, (_, j) => (
               <tr key={j}>
@@ -650,31 +659,40 @@ export default function SM01694({ patient, user, form, extra }: DataResponse) {
                       type="single"
                       name={`other med unit ${j}`}
                     />
+                    <QuestionWithChoices
+                      choices={["", "I.V", "I.M", "I/R", "s.c", "p.os"]}
+                      type="single"
+                      name={`other med voie ${j}`}
+                    />
                   </div>
                 </th>
-                {colArr.map((_, i) => (
-                  <td key={i}>
-                    <QuestionWithInput
-                      tabIndex={500 + 8 * i + 6 + j}
-                      name={`other med ${j} value ${i}`}
-                      type="number"
-                    />
-                  </td>
-                ))}
+                {Array(7)
+                  .fill(null)
+                  .map((_, i) => (
+                    <td key={i}>
+                      <QuestionWithInput
+                        tabIndex={500 + 8 * i + 6 + j}
+                        name={`other med ${j} value ${i}`}
+                        type="number"
+                      />
+                    </td>
+                  ))}
               </tr>
             ))}
             <tr>
               <th colSpan={2} className="text-right">
                 Initiales
               </th>
-              {colArr.map((_, i) => (
-                <td key={i}>
-                  <QuestionWithInput
-                    name={`med init ${i}`}
-                    tabIndex={500 + 8 * i + 7}
-                  />
-                </td>
-              ))}
+              {Array(7)
+                .fill(null)
+                .map((_, i) => (
+                  <td key={i}>
+                    <QuestionWithInput
+                      name={`med init ${i}`}
+                      tabIndex={500 + 8 * i + 7}
+                    />
+                  </td>
+                ))}
             </tr>
           </tbody>
         </table>
